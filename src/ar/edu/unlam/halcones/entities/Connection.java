@@ -29,5 +29,10 @@ public class Connection {
 		this.obstacle = obstacle;
 	}
 	
+	public String getInformation(){
+		String info = "Al " + direction + " hay " + location;
+		
+		return info;
+	}
 	
 }

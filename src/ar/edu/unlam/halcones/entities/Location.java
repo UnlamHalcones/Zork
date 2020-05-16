@@ -47,7 +47,25 @@ public class Location extends GameEntity {
 		this.connections = connections;
 	}
 	
+	@Override
+	public String getInformation()
+	{
+		String landscape = description;
 	
+		for(Place p : places) {
+			landscape += p.getInformation();
+		}
+		
+		for(Npc n : npcs) {
+			landscape += n.getInformation();
+		}
+		
+		for(Connection c : connections) {
+			landscape += c.getInformation();
+		}
+		
+		return landscape;
+	}
 	
 	
 }

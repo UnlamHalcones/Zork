@@ -56,4 +56,8 @@ public abstract class GameEntity {
 		return article + " " + this.name;
 		
 	}
+	
+	public String getInformation(){
+		return name;
+	}
 }

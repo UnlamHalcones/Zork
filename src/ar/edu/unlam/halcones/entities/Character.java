@@ -21,5 +21,8 @@ public class Character {
 		this.inventory = inventory;
 	}
 	
+	public String lookAround() {
+		return location.getInformation();
+	}
 	
 }
