@@ -1,5 +1,7 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.util.List;
+
 public abstract class GameEntity {
 
 	private String name;
@@ -10,35 +12,12 @@ public abstract class GameEntity {
 		super();
 	}
 
-	public GameEntity(String name, String gender, String number) {
+	public GameEntity(String name, String gender, String number) { // Ingresarle las acciones, puede ser en un vector
 		super();
 		this.name = name;
 		this.gender = gender;
 		this.number = number;
-	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
 	}
 
 }

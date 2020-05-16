@@ -11,7 +11,7 @@ public class Place extends GameEntity {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Place(String name, String gender, String number) {
+	public Place(String name, String gender, String number,String initialState) {
 		super(name, gender, number);
 		// TODO Auto-generated constructor stub
 	}

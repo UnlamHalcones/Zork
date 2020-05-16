@@ -1,36 +1,56 @@
 package ar.edu.unlam.halcones.entities;
 
-import java.util.List;
+public class Item extends GameObject {
 
-public class Item extends GameEntity {
-	private List<String> actions;
-	private List<String> effectsOver;
+	private int usos;
+	private boolean enInventario;
+
 	public Item() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Item(String name, String gender, String number) {
-		super(name, gender, number);
+
+	public Item(String name, String gender, String number, String initialState) {
+		super(name, gender, number, initialState);
 		// TODO Auto-generated constructor stub
 	}
+
+	public boolean usarObjeto() { // retorna si el objeto tiene usos o no
+
+		if (this.usos == 0)
+			return false;
+		else
+			this.usos--;
+		return true;
+
+	}
+
+	public boolean esValido() {
+
+		if (this.usos == 0)
+			return false;
+		else
+			return true;
+
+	}
+
+	public boolean getEnInventario() {
+		return this.enInventario;
+	}
+
+	public void setEnInventario(boolean enInventario) {
+		this.enInventario = enInventario;
+	}
+
+
 	
-	public Item(List<String> actions, List<String> effectsOver) {
-		super();
-		this.actions = actions;
-		this.effectsOver = effectsOver;
-	}
-	public List<String> getActions() {
-		return actions;
-	}
-	public void setActions(List<String> actions) {
-		this.actions = actions;
-	}
-	public List<String> getEffectsOver() {
-		return effectsOver;
-	}
-	public void setEffectsOver(List<String> effectsOver) {
-		this.effectsOver = effectsOver;
-	}
+	// -------------------------------	 geters y seters --------------------
 	
-	
+	public int getUsos() {
+		return usos;
+	}
+
+	public void setUsos(int usos) {
+		this.usos = usos;
+	}
 }

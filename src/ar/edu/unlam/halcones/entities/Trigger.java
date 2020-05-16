@@ -1,41 +1,37 @@
 package ar.edu.unlam.halcones.entities;
 
-public class Trigger {
-	private String type;
-	private String thing;
-	private String onTrigger;
-	private String afterTrigger;
-	public Trigger(String type, String thing, String onTrigger, String afterTrigger) {
-		super();
-		this.type = type;
-		this.thing = thing;
-		this.onTrigger = onTrigger;
-		this.afterTrigger = afterTrigger;
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class Trigger { // si el trigger tira false podemos poner, no se puede ejecutar esa accion o algo x el estilo
+
+	public static boolean actionAndObject(Action accion, Item objeto) {
+
+		if (!accion.accionValida(objeto))
+			return false;
+
+		accion.run(objeto);
+
+		return true;
+
 	}
-	public String getType() {
-		return type;
+
+	public static boolean actionAndObject(Action accion, ArrayList<Item> objetos) {
+		
+		if (accion.accionValida(objetos))
+			return false;
+		
+		accion.run(objetos);
+		
+		return true;
 	}
-	public void setType(String type) {
-		this.type = type;
+
+	public static void movePlayer(Action accion, Character player, Location location) {
+
+		// validaciones si se puede mover, etc
+
+		accion.run(player, location);
+
 	}
-	public String getThing() {
-		return thing;
-	}
-	public void setThing(String thing) {
-		this.thing = thing;
-	}
-	public String getOnTrigger() {
-		return onTrigger;
-	}
-	public void setOnTrigger(String onTrigger) {
-		this.onTrigger = onTrigger;
-	}
-	public String getAfterTrigger() {
-		return afterTrigger;
-	}
-	public void setAfterTrigger(String afterTrigger) {
-		this.afterTrigger = afterTrigger;
-	}
-	
-	
+
 }
