@@ -2,7 +2,7 @@ package ar.edu.unlam.halcones.entities;
 
 import java.util.List;
 
-public class Item extends GameEntity {
+public class Item extends GameEntity  implements Comparable<Item>  {
 	private List<String> actions;
 	private List<String> effectsOver;
 	public Item() {
@@ -32,5 +32,13 @@ public class Item extends GameEntity {
 		this.effectsOver = effectsOver;
 	}
 	
-	
+	@Override
+	public int compareTo(Item other) {
+		
+		String myName = this.getName();
+		String otherName = other.getName();
+
+
+		return myName.compareTo(otherName);
+	}
 }
