@@ -47,7 +47,6 @@ public class Location extends GameEntity {
 		this.connections = connections;
 	}
 	
-	
-	
+	//Cuando vemos si se puede pasar a algun otro lado, tenemos que ver que el estado del obstacle sea "normal", en caso de no serlo, significa que no esta y que podemos pasar
 	
 }
