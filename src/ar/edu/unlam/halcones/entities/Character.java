@@ -5,16 +5,27 @@ public class Character implements ITriggereable {
 	private Inventory inventory;
 	protected String status;
 	
+
+	public Character(Location location) {
+		this.location = location;
+	}
+
 	public Character(Location location, Inventory inventory) {
 		super();
 		this.location = location;
 		this.inventory = inventory;
 	}
-	public Location getLocation() {
-		return location;
+
+	public void moveTo(Location otherLocation) {
+		try {
+			this.location = this.location.goTo(otherLocation);
+			System.err.println(this.location.getDescription());
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
-	public void setLocation(Location location) {
-		this.location = location;
+	public String lookAround() {
+		return location.getInformation();
 	}
 	public Inventory getInventory() {
 		return inventory;
@@ -26,11 +37,11 @@ public class Character implements ITriggereable {
 	@Override
 	public String Execute(Trigger trigger) {
 		/*
-		 * Esto va comentado, porque creo que despues deberíamos tener un trigger acá. La idea es para saber que le hace un item a otro item
+		 * Esto va comentado, porque creo que despues deberï¿½amos tener un trigger acï¿½. La idea es para saber que le hace un item a otro item
 		 * if (!triggers.contains(trigger))
 			System.out.println("Accion no valida en el personaje");*/
 		
-		//Esto de los estados podría ser una colección, ejemplo: vidaMaximaIncrementada, ataqueIncrementado. O incluso un map
+		//Esto de los estados podrï¿½a ser una colecciï¿½n, ejemplo: vidaMaximaIncrementada, ataqueIncrementado. O incluso un map
 		status = trigger.getAfterTrigger();
 		
 		return trigger.getOnTrigger();

@@ -29,5 +29,16 @@ public class Place extends GameEntity {
 		this.items = items;
 	}
 	
+	@Override
+	public String getInformation() {
+		String info = getName();
+		
+		for(Item i : items) { //hay ..
+			info += i.getInformation();
+		}
+		
+		return info;
+	}
+	
 	
 }
