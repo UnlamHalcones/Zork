@@ -23,6 +23,11 @@ public class Connection {
 	public Npc getObstacle() {
 		return obstacle;
 	}
-	
+
+	public String getInformation() {
+		String info = "Al " + direction + " hay " + location;
+
+		return info;
+	}
 
 }

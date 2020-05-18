@@ -22,5 +22,7 @@ public class Character {
 			System.err.println(e.getMessage());
 		}
 	}
-
+	public String lookAround() {
+		return location.getInformation();
+	}
 }

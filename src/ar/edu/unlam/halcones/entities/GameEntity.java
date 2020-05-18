@@ -40,5 +40,24 @@ public abstract class GameEntity {
 	public void setNumber(String number) {
 		this.number = number;
 	}
-
+	
+	public String getFullDescription() {
+		String article = "";
+		
+		if (gender == "male" && number == "singular")
+			article = "el";
+		if (gender == "female" && number == "singular")
+			article = "la";
+		if (gender == "male" && number == "plural")
+			article = "los";
+		if (gender == "female" && number == "plural")
+			article = "las";
+		
+		return article + " " + this.name;
+		
+	}
+	
+	public String getInformation(){
+		return name;
+	}
 }
