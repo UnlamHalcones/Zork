@@ -6,10 +6,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import ar.edu.unlam.halcones.entities.Connection;
-import ar.edu.unlam.halcones.entities.GameEntity;
 import ar.edu.unlam.halcones.entities.Item;
-import ar.edu.unlam.halcones.entities.Location;
 import ar.edu.unlam.halcones.entities.Npc;
 import ar.edu.unlam.halcones.entities.Trigger;
 
@@ -58,16 +55,6 @@ public class NpcTest {
 				"- '¡No puedes pasar!' El pirata fantasma no te dejará pasar",
 				"¡No hay nada que me digas que me haga cambiar de opinión!", triggers);
 		Assert.assertEquals(false, npc.canDoTrigger(new Item("barreta", "female", "singular")));
-	}
-
-	@Test
-	public void npcNoPuedeTriguearConAlgoQueNoHeredeDeGameEntity() {
-		List<Trigger> triggers = new ArrayList<Trigger>();
-		triggers.add(new Trigger("connection", "", "", ""));
-		Npc npc = new Npc("pirata fantasma", "male", "singular",
-				"- '¡No puedes pasar!' El pirata fantasma no te dejará pasar",
-				"¡No hay nada que me digas que me haga cambiar de opinión!", triggers);
-		Assert.assertEquals(false, npc.canDoTrigger(new Connection("", new Location(), (GameEntity) npc)));
 	}
 
 	@Test

@@ -11,7 +11,7 @@ public class Npc extends GameEntity {
 	public Npc() {
 		super();
 	}
-	
+
 	public Npc(String name, String gender, String number, String description, String talk, List<Trigger> triggers) {
 		super(name, gender, number);
 		this.description = description;
@@ -43,17 +43,14 @@ public class Npc extends GameEntity {
 		this.triggers = triggers;
 	}
 
-	public boolean canDoTrigger(Object obj) {
+	public boolean canDoTrigger(GameEntity ge) {
 		boolean canDo = false;
 
-		if (obj instanceof GameEntity) {
-			for (Trigger trigger : triggers) {
-				if (obj.getClass().getName().toLowerCase().contains(trigger.getType().toLowerCase())) {
-					GameEntity ge = (GameEntity) obj;
-					if (ge.getName() != null && ge.getName() == trigger.getThing()) {
-						canDo = true;
-						break;
-					}
+		for (Trigger trigger : triggers) {
+			if (ge.getClass().getName().toLowerCase().contains(trigger.getType().toLowerCase())) {
+				if (ge.getName() != null && ge.getName() == trigger.getThing()) {
+					canDo = true;
+					break;
 				}
 			}
 		}
