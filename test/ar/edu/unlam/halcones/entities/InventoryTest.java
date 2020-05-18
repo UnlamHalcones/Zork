@@ -1,23 +1,24 @@
-package ar.edu.unlam.halcones.entities.test;
+package ar.edu.unlam.halcones.entities;
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import ar.edu.unlam.halcones.entities.Inventory;
 import ar.edu.unlam.halcones.entities.Item;
 
-class InventoryTest {
+public class InventoryTest {
 
 	Inventory inventory;
 	
-	@BeforeEach  
+	@Before
 	public void init() {
 		inventory = new Inventory();
 	}
 	
 	@Test
-	void agregarUnItem() {
+	public void agregarUnItem() {
 		Item dummyItem = new Item("dummy", "male", "singular");
 
 		inventory.add(dummyItem);
@@ -26,7 +27,7 @@ class InventoryTest {
 	}
 	
 	@Test
-	void agregarDosItems() {
+	public void agregarDosItems() {
 		Item dummyItem = new Item("dummy", "male", "singular");
 		Item dummyItem2 = new Item("dummy2", "female", "singular");
 
@@ -37,7 +38,7 @@ class InventoryTest {
 	}
 	
 	@Test
-	void agregarUnItemRepetido() {
+	public void agregarUnItemRepetido() {
 		Item dummyItem = new Item("dummy", "male", "singular");
 		
 
@@ -47,7 +48,7 @@ class InventoryTest {
 	}
 	
 	@Test
-	void agregarYSacarUnItem() {
+	public void agregarYSacarUnItem() {
 		Item dummyItem = new Item("dummy", "male", "singular");
 		
 		inventory.add(dummyItem);
@@ -58,7 +59,7 @@ class InventoryTest {
 	}
 	
 	@Test
-	void agregarDosItemsYSacarUno() {
+	public void agregarDosItemsYSacarUno() {
 		Item dummyItem = new Item("dummy", "male", "singular");
 		Item dummyItem2 = new Item("dummy2", "female", "singular");
 

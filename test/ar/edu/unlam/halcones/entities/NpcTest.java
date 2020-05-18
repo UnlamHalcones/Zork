@@ -1,4 +1,4 @@
-package ar.edu.unlam.halcones.entities.test;
+package ar.edu.unlam.halcones.entities;
 
 import java.util.ArrayList;
 import java.util.List;

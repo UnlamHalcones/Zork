@@ -12,6 +12,12 @@ public class Npc extends GameEntity {
 		super();
 	}
 
+	public Npc(String description, String talk, List<Trigger> triggers) {
+		this.description = description;
+		this.talk = talk;
+		this.triggers = triggers;
+	}
+	
 	public Npc(String name, String gender, String number, String description, String talk, List<Trigger> triggers) {
 		super(name, gender, number);
 		this.description = description;
