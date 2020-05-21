@@ -93,7 +93,7 @@ public class Location extends GameEntity {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String getInformation() {
 		String landscape = description + '.';
@@ -114,5 +114,23 @@ public class Location extends GameEntity {
 		
 		return landscape;
 	}
+
+	public boolean isItemInLocation(Item item) {
+		// Retorno true si el item se encuentra en algun place de la location
+		return places.stream().filter(place -> place.isItemInPlace(item)).findAny().isPresent();
+	}
 	
+	public boolean isItemInLocation(Item item, Place place) {
+		// Retorno true si el item se encuentra en algun place de la location
+		if(!places.contains(place)) {
+			return false;
+		}
+		Optional<Place> desiredPlaceOpt = places.stream().filter(p -> p.equals(place)).findAny();
+		if(!desiredPlaceOpt.isPresent()) {
+			return false;
+		}
+		Place desiredPlace = desiredPlaceOpt.get();
+		return desiredPlace.isItemInPlace(item);
+	}
+
 }
