@@ -13,6 +13,13 @@ public class Trigger {
 		this.onTrigger = onTrigger;
 		this.afterTrigger = afterTrigger;
 	}
+	
+	public Trigger(String type, String thing) {
+		super();
+		this.type = type;
+		this.thing = thing;
+	}
+	
 	public String getType() {
 		return type;
 	}

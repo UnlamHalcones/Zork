@@ -66,14 +66,14 @@ public class Npc extends GameEntity implements ITriggereable {
 	}
 
 	
-	public String Execute(Trigger trigger) {
-		Optional<Trigger> aux = triggers.stream().filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing())).findAny();
+	public String Execute(Trigger trigger) throws Exception {
+		Optional<Trigger> aux = triggers.stream().filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing())).findAny();	
 		
 		if (!aux.isPresent())
 		{
-			return "Accion no valida en el Npc";
+			throw new Exception("Accion no valida en el Npc");
 		}
-		
+	
 		super.status = trigger.getAfterTrigger();
 		
 		return trigger.getOnTrigger();

@@ -5,7 +5,6 @@ import java.util.List;
 public class Item extends GameEntity implements Comparable<Item>, ITriggereable  {
 	private List<String> actions;
 	private List<String> effectsOver;
-	private int usesQty; 
 	
 	public Item() {
 		super();
@@ -21,7 +20,6 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 		super();
 		this.actions = actions;
 		this.effectsOver = effectsOver;
-		this.setUsesQty(1);
 	}
 
 	public List<String> getActions() {
@@ -42,86 +40,60 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 
 	@Override
 	public int compareTo(Item other) {
-
 		String myName = this.getName();
 		String otherName = other.getName();
 
 		return myName.compareTo(otherName);
 	}
 		
-	//Antes tenes una lista de "interacciones" que podes tener
-		
-	//action item	(self) 
-	
-	//"dar" "espada" al caballero 
-	public String ExecuteAction(String action, Npc over) {
+
+	public String ExecuteAction(String action, Npc over) throws Exception {
 		if (actions.contains(action))
-			System.out.println("Acciï¿½n no valida para el item");
+		{
+			throw new Exception("Acción no valida para el item");
+		}
 		
-		//Esto podrï¿½a ser una exception
 		if(effectsOver.contains("npcs"))
 		{			
-			return "Acciï¿½n no vï¿½lida sobre un NPC.";
+			throw new Exception("Acción no válida sobre un NPC.");
 		}
 		
-		Trigger trigger = new Trigger("item", this.getName(), "", "");
+		Trigger trigger = new Trigger("item", this.getName());
 		
-		String response = over.Execute(trigger);
-		
-		//-1 es usos ilimitados. Ej: una espada
-		if (this.getUsesQty() != -1)
-			this.setUsesQty(this.getUsesQty() - 1);
-		
-		return response;
+		return over.Execute(trigger);
 	}
 	
-	public String ExecuteAction(String action, Character over) {
-		//Esto podrï¿½a ser una exception
+	public String ExecuteAction(String action, Character over) throws Exception {
 		if (actions.contains(action))
 		{
-			return "Acciï¿½n no valida para el item";
+			throw new Exception("Acción no valida para el item");
 		}
 		
-		//Esto podrï¿½a ser una exception
 		if(effectsOver.contains("self"))
 		{			
-			return "Acciï¿½n no vï¿½lida sobre ti mismo";
+			throw new Exception("Acción no válida sobre ti mismo");
 		}
 		
-		Trigger trigger = new Trigger("item", this.getName(), "", "");
+		Trigger trigger = new Trigger("item", this.getName());
 		
-		String response = over.Execute(trigger);
-		
-		//-1 es usos ilimitados. Ej: una espada
-		if (this.getUsesQty() != -1)
-			this.setUsesQty(this.getUsesQty() - 1);
-		
-		return trigger.getOnTrigger();
+		return over.Execute(trigger);
 	}
 	
 	
-	public String ExecuteAction(String action, Item over) {
-		//Esto podrï¿½a ser una exception
+	public String ExecuteAction(String action, Item over) throws Exception {
 		if (actions.contains(action))
 		{
-			return "Acciï¿½n no valida para el item";
+			throw new Exception("Acción no valida para el item");
 		}
 		
-		//Esto podrï¿½a ser una exception
 		if(effectsOver.contains("item"))
 		{			
-			return "Acciï¿½n no vï¿½lida sobre un item";
+			throw new Exception("Acción no válida sobre un item");
 		}
 		
-		Trigger trigger = new Trigger("item", this.getName(), "", "");
+		Trigger trigger = new Trigger("item", this.getName());
 		
-		over.Execute(trigger);
-		
-		//-1 es usos ilimitados. Ej: una espada
-		if (this.getUsesQty() != -1)
-			this.setUsesQty(this.getUsesQty() - 1);
-		
-		return trigger.getOnTrigger();
+		return over.Execute(trigger);
 	}
 	
 	
@@ -132,21 +104,10 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 		 * if (!triggers.contains(trigger))
 			System.out.println("Accion no valida en el item");*/
 		
-		System.out.println(trigger.getOnTrigger());
-		
 		super.status = trigger.getAfterTrigger();
 		
-		return "";
+		return trigger.getOnTrigger();
 	}
-	
-	
-	public int getUsesQty() {
-		return usesQty;
-	}
-	public void setUsesQty(int usesQty) {
-		this.usesQty = usesQty;
-	}
-	
 
 	@Override
 	public int hashCode() {
