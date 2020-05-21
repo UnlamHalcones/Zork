@@ -1,5 +1,7 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.util.List;
+
 public abstract class GameEntity {
 
 	private String name;
@@ -55,6 +57,45 @@ public abstract class GameEntity {
 		
 		return article + " " + this.name;
 		
+	}
+	
+	public String getFullDescriptionQty() {
+		String article = "";
+		
+		if (gender == "male" && number == "singular")
+			article = "un";
+		if (gender == "female" && number == "singular")
+			article = "una";
+		if (gender == "male" && number == "plural")
+			article = "unos";
+		if (gender == "female" && number == "plural")
+			article = "unas";
+		
+		return article + " " + this.name;
+	}
+	
+	//TODO: DEBERIAMOS USAR ESTOS METODOS EN GAMEENTITY? ME REFIERO CONVERSORES A TEXTOS. REVISAR NOMBRES DE METODOS.
+	public String getFullInformationQty(List<? extends GameEntity> list){ 
+		StringBuilder info = new StringBuilder("");
+		
+		for(GameEntity l : list) {
+			
+			//INFO. LA LISTA TIENE +1 ELEMENTO Y ES LA ULTIMA ITERACION.
+			if(list.size() > 1 && l == list.get(list.size() - 1)) {
+				info.setCharAt(info.lastIndexOf(","), ' ');
+				info.append("y " + l.getFullDescriptionQty() + '.');
+			}
+			else if(list.size() > 1){
+				
+				info.append(l.getFullDescriptionQty() + ", ");
+			}
+			else{
+				info.append(l.getFullDescriptionQty() + '.');
+			}
+			
+		}
+		
+		return info.toString();
 	}
 	
 	public String getInformation(){

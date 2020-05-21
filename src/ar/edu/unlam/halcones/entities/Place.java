@@ -31,13 +31,17 @@ public class Place extends GameEntity {
 	
 	@Override
 	public String getInformation() {
-		String info = getName();
+		String info = "";
 		
-		for(Item i : items) { //hay ..
-			info += i.getInformation();
+		if(!items.isEmpty()) {
+			info += "En " + getFullDescription() + " hay " + getFullInformationQty(items);
+		}
+		else
+		{
+			info += "Hay " + getFullDescriptionQty();
 		}
 		
-		return info;
+		return info.toString();
 	}
 	
 	

@@ -25,9 +25,7 @@ public class Connection {
 	}
 
 	public String getInformation() {
-		String info = "Al " + direction + " hay " + location;
-
-		return info;
+		return " Al " + direction + " se puede ir hacia " + location.getFullDescriptionQty();
 	}
 
 }
