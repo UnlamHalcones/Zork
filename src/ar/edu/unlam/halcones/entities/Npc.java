@@ -63,5 +63,5 @@ public class Npc extends GameEntity {
 
 		return canDo;
 	}
-
+	
 }

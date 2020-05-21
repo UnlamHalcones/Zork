@@ -96,20 +96,22 @@ public class Location extends GameEntity {
 
 	@Override
 	public String getInformation() {
-		String landscape = description;
-
-		for (Place p : places) {
-			landscape += p.getInformation();
+		String landscape = description + '.';
+	
+		if(!places.isEmpty())
+			for(Place p : places) {
+				landscape += p.getInformation();
+			}
+		
+		if(!npcs.isEmpty()) {
+			landscape += " Hay " + getFullInformationQty(npcs);
 		}
-
-		for (Npc n : npcs) {
-			landscape += n.getInformation();
-		}
-
-		for (Connection c : connections) {
-			landscape += c.getInformation();
-		}
-
+		
+		if(!connections.isEmpty())
+			for(Connection c : connections) {
+				landscape += c.getInformation();
+			}
+		
 		return landscape;
 	}
 
