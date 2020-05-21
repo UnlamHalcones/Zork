@@ -28,17 +28,46 @@ public class Place extends GameEntity {
 	public void setItems(List<Item> items) {
 		this.items = items;
 	}
-	
+
 	@Override
 	public String getInformation() {
 		String info = getName();
-		
-		for(Item i : items) { //hay ..
+
+		for (Item i : items) { // hay ..
 			info += i.getInformation();
 		}
-		
+
 		return info;
 	}
-	
+
+	public boolean isItemInPlace(Item item) {
+		return items.stream().filter(itemInPlace -> itemInPlace.equals(item)).findAny().isPresent();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((items == null) ? 0 : items.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Place other = (Place) obj;
+		if (items == null) {
+			if (other.items != null)
+				return false;
+		} else if (!items.equals(other.items))
+			return false;
+		return true;
+	}
+
 	
 }
