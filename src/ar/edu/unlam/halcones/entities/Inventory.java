@@ -52,9 +52,12 @@ public class Inventory {
 				System.out.println("- " + item.getName());
 			}
 		}
-		else
-		{
+		else {
 			System.out.println("No tienes items en tu inventario.");
 		}
+	}
+
+	public boolean hasItem(Item item) {
+		return items.contains(item);
 	}
 }

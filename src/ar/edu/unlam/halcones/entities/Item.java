@@ -11,33 +11,38 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 	public Item(String name, String gender, String number) {
 		super(name, gender, number);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Item(List<String> actions, List<String> effectsOver) {
 		super();
 		this.actions = actions;
 		this.effectsOver = effectsOver;
 		this.setUsesQty(1);
 	}
+
 	public List<String> getActions() {
 		return actions;
 	}
+
 	public void setActions(List<String> actions) {
 		this.actions = actions;
 	}
+
 	public List<String> getEffectsOver() {
 		return effectsOver;
 	}
+
 	public void setEffectsOver(List<String> effectsOver) {
 		this.effectsOver = effectsOver;
 	}
-	
+
 	@Override
 	public int compareTo(Item other) {
-		
+
 		String myName = this.getName();
 		String otherName = other.getName();
 
@@ -51,12 +56,12 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 	//"dar" "espada" al caballero 
 	public String ExecuteAction(String action, Npc over) {
 		if (actions.contains(action))
-			System.out.println("Acción no valida para el item");
+			System.out.println("Acciï¿½n no valida para el item");
 		
-		//Esto podría ser una exception
+		//Esto podrï¿½a ser una exception
 		if(effectsOver.contains("npcs"))
 		{			
-			return "Acción no válida sobre un NPC.";
+			return "Acciï¿½n no vï¿½lida sobre un NPC.";
 		}
 		
 		Trigger trigger = new Trigger("item", this.getName(), "", "");
@@ -71,16 +76,16 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 	}
 	
 	public String ExecuteAction(String action, Character over) {
-		//Esto podría ser una exception
+		//Esto podrï¿½a ser una exception
 		if (actions.contains(action))
 		{
-			return "Acción no valida para el item";
+			return "Acciï¿½n no valida para el item";
 		}
 		
-		//Esto podría ser una exception
+		//Esto podrï¿½a ser una exception
 		if(effectsOver.contains("self"))
 		{			
-			return "Acción no válida sobre ti mismo";
+			return "Acciï¿½n no vï¿½lida sobre ti mismo";
 		}
 		
 		Trigger trigger = new Trigger("item", this.getName(), "", "");
@@ -96,16 +101,16 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 	
 	
 	public String ExecuteAction(String action, Item over) {
-		//Esto podría ser una exception
+		//Esto podrï¿½a ser una exception
 		if (actions.contains(action))
 		{
-			return "Acción no valida para el item";
+			return "Acciï¿½n no valida para el item";
 		}
 		
-		//Esto podría ser una exception
+		//Esto podrï¿½a ser una exception
 		if(effectsOver.contains("item"))
 		{			
-			return "Acción no válida sobre un item";
+			return "Acciï¿½n no vï¿½lida sobre un item";
 		}
 		
 		Trigger trigger = new Trigger("item", this.getName(), "", "");
@@ -123,7 +128,7 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 	@Override
 	public String Execute(Trigger trigger) {
 		/*
-		 * Esto va comentado, porque creo que despues deberíamos tener un trigger acá. La idea es para saber que le hace un item a otro item
+		 * Esto va comentado, porque creo que despues deberï¿½amos tener un trigger acï¿½. La idea es para saber que le hace un item a otro item
 		 * if (!triggers.contains(trigger))
 			System.out.println("Accion no valida en el item");*/
 		
@@ -142,4 +147,36 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 		this.usesQty = usesQty;
 	}
 	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((actions == null) ? 0 : actions.hashCode());
+		result = prime * result + ((effectsOver == null) ? 0 : effectsOver.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Item other = (Item) obj;
+		if (actions == null) {
+			if (other.actions != null)
+				return false;
+		} else if (!actions.equals(other.actions))
+			return false;
+		if (effectsOver == null) {
+			if (other.effectsOver != null)
+				return false;
+		} else if (!effectsOver.equals(other.effectsOver))
+			return false;
+		return true;
+	}
+
 }
