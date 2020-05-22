@@ -133,4 +133,8 @@ public class Location extends GameEntity {
 		return desiredPlace.isItemInPlace(item);
 	}
 
+	public boolean isNpcInLocation(Npc npc) {
+		return this.npcs.contains(npc);
+	}
+
 }

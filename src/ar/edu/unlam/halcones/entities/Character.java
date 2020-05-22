@@ -47,4 +47,12 @@ public class Character {
 	public boolean isItemInInventory(Item item) {
 		return this.inventory.hasItem(item);
 	}
+	
+	public String interactWithNpc(Npc npc) throws Exception {
+		if (!this.location.isNpcInLocation(npc)) {
+			throw new Exception("No se encuentra el " + npc.getName() + " en el lugar");
+		}
+		return npc.getTalk();
+	}
+	
 }
