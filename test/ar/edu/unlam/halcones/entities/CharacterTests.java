@@ -164,8 +164,8 @@ public class CharacterTests {
 		String talk = "";
 
 		Npc npc = new Npc("pirata fantasma", "male", "singular",
-				"- '¡No puedes pasar!' El pirata fantasma no te dejará pasar",
-				"¡No hay nada que me digas que me haga cambiar de opinión!", Collections.emptyList());
+				"- 'Â¡No puedes pasar!' El pirata fantasma no te dejarÃ¡ pasar",
+				"Â¡No hay nada que me digas que me haga cambiar de opiniÃ³n!", Collections.emptyList());
 
 		Location location = new Location("muelle", Collections.emptyList(), Arrays.asList(npc),
 				Collections.emptyList());
@@ -178,7 +178,7 @@ public class CharacterTests {
 			talk = e.getMessage();
 		}
 
-		Assert.assertEquals("¡No hay nada que me digas que me haga cambiar de opinión!", talk);
+		Assert.assertEquals("Â¡No hay nada que me digas que me haga cambiar de opiniÃ³n!", talk);
 	}
 
 	@Test
@@ -192,8 +192,8 @@ public class CharacterTests {
 
 		try {
 			talk = character.interactWithNpc(new Npc("pirata fantasma dos", "male", "singular",
-					"- '¡No puedes pasar!' El pirata fantasma no te dejará pasar",
-					"¡No hay nada que me digas que me haga cambiar de opinión!", Collections.emptyList()));
+					"- 'Â¡No puedes pasar!' El pirata fantasma no te dejarÃ¡ pasar",
+					"Â¡No hay nada que me digas que me haga cambiar de opiniÃ³n!", Collections.emptyList()));
 		} catch (Exception e) {
 			talk = e.getMessage();
 		}

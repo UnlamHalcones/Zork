@@ -4,7 +4,6 @@ import com.sun.xml.internal.ws.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Inventory {
 	private List<Item> items;
 
@@ -47,7 +46,7 @@ public class Inventory {
 		if (this.items.size() > 0)
 		{
 			System.out.println("Tienes los siguientes items en el inventario:");
-			for(Item item: this.items)
+			for(Item item: getItems())
 			{
 				System.out.println("- " + item.getName());
 			}

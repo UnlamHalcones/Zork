@@ -1,12 +1,8 @@
 package ar.edu.unlam.halcones.entities;
 
-
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-
-import ar.edu.unlam.halcones.entities.Inventory;
-import ar.edu.unlam.halcones.entities.Item;
 
 public class InventoryTest {
 
