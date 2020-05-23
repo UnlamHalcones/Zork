@@ -12,11 +12,10 @@ public class Location extends GameEntity {
 	public Location() {
 		super();
 	}
-	
+
 	public Location(String name) {
 		super(name);
 	}
-
 
 	public Location(String name, String gender, String number) {
 		super(name, gender, number);
@@ -30,19 +29,23 @@ public class Location extends GameEntity {
 		this.connections = connections;
 	}
 
-	public Location goTo(Location otherLocation) throws Exception {
+	public Location goTo(Location otherLocation) {
 		// Valido que halla una connecion a la otra location
 		Optional<Connection> connectionOpt = this.connections.stream()
 				.filter(connect -> connect.isConnectedTo(otherLocation)).findAny();
 
+		// TODO Si no puedo ir en esa direccion puedo devolver la misma location (this)
 		if (!connectionOpt.isPresent()) {
-			throw new Exception("No se puede ir en esa direccion");
+			System.err.println("No se puede ir en esa direccion");
+			return this;
 		}
 
 		// Me fijo si algun npc es un obstaculo para ir a la otra location
 		Connection connectionToOtherLocation = connectionOpt.get();
+		// TODO Si hay un obstaculo tambien devuelvo la misma location, pero como digo que el problema es el obstaculo?
 		if (hasObstaclesWith(connectionToOtherLocation)) {
-			throw new Exception(connectionToOtherLocation.getMensajeObstaculo());
+			System.err.println(connectionToOtherLocation.getMensajeObstaculo());
+			return this;
 		}
 
 		return otherLocation;
@@ -102,21 +105,21 @@ public class Location extends GameEntity {
 	@Override
 	public String getInformation() {
 		String landscape = description + '.';
-	
-		if(!places.isEmpty())
-			for(Place p : places) {
+
+		if (!places.isEmpty())
+			for (Place p : places) {
 				landscape += p.getInformation();
 			}
-		
-		if(!npcs.isEmpty()) {
+
+		if (!npcs.isEmpty()) {
 			landscape += " Hay " + getFullInformationQty(npcs);
 		}
-		
-		if(!connections.isEmpty())
-			for(Connection c : connections) {
+
+		if (!connections.isEmpty())
+			for (Connection c : connections) {
 				landscape += c.getInformation();
 			}
-		
+
 		return landscape;
 	}
 
@@ -124,14 +127,14 @@ public class Location extends GameEntity {
 		// Retorno true si el item se encuentra en algun place de la location
 		return places.stream().filter(place -> place.isItemInPlace(item)).findAny().isPresent();
 	}
-	
+
 	public boolean isItemInLocation(Item item, Place place) {
 		// Retorno true si el item se encuentra en algun place de la location
-		if(!places.contains(place)) {
+		if (!places.contains(place)) {
 			return false;
 		}
 		Optional<Place> desiredPlaceOpt = places.stream().filter(p -> p.equals(place)).findAny();
-		if(!desiredPlaceOpt.isPresent()) {
+		if (!desiredPlaceOpt.isPresent()) {
 			return false;
 		}
 		Place desiredPlace = desiredPlaceOpt.get();
@@ -141,5 +144,4 @@ public class Location extends GameEntity {
 	public boolean isNpcInLocation(Npc npc) {
 		return this.npcs.contains(npc);
 	}
-
 }

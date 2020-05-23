@@ -14,16 +14,19 @@ public class Character implements ITriggereable {
 		this.inventory = new Inventory();
 	}
 
+	public Character(Location location, Inventory inventory) {
+		this.location = location;
+		this.inventory = inventory;
+	}
+	
 	public Character(List<Trigger> triggers) {
 		this.triggers = triggers;
 	}
-	
+
 	public void moveTo(Location otherLocation) {
-		try {
-			this.location = this.location.goTo(otherLocation);
+		this.location = this.location.goTo(otherLocation);
+		if(!location.equals(this.location)) {
 			System.out.println(this.location.getDescription());
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
 		}
 	}
 
@@ -31,22 +34,25 @@ public class Character implements ITriggereable {
 		return location.getInformation();
 	}
 
-	public void agarrarItem(Item item) throws Exception {
+	public void agarrarItem(Item item) {
 		// Tengo que validar que el item se encuentra en algun place de la location en
 		// la que me encuentro
-		if (!this.location.isItemInLocation(item)) {
-			throw new Exception("No se encuentra el item que desea agarrar");
+		if (this.location.isItemInLocation(item)) {
+			this.inventory.add(item);
+		} else {
+			System.err.println("No se encuentra el item que desea agarrar");
 		}
-		this.inventory.add(item);
+		
 	}
 
-	public void agarrarItem(Item item, Place place) throws Exception {
+	public void agarrarItem(Item item, Place place) {
 		// Tengo que validar que el item se encuentra en algun place de la location en
 		// la que me encuentro
-		if (!this.location.isItemInLocation(item, place)) {
-			throw new Exception("No se encuentra el item que desea agarrar");
+		if (this.location.isItemInLocation(item, place)) {
+			this.inventory.add(item);
+		} else {
+			System.err.println("No se encuentra el item que desea agarrar");
 		}
-		this.inventory.add(item);
 	}
 
 	public boolean isInLocation(Location otherLocation) {
@@ -57,63 +63,40 @@ public class Character implements ITriggereable {
 		return this.inventory.hasItem(item);
 	}
 
-	public Inventory getInventory() {
-		return inventory;
-	}
-	
-	public void setInventory(Inventory inventory) {
-		this.inventory = inventory;
-	}
-
-	public void usarItem(Item item, String action, Character over) throws Exception {
-		if (!inventory.hasItem(item)) {
-			throw new Exception("No tienes este item en tu inventario.");
+	public String usarItem(Item item, String action, ITriggereable over) {
+		if (inventory.hasItem(item)) {
+			inventory.remove(item);
+			return item.use(action, over);
+		} else {
+			return "No tienes este item en tu inventario.";
 		}
-	
-		item.Use(action, over);
-		
-		inventory.remove(item);
-	}
-	
-	public void usarItem(Item item, String action, Npc over) throws Exception {
-		if (!inventory.hasItem(item)) {
-			throw new Exception("No tienes este item en tu inventario.");
-		}
-	
-		item.Use(action, over);
-		
-		inventory.remove(item);
-	}
-	
-	public void usarItem(Item item, String action, Item over) throws Exception {
-		if (!inventory.hasItem(item)) {
-			throw new Exception("No tienes este item en tu inventario.");
-		}
-	
-		item.Use(action, over);
-		
-		inventory.remove(item);
 	}
 	
 	@Override
-	public String Execute(Trigger trigger) throws Exception {
-		Optional<Trigger> aux = triggers.stream().filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing())).findAny();	
-		
-		if (!aux.isPresent())
-		{
-			throw new Exception("Accion no valida en el Character");
+	public String execute(Trigger trigger) {
+		Optional<Trigger> aux = triggers.stream()
+				.filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing()))
+				.findAny();
+
+		if (!aux.isPresent()) {
+			return "Accion no valida en el Character";
 		}
-		
+
 		status = aux.get().getAfterTrigger();
-		
+
 		return aux.get().getOnTrigger();
 	}
 
-	public String interactWithNpc(Npc npc) throws Exception {
-		if (!this.location.isNpcInLocation(npc)) {
-			throw new Exception("No se encuentra el " + npc.getName() + " en el lugar");
+	public String interactWithNpc(Npc npc) {
+		if (this.location.isNpcInLocation(npc)) {
+			return npc.getTalk();
 		}
-		return npc.getTalk();
+		return "No se encuentra el " + npc.getName() + " en el lugar";
 	}
-	
+
+	@Override
+	public String getType() {
+		return "self";
+	}
+
 }

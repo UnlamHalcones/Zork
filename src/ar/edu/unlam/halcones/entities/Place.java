@@ -8,12 +8,10 @@ public class Place extends GameEntity {
 
 	public Place() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Place(String name, String gender, String number) {
 		super(name, gender, number);
-		// TODO Auto-generated constructor stub
 	}
 
 	public Place(List<Item> items) {
@@ -32,22 +30,20 @@ public class Place extends GameEntity {
 	@Override
 	public String getInformation() {
 		String info = "";
-		
-		if(!items.isEmpty()) {
+
+		if (!items.isEmpty()) {
 			info += "En " + getFullDescription() + " hay " + getFullInformationQty(items);
-		}
-		else
-		{
+		} else {
 			info += "Hay " + getFullDescriptionQty();
 		}
-		
+
 		return info;
 	}
 
 	public boolean isItemInPlace(Item item) {
 		return items.stream().filter(itemInPlace -> itemInPlace.equals(item)).findAny().isPresent();
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -73,5 +69,4 @@ public class Place extends GameEntity {
 		return true;
 	}
 
-	
 }

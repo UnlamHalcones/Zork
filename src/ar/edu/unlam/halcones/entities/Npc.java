@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Npc extends GameEntity implements ITriggereable {
-	
+
 	private String description;
 	private String talk;
 	private List<Trigger> triggers;
@@ -12,7 +12,7 @@ public class Npc extends GameEntity implements ITriggereable {
 	public Npc() {
 		super();
 	}
-	
+
 	public Npc(String description, String state) {
 		super(description, state);
 	}
@@ -22,7 +22,7 @@ public class Npc extends GameEntity implements ITriggereable {
 		this.talk = talk;
 		this.triggers = triggers;
 	}
-	
+
 	public Npc(String name, String gender, String number, String description, String talk, List<Trigger> triggers) {
 		super(name, gender, number);
 		this.description = description;
@@ -68,17 +68,24 @@ public class Npc extends GameEntity implements ITriggereable {
 
 		return canDo;
 	}
-	
-	public String Execute(Trigger trigger) throws Exception {
-		Optional<Trigger> aux = triggers.stream().filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing())).findAny();	
-		
-		if (!aux.isPresent())
-		{
-			throw new Exception("Accion no valida en el Npc");
+
+	@Override
+	public String execute(Trigger trigger) {
+		Optional<Trigger> aux = triggers.stream()
+				.filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing()))
+				.findAny();
+
+		if (!aux.isPresent()) {
+			return "Accion no valida en el Npc";
 		}
-		
+
 		super.status = aux.get().getAfterTrigger();
-		
+
 		return aux.get().getOnTrigger();
+	}
+	
+	@Override
+	public String getType() {
+		return "npc";
 	}
 }

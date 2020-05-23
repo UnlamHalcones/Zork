@@ -200,5 +200,40 @@ public class CharacterTests {
 
 		Assert.assertEquals("No se encuentra el pirata fantasma dos en el lugar", talk);
 	}
+	
+	// TODO estoy hay que verlo bien porque no hace bien la logica, de validar si se pudo usar el item
+	@Test
+	public void queUsaItemCuandoLoTiene() {
+		Item dummyItem = new Item(Arrays.asList("usar"), Arrays.asList("self"));
+		
+		Inventory inventory = new Inventory();
+		inventory.add(dummyItem);
+		
+		Location location = new Location("muelle", Collections.emptyList(), Collections.emptyList(),
+				Collections.emptyList());
+		
+		character = new Character(location, inventory);
+		String result = character.usarItem(dummyItem, "usar", character);
+		
+		Assert.assertFalse(character.isItemInInventory(dummyItem));
+		Assert.assertEquals("", result);
+	}
+	
+	// TODO estoy hay que verlo bien porque no hace bien la logica, de validar si se pudo usar el item
+	@Test
+	public void queNoUsaItemCuandoNoLoTiene() {
+		Item dummyItem = new Item(Arrays.asList("usar"), Arrays.asList("remove"));
+		
+		Inventory inventory = new Inventory();
+		inventory.add(dummyItem);
+		
+		Location location = new Location("muelle", Collections.emptyList(), Collections.emptyList(),
+				Collections.emptyList());
+		
+		character = new Character(location, inventory);
+		character.usarItem(dummyItem, "usar", character);
+		
+		Assert.assertFalse(character.isItemInInventory(dummyItem));
+	}
 
 }
