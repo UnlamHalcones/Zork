@@ -155,4 +155,14 @@ public class CharacterTests {
 		character = new Character(location);
 		character.agarrarItem(item1, place2);;
 	}
+	
+	public void usarItemQueEstaEnInventario() {
+		
+	}
+	
+	public void usarItemQueNoEstaEnInventario() {
+		
+	}
+		
+	
 }

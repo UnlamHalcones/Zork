@@ -73,9 +73,9 @@ public class Npc extends GameEntity implements ITriggereable {
 		{
 			throw new Exception("Accion no valida en el Npc");
 		}
-	
-		super.status = trigger.getAfterTrigger();
 		
-		return trigger.getOnTrigger();
+		super.status = aux.get().getAfterTrigger();
+		
+		return aux.get().getOnTrigger();
 	}
 }
