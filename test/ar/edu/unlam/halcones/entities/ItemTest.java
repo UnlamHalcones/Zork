@@ -10,8 +10,7 @@ import org.junit.Test;
 
 public class ItemTest {
 
-	
-	
+	//verificar estado
 	Trigger dummyTrigger = new Trigger("item", "validItem", "changeDone", "removed");
 	
 	Npc dummyNpc = new Npc("I'm a dummy npc", "I'm a dummy npc", Arrays.asList(dummyTrigger));
@@ -130,7 +129,7 @@ public class ItemTest {
 		try {
 			usableItem.Use("usar", dummyNpc);
 		} catch (Exception e) {
-			assertEquals("Acci髇 no v醠ida sobre un NPC.", e.getMessage());
+			assertEquals("Acci贸n no v谩lida sobre un NPC.", e.getMessage());
 		}
 	}
 	
@@ -142,7 +141,7 @@ public class ItemTest {
 		try {
 			usableItem.Use("usar", character);
 		} catch (Exception e) {
-			assertEquals("Acci髇 no v醠ida sobre ti mismo.", e.getMessage());
+			assertEquals("Acci贸n no v谩lida sobre ti mismo.", e.getMessage());
 		}
 	}
 	
@@ -153,7 +152,7 @@ public class ItemTest {
 		try {
 			usableItem.Use("usar", dummyItem);
 		} catch (Exception e) {
-			assertEquals("Acci髇 no v醠ida sobre un item.", e.getMessage());
+			assertEquals("Acci贸n no v谩lida sobre un item.", e.getMessage());
 		}
 	}
 	
@@ -165,7 +164,7 @@ public class ItemTest {
 		try {
 			usableItem.Use("comer", dummyNpc);
 		} catch (Exception e) {
-			assertEquals("Acci髇 no valida para el item.", e.getMessage());
+			assertEquals("Acci贸n no valida para el item.", e.getMessage());
 		}
 	}
 	
@@ -177,7 +176,7 @@ public class ItemTest {
 		try {
 			usableItem.Use("comer", character);
 		} catch (Exception e) {
-			assertEquals("Acci髇 no valida para el item.", e.getMessage());
+			assertEquals("Acci贸n no valida para el item.", e.getMessage());
 		}
 	}
 	
@@ -188,7 +187,7 @@ public class ItemTest {
 		try {
 			usableItem.Use("comer", dummyItem);
 		} catch (Exception e) {
-			assertEquals("Acci髇 no valida para el item.", e.getMessage());
+			assertEquals("Acci贸n no valida para el item.", e.getMessage());
 		}
 	}
 }

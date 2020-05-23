@@ -8,11 +8,28 @@ public abstract class GameEntity {
 	private String gender;
 	private String number;
 	protected String status;
+	private String state;
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+
+
 
 	public GameEntity() {
 		super();
 	}
-
+	
+	public GameEntity(String name) {
+		super();
+		this.name=name;
+	}
+	
 	public GameEntity(String name, String gender, String number) {
 		super();
 		this.name = name;
@@ -20,6 +37,12 @@ public abstract class GameEntity {
 		this.number = number;
 		//Todos las entidades empiezan en estado normal. A efectuarse un trigger, el estado cambia
 		this.status = "normal";
+	}
+	
+	public GameEntity(String name, String state) { // Only test
+		super();
+		this.name = name;
+		this.state = state;
 	}
 
 	public String getName() {
@@ -49,7 +72,7 @@ public abstract class GameEntity {
 	public String getFullDescription() {
 		String article = "";
 		
-		//Esto se puede poner en menos IFs, pero así queda mas legible
+		//Esto se puede poner en menos IFs, pero asÃ­ queda mas legible
 		if (gender == "male" && number == "singular")
 			article = "el";
 		

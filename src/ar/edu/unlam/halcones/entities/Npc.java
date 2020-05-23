@@ -12,6 +12,10 @@ public class Npc extends GameEntity implements ITriggereable {
 	public Npc() {
 		super();
 	}
+	
+	public Npc(String description, String state) {
+		super(description, state);
+	}
 
 	public Npc(String description, String talk, List<Trigger> triggers) {
 		this.description = description;
