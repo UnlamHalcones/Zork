@@ -7,16 +7,36 @@ public abstract class GameEntity {
 	private String name;
 	private String gender;
 	private String number;
+	private String state;
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 
 	public GameEntity() {
 		super();
 	}
-
+	
+	public GameEntity(String name) {
+		super();
+		this.name=name;
+	}
+	
 	public GameEntity(String name, String gender, String number) {
 		super();
 		this.name = name;
 		this.gender = gender;
 		this.number = number;
+	}
+	
+	public GameEntity(String name, String state) { // Only test
+		super();
+		this.name = name;
+		this.state = state;
 	}
 
 	public String getName() {

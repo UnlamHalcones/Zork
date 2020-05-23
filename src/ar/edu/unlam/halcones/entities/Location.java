@@ -12,6 +12,11 @@ public class Location extends GameEntity {
 	public Location() {
 		super();
 	}
+	
+	public Location(String name) {
+		super(name);
+	}
+
 
 	public Location(String name, String gender, String number) {
 		super(name, gender, number);

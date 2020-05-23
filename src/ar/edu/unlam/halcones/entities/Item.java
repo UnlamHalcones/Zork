@@ -10,6 +10,11 @@ public class Item extends GameEntity implements Comparable<Item> {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Item(String name, String state) {
+		super(name, state);
+		// TODO Auto-generated constructor stub
+	}
 
 	public Item(String name, String gender, String number) {
 		super(name, gender, number);

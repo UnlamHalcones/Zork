@@ -1,14 +1,20 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javafx.util.Pair;
 
 public class Game {
+
 	private String welcome;
 	private String character;
 	private List<Location> locations;
 	private List<Npc> npcs;
 	private List<Item> items;
-	private List<EndGame> endGame;
+	private List<EndGame> endGames;
 
 	public Game(String welcome, String character, List<Location> locations, List<Npc> npcs, List<Item> items,
 			List<EndGame> endGame) {
@@ -18,55 +24,95 @@ public class Game {
 		this.locations = locations;
 		this.npcs = npcs;
 		this.items = items;
-		this.endGame = endGame;
+		this.endGames = endGame;
 	}
 
-	public String getWelcome() {
-		return welcome;
-	}
+	/*
+	 * "endgames": [
+    {
+      "condition": "location",
+      "action": "move",
+      "thing": "taberna",
+      "description": "¡Enhorabuena! Llegaste a la taberna, donde te espera una noche de borrachera con Grog y otros colegas piratas."
+    },
+    {
+      "condition": "action",
+      "action": "look",
+      "thing": "espejo",
+      "description": "i"
+    }
+    
+    {
+      "condition": "npc",
+      "action": "state-death",
+      "thing": "dragon",
+      "description": "¡Mataste al Dragon!!!!"
+    }
+  ]
+}
+	 * 
+	 */
 
-	public void setWelcome(String welcome) {
-		this.welcome = welcome;
-	}
+	// veo el parametro condition para analizar cual GameEntity iterar
+	// busco el objeto por nombre thing
+	// if(objeto.getState.contentEquals(endGame_IT.getCondition))
+	// es endGame, return String
+	
+	public Pair<Boolean, String> checkEndgame(String action, String thing) {
 
-	public String getCharacter() {
-		return character;
-	}
+		// Se iteran todos los Endgame verificando si se cumplen sus condiciones
 
-	public void setCharacter(String character) {
-		this.character = character;
-	}
+		for (EndGame endGame_IT : endGames) {
 
-	public List<Location> getLocations() {
-		return locations;
-	}
+			// Como caso especial, si se trata de verificar un estado de un GameEntity, lo
+			// tratamos en este if
 
-	public void setLocations(List<Location> locations) {
-		this.locations = locations;
-	}
+			if (endGame_IT.getAction().contains("state")) {
 
-	public List<Npc> getNpcs() {
-		return npcs;
-	}
+				if (endGame_IT.getCondition().toLowerCase().contentEquals("npc")) { // si es un npc iteramos los npc
+																					// disponibles
 
-	public void setNpcs(List<Npc> npcs) {
-		this.npcs = npcs;
-	}
+					// for (Npc npc_IT : npcs) {
+					Optional<Npc> npcOptional = npcs.stream()
+							.filter(n -> n.getName().contentEquals(endGame_IT.getThing())).findAny();
 
-	public List<Item> getItems() {
-		return items;
-	}
+					if (npcOptional.isPresent()) {
+						Npc npc_IT = npcOptional.get();
+						if (npc_IT.getState().contentEquals(endGame_IT.getAction().substring(6))) {
 
-	public void setItems(List<Item> items) {
-		this.items = items;
-	}
+							return new Pair<Boolean, String>(true, endGame_IT.getDescription());
 
-	public List<EndGame> getEndGame() {
-		return endGame;
-	}
+						}
+					}
 
-	public void setEndGame(List<EndGame> endGame) {
-		this.endGame = endGame;
+					// }
+
+				} else if (endGame_IT.getCondition().toLowerCase().contentEquals("item")) { // si es un item iteramos
+																							// los item disponibles
+
+					Optional<Item> itemOptional = items.stream()
+							.filter(i -> i.getName().contentEquals(endGame_IT.getThing())).findAny();
+
+					if (itemOptional.isPresent()) {
+						Item item_IT = itemOptional.get();
+						if (item_IT.getState().contentEquals(endGame_IT.getAction().substring(5))) {
+
+							return new Pair<Boolean, String>(true, endGame_IT.getDescription());
+
+						}
+					}
+				}
+
+			} else if (action.contentEquals(endGame_IT.getAction()) && thing.contentEquals(endGame_IT.getThing())) {
+
+				return new Pair<Boolean, String>(true, endGame_IT.getDescription());
+
+			}
+
+		}
+
+		return new Pair<Boolean, String>(false, "");
+
 	}
 
 }
