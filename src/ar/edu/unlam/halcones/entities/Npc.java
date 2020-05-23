@@ -64,7 +64,6 @@ public class Npc extends GameEntity implements ITriggereable {
 
 		return canDo;
 	}
-
 	
 	public String Execute(Trigger trigger) throws Exception {
 		Optional<Trigger> aux = triggers.stream().filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing())).findAny();	

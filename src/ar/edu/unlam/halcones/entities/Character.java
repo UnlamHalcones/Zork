@@ -56,6 +56,7 @@ public class Character implements ITriggereable {
 	public boolean isItemInInventory(Item item) {
 		return this.inventory.hasItem(item);
 	}
+
 	public Inventory getInventory() {
 		return inventory;
 	}
@@ -108,4 +109,11 @@ public class Character implements ITriggereable {
 		return aux.get().getOnTrigger();
 	}
 
+	public String interactWithNpc(Npc npc) throws Exception {
+		if (!this.location.isNpcInLocation(npc)) {
+			throw new Exception("No se encuentra el " + npc.getName() + " en el lugar");
+		}
+		return npc.getTalk();
+	}
+	
 }
