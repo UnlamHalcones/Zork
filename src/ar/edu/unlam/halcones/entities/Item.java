@@ -65,7 +65,7 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 		
 		if(!effectsOver.contains("npcs"))
 		{			
-			throw new Exception("Acción no válida sobre un NPC.");
+			throw new Exception("Accion no valida sobre un NPC.");
 		}
 		
 		Trigger trigger = new Trigger("item", this.getName());
@@ -78,7 +78,7 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 		
 		if(!this.effectsOver.contains("self"))
 		{			
-			throw new Exception("Acción no válida sobre ti mismo.");
+			throw new Exception("Accion no valida sobre ti mismo.");
 		}
 		
 		Trigger trigger = new Trigger("item", this.getName());
@@ -92,7 +92,7 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 		
 		if(!this.effectsOver.contains("item"))
 		{			
-			throw new Exception("Acción no válida sobre un item.");
+			throw new Exception("Accion no valida sobre un item.");
 		}
 		
 		Trigger trigger = new Trigger("item", this.getName());
@@ -103,7 +103,7 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 	public void checkAction(String action) throws Exception{
 		if (!this.actions.contains(action))
 		{
-			throw new Exception("Acción no valida para el item.");
+			throw new Exception("Accion no valida para el item.");
 		}
 	}
 	

@@ -129,7 +129,7 @@ public class ItemTest {
 		try {
 			usableItem.Use("usar", dummyNpc);
 		} catch (Exception e) {
-			assertEquals("Acción no válida sobre un NPC.", e.getMessage());
+			assertEquals("Accion no valida sobre un NPC.", e.getMessage());
 		}
 	}
 	
@@ -141,7 +141,7 @@ public class ItemTest {
 		try {
 			usableItem.Use("usar", character);
 		} catch (Exception e) {
-			assertEquals("Acción no válida sobre ti mismo.", e.getMessage());
+			assertEquals("Accion no valida sobre ti mismo.", e.getMessage());
 		}
 	}
 	
@@ -152,7 +152,7 @@ public class ItemTest {
 		try {
 			usableItem.Use("usar", dummyItem);
 		} catch (Exception e) {
-			assertEquals("Acción no válida sobre un item.", e.getMessage());
+			assertEquals("Accion no valida sobre un item.", e.getMessage());
 		}
 	}
 	
@@ -164,7 +164,7 @@ public class ItemTest {
 		try {
 			usableItem.Use("comer", dummyNpc);
 		} catch (Exception e) {
-			assertEquals("Acción no valida para el item.", e.getMessage());
+			assertEquals("Accion no valida para el item.", e.getMessage());
 		}
 	}
 	
@@ -176,7 +176,7 @@ public class ItemTest {
 		try {
 			usableItem.Use("comer", character);
 		} catch (Exception e) {
-			assertEquals("Acción no valida para el item.", e.getMessage());
+			assertEquals("Accion no valida para el item.", e.getMessage());
 		}
 	}
 	
@@ -187,7 +187,7 @@ public class ItemTest {
 		try {
 			usableItem.Use("comer", dummyItem);
 		} catch (Exception e) {
-			assertEquals("Acción no valida para el item.", e.getMessage());
+			assertEquals("Accion no valida para el item.", e.getMessage());
 		}
 	}
 }
