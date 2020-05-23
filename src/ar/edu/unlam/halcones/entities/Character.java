@@ -1,14 +1,23 @@
 package ar.edu.unlam.halcones.entities;
 
-public class Character {
+import java.util.List;
+import java.util.Optional;
+
+public class Character implements ITriggereable {
 	private Location location;
 	private Inventory inventory;
+	protected String status;
+	private List<Trigger> triggers;
 
 	public Character(Location location) {
 		this.location = location;
 		this.inventory = new Inventory();
 	}
 
+	public Character(List<Trigger> triggers) {
+		this.triggers = triggers;
+	}
+	
 	public void moveTo(Location otherLocation) {
 		try {
 			this.location = this.location.goTo(otherLocation);
@@ -47,4 +56,64 @@ public class Character {
 	public boolean isItemInInventory(Item item) {
 		return this.inventory.hasItem(item);
 	}
+
+	public Inventory getInventory() {
+		return inventory;
+	}
+	
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
+	}
+
+	public void usarItem(Item item, String action, Character over) throws Exception {
+		if (!inventory.hasItem(item)) {
+			throw new Exception("No tienes este item en tu inventario.");
+		}
+	
+		item.Use(action, over);
+		
+		inventory.remove(item);
+	}
+	
+	public void usarItem(Item item, String action, Npc over) throws Exception {
+		if (!inventory.hasItem(item)) {
+			throw new Exception("No tienes este item en tu inventario.");
+		}
+	
+		item.Use(action, over);
+		
+		inventory.remove(item);
+	}
+	
+	public void usarItem(Item item, String action, Item over) throws Exception {
+		if (!inventory.hasItem(item)) {
+			throw new Exception("No tienes este item en tu inventario.");
+		}
+	
+		item.Use(action, over);
+		
+		inventory.remove(item);
+	}
+	
+	@Override
+	public String Execute(Trigger trigger) throws Exception {
+		Optional<Trigger> aux = triggers.stream().filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing())).findAny();	
+		
+		if (!aux.isPresent())
+		{
+			throw new Exception("Accion no valida en el Character");
+		}
+		
+		status = aux.get().getAfterTrigger();
+		
+		return aux.get().getOnTrigger();
+	}
+
+	public String interactWithNpc(Npc npc) throws Exception {
+		if (!this.location.isNpcInLocation(npc)) {
+			throw new Exception("No se encuentra el " + npc.getName() + " en el lugar");
+		}
+		return npc.getTalk();
+	}
+	
 }

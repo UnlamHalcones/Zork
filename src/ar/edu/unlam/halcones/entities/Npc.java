@@ -1,9 +1,10 @@
 package ar.edu.unlam.halcones.entities;
 
 import java.util.List;
+import java.util.Optional;
 
-public class Npc extends GameEntity {
-
+public class Npc extends GameEntity implements ITriggereable {
+	
 	private String description;
 	private String talk;
 	private List<Trigger> triggers;
@@ -68,4 +69,16 @@ public class Npc extends GameEntity {
 		return canDo;
 	}
 	
+	public String Execute(Trigger trigger) throws Exception {
+		Optional<Trigger> aux = triggers.stream().filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing())).findAny();	
+		
+		if (!aux.isPresent())
+		{
+			throw new Exception("Accion no valida en el Npc");
+		}
+		
+		super.status = aux.get().getAfterTrigger();
+		
+		return aux.get().getOnTrigger();
+	}
 }
