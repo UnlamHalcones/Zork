@@ -7,8 +7,11 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 	private List<String> actions;
 	private List<String> effectsOver;
 	private List<Trigger> triggers;
+	
+	
 	public Item() {
 		super();
+		this.type=GameEntityTypes.ITEM;
 		// TODO Auto-generated constructor stub
 	}
 	

@@ -15,6 +15,8 @@ public class Game {
 	private List<Npc> npcs;
 	private List<Item> items;
 	private List<EndGame> endGames;
+	
+	private List<GameEntity> gameEntities;
 
 	public Game(String welcome, String character, List<Location> locations, List<Npc> npcs, List<Item> items,
 			List<EndGame> endGame) {
@@ -113,6 +115,19 @@ public class Game {
 
 		return new Pair<Boolean, String>(false, "");
 
+	}
+	
+	public GameEntity findEntity (String gameEntityName) {
+		
+		for (GameEntity gameEntity_IT : this.gameEntities) {
+			
+			if(gameEntity_IT.getName().contentEquals(gameEntityName)) {
+				return gameEntity_IT;
+			}
+			
+		}
+		return null;
+		
 	}
 
 }
