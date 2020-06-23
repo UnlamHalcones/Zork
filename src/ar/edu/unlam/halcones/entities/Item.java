@@ -157,4 +157,18 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 		return true;
 	}
 
+	@Override
+	public void triggerThis(String action) throws Exception {
+		
+		for (Trigger triggers_IT : triggers) {
+		
+			if(triggers_IT.getType().contentEquals(action)) {
+				this.Execute(triggers_IT);
+				return;
+			}
+			
+		}
+		
+	}
+
 }

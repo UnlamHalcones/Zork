@@ -3,7 +3,7 @@ package ar.edu.unlam.halcones.entities;
 import java.util.List;
 import java.util.Optional;
 
-public class Character implements ITriggereable {
+public class Character extends GameEntity implements ITriggereable {
 	private Location location;
 	private Inventory inventory;
 	protected String status;
@@ -12,6 +12,7 @@ public class Character implements ITriggereable {
 	public Character(Location location) {
 		this.location = location;
 		this.inventory = new Inventory();
+		this.type= GameEntityTypes.CHARACTER;
 	}
 
 	public Character(List<Trigger> triggers) {
@@ -114,6 +115,20 @@ public class Character implements ITriggereable {
 			throw new Exception("No se encuentra el " + npc.getName() + " en el lugar");
 		}
 		return npc.getTalk();
+	}
+	
+	@Override
+	public void triggerThis(String action) throws Exception {
+		
+		for (Trigger triggers_IT : triggers) {
+		
+			if(triggers_IT.getType().contentEquals(action)) {
+				this.Execute(triggers_IT);
+				return;
+			}
+			
+		}
+		
 	}
 	
 }
