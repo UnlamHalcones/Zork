@@ -14,9 +14,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import static ar.edu.unlam.halcones.archivo.JsonKey.*;
-public class GeneradorDeGame {
 
-    
+public class GeneradorDeGame {
 
     public Game generarEntornoDeJuego() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
