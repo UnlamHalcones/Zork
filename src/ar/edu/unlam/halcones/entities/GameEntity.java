@@ -1,13 +1,24 @@
 package ar.edu.unlam.halcones.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public abstract class GameEntity {
 
-	private String name;
-	private String gender;
-	private String number;
+	@JsonProperty("status")
 	protected String status;
+
+	@JsonProperty("name")
+	private String name;
+
+	@JsonProperty("gender")
+	private String gender;
+
+	@JsonProperty("number")
+	private String number;
+
+	@JsonProperty("state")
 	private String state;
 
 	public String getState() {
@@ -17,9 +28,6 @@ public abstract class GameEntity {
 	public void setState(String state) {
 		this.state = state;
 	}
-
-
-
 
 	public GameEntity() {
 		super();

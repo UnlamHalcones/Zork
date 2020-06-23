@@ -9,6 +9,10 @@ public class Character implements ITriggereable {
 	protected String status;
 	private List<Trigger> triggers;
 
+	public Character(Location location, Inventory inventory) {
+		this.location = location;
+		this.inventory = inventory;
+	}
 	public Character(Location location) {
 		this.location = location;
 		this.inventory = new Inventory();

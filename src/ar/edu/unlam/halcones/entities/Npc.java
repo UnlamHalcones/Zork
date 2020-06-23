@@ -1,12 +1,19 @@
 package ar.edu.unlam.halcones.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Optional;
 
 public class Npc extends GameEntity implements ITriggereable {
-	
+
+	@JsonProperty("description")
 	private String description;
+
+	@JsonProperty("talk")
 	private String talk;
+
+	@JsonProperty("triggers")
 	private List<Trigger> triggers;
 
 	public Npc() {

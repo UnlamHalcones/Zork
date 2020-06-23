@@ -1,27 +1,32 @@
 package ar.edu.unlam.halcones.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Optional;
 
 public class Item extends GameEntity implements Comparable<Item>, ITriggereable  {
+	@JsonProperty("actions")
 	private List<String> actions;
+
+	@JsonProperty("effects_over")
 	private List<String> effectsOver;
+
+	@JsonProperty("triggers")
 	private List<Trigger> triggers;
+
 	public Item() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Item(String name, String state) {
 		super(name, state);
-		// TODO Auto-generated constructor stub
 	}
 
 	public Item(String name, String gender, String number) {
 		super(name, gender, number);
-		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Item(String name, String gender, String number, List<Trigger> triggers) {
 		super(name, gender, number);
 		this.triggers = triggers;

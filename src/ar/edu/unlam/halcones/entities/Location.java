@@ -1,5 +1,6 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,13 @@ public class Location extends GameEntity {
 		this.places = places;
 		this.npcs = npcs;
 		this.connections = connections;
+	}
+
+	public Location(String name, String gender, String number, String description, List<Place> places, List<Npc> npcs) {
+		super(name, gender, number);
+		this.description = description;
+		this.places = places;
+		this.npcs = npcs;
 	}
 
 	public Location goTo(Location otherLocation) throws Exception {
@@ -142,4 +150,10 @@ public class Location extends GameEntity {
 		return this.npcs.contains(npc);
 	}
 
+	public boolean addConnection(Connection connection) {
+		if(this.connections == null) {
+			this.connections = new LinkedList<>();
+		}
+		return this.connections.add(connection);
+	}
 }

@@ -1,11 +1,137 @@
 package ar.edu.unlam.halcones.archivo;
 
-import ar.edu.unlam.halcones.entities.Game;
+import ar.edu.unlam.halcones.entities.*;
+import ar.edu.unlam.halcones.entities.Character;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GeneradorDeGame {
 
-	public Game generarEntornoDeJuego() {
-		// TODO implementation
-		return null;
-	}
+    public Game generarEntornoDeJuego() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        JsonNode gameTree = objectMapper.readTree(new FileReader(new File("src/zork.json")));
+
+        JsonNode settings = gameTree.get("settings");
+        String characterName = settings.get("character").asText();
+        String welcomeMessage = settings.get("welcome").asText();
+
+        // Proceso items
+        JsonNode itemsNode = gameTree.get("items");
+        List<Item> gameItems = objectMapper.readValue(itemsNode.toString(), new TypeReference<List<Item>>() {});
+
+        // Proceso npcs
+        JsonNode npcsNode = gameTree.get("npcs");
+        List<Npc> gameNpcs = objectMapper.readValue(npcsNode.toString(), new TypeReference<List<Npc>>() {});
+
+        // Proceso endgames
+        JsonNode endgamesNode = gameTree.get("endgames");
+        List<EndGame> gameEndGames = objectMapper.readValue(endgamesNode.toString(), new TypeReference<List<EndGame>>() {});
+
+        // Proceso inventario
+        Inventory inventory = new Inventory();
+        List<Item> itemsForInventory = new LinkedList<>();
+        JsonNode inventoryNode = gameTree.get("inventory");
+
+        findAndAddElements(objectMapper, gameItems, itemsForInventory, inventoryNode);
+
+        inventory.add(itemsForInventory);
+
+        // Proceso Location por primera vez para generar places
+        List<Location> gameLocations = new LinkedList<>();
+        JsonNode locationsNode = gameTree.get("locations");
+        JsonNode[] locationsArrayNode = objectMapper.readValue(locationsNode.toString(), JsonNode[].class);
+        for(JsonNode aLocation : locationsArrayNode) {
+            List<Place> placesInLocation = new LinkedList<>();
+            JsonNode placesNode = aLocation.get("places");
+            if(placesNode != null) {
+                JsonNode[] placesNodes = objectMapper.readValue(placesNode.toString(), JsonNode[].class);
+                for(JsonNode placeNode : placesNodes) {
+                    Place place = new Place();
+                    String placeName = placeNode.get("name").asText();
+                    String placeGender = placeNode.get("gender").asText();
+                    String placeNumber = placeNode.get("number").asText();
+
+                    List<Item> itemsInPlace = new LinkedList<>();
+                    JsonNode itemsNodeInPlace = placeNode.get("items");
+                    findAndAddElements(objectMapper, gameItems, itemsInPlace, itemsNodeInPlace);
+
+                    place.setName(placeName);
+                    place.setGender(placeGender);
+                    place.setNumber(placeNumber);
+                    place.setItems(itemsInPlace);
+                    placesInLocation.add(place);
+                }
+            }
+
+            List<Npc> npcsInLocation = new LinkedList<>();
+            JsonNode npcsInLocationNode = aLocation.get("npcs");
+            if(npcsInLocationNode != null) {
+                findAndAddElements(objectMapper, gameNpcs, npcsInLocation, npcsInLocationNode);
+            }
+
+            String locationName = objectMapper.readValue(aLocation.get("name").toString(), String.class);
+            String locationGender = aLocation.get("gender").asText();
+            String locationNumber = aLocation.get("number").asText();
+            String locationDescription = aLocation.get("description").asText();
+
+            Location location = new Location(locationName, locationGender, locationNumber,
+                    locationDescription, placesInLocation, npcsInLocation);
+            gameLocations.add(location);
+        }
+
+        // Proceso locations por segunda vez para agregar connections
+        for(JsonNode aLocation : locationsArrayNode) {
+            JsonNode connectionsNode = aLocation.get("connections");
+            if(connectionsNode != null) {
+                JsonNode[] connectionsNodes = objectMapper.readValue(connectionsNode.toString(), JsonNode[].class);
+                for(JsonNode connectionNode : connectionsNodes) {
+                    String connnectionDirection = connectionNode.get("direction").asText();
+                    String locationInConnection = connectionNode.get("location").asText();
+                    Location connectionLocation = gameLocations.stream().filter(location -> location.getName().equals(locationInConnection))
+                            .findAny()
+                            .orElse(null);
+
+                    JsonNode obstaclesNode = connectionNode.get("obstacles");
+                    Npc connectionObstacle = null;
+                    if(obstaclesNode != null) {
+                        connectionObstacle = gameNpcs.stream().filter(npc -> npc.getName().equals(obstaclesNode.asText()))
+                                .findAny()
+                                .orElse(null);
+                    }
+
+                    Connection connection = new Connection(connnectionDirection, connectionLocation, connectionObstacle);
+
+                    // Busco a que location pertence esta connection y se la agrego
+                    String locationName = aLocation.get("name").asText();
+                    List<Location> collect = gameLocations.stream().filter(location -> location.getName().equals(locationName))
+                            .collect(Collectors.toList());
+                    collect.forEach(location -> location.addConnection(connection));
+                }
+            }
+        }
+
+        Game game = new Game(welcomeMessage, characterName, gameLocations, gameNpcs, gameItems, gameEndGames);
+        Character character = new Character(gameLocations.get(0), inventory);
+        game.setCharacter(character);
+        return game;
+    }
+
+    private <T extends GameEntity> void findAndAddElements(ObjectMapper objectMapper, Collection<T> listFrom, Collection<T> listTo, JsonNode searchNode) throws IOException {
+        String[] itemsNameInInvetory = objectMapper.readValue(searchNode.toString(), String[].class);
+        for (String itemName : itemsNameInInvetory) {
+            listFrom.stream().filter(item -> item.getName().equals(itemName))
+                    .findAny()
+                    .ifPresent(listTo::add);
+        }
+    }
 }
