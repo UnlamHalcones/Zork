@@ -43,6 +43,7 @@ public class Character implements ITriggereable {
 		// Tengo que validar que el item se encuentra en algun place de la location en
 		// la que me encuentro
 		if (this.location.isItemInLocation(item)) {
+			this.location.removeItem(item);
 			return this.inventory.add(item);
 		} else {
 			return "No se encuentra el item que desea agarrar";
@@ -53,6 +54,7 @@ public class Character implements ITriggereable {
 		// Tengo que validar que el item se encuentra en algun place de la location en
 		// la que me encuentro
 		if (this.location.isItemInLocation(item, place)) {
+			this.location.removeItemFromPlace(item, place);
 			return this.inventory.add(item);
 		} else {
 			return "No se encuentra el item que desea agarrar";

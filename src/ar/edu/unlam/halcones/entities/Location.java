@@ -44,7 +44,6 @@ public class Location extends GameEntity {
 
 		// TODO Si no puedo ir en esa direccion puedo devolver la misma location (this)
 		if (!connectionOpt.isPresent()) {
-			System.err.println("No se puede ir en esa direccion");
 			return "No se puede ir en esa direccion";
 		}
 
@@ -52,7 +51,6 @@ public class Location extends GameEntity {
 		Connection connectionToOtherLocation = connectionOpt.get();
 		// TODO Si hay un obstaculo tambien devuelvo la misma location, pero como digo que el problema es el obstaculo?
 		if (hasObstaclesWith(connectionToOtherLocation)) {
-			System.err.println(connectionToOtherLocation.getMensajeObstaculo());
 			return connectionToOtherLocation.getMensajeObstaculo();
 		}
 
@@ -154,5 +152,17 @@ public class Location extends GameEntity {
 			this.connections = new LinkedList<>();
 		}
 		return this.connections.add(connection);
+	}
+
+	public void removeItemFromPlace(Item itemToRemove, Place placeToRemoveItem) {
+		places.stream().filter(p -> p.equals(placeToRemoveItem))
+				.findAny()
+				.ifPresent(p -> p.removeItem(itemToRemove));
+	}
+
+	public void removeItem(Item itemToRemove) {
+		this.places.stream().filter(p -> p.isItemInPlace(itemToRemove))
+				.findFirst()
+				.ifPresent(p -> p.removeItem(itemToRemove));
 	}
 }

@@ -1,5 +1,6 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Place extends GameEntity {
@@ -8,6 +9,7 @@ public class Place extends GameEntity {
 
 	public Place() {
 		super();
+		this.items = new LinkedList<>();
 	}
 
 	public Place(String name, String gender, String number) {
@@ -71,5 +73,8 @@ public class Place extends GameEntity {
 		return true;
 	}
 
-	
+
+	public void removeItem(Item itemToRemove) {
+		this.items.remove(itemToRemove);
+	}
 }

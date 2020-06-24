@@ -2,6 +2,7 @@ package ar.edu.unlam.halcones.entities;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -30,10 +31,10 @@ public class CharacterTests {
 		item1 = new Item("item1", "gender1", "number1");
 		item2 = new Item("item2", "gender2", "number2");
 
-		List<Item> itemListPlace1 = Arrays.asList(item1);
+		List<Item> itemListPlace1 = new LinkedList<>(Arrays.asList(item1));
 		place1 = new Place(itemListPlace1);
 
-		List<Item> itemListPlace2 = Arrays.asList(item2);
+		List<Item> itemListPlace2 = new LinkedList<>(Arrays.asList(item2));
 		place2 = new Place(itemListPlace2);
 
 		pirataFantasmaNpc = new Npc("pirata fantasma", "male", "singular",
@@ -82,8 +83,8 @@ public class CharacterTests {
 
 	@Test
 	public void queAgarraUnItem() {
-		Location location = new Location("DESCRIPTION LOCATION", Arrays.asList(place1, place2), Collections.emptyList(),
-				Collections.emptyList());
+		Location location = new Location("DESCRIPTION LOCATION", Arrays.asList(place1, place2), new LinkedList<>(),
+				new LinkedList<>());
 
 		character = new Character(location);
 		character.agarrarItem(item1);
@@ -94,8 +95,8 @@ public class CharacterTests {
 
 	@Test
 	public void queAgarraUnItemDeUnPlace() {
-		Location location = new Location("DESCRIPTION LOCATION", Arrays.asList(place1, place2), Collections.emptyList(),
-				Collections.emptyList());
+		Location location = new Location("DESCRIPTION LOCATION", Arrays.asList(place1, place2), new LinkedList<>(),
+				new LinkedList<>());
 
 		character = new Character(location);
 		character.agarrarItem(item1, place1);
