@@ -18,10 +18,10 @@ import static ar.edu.unlam.halcones.archivo.JsonKey.*;
 
 public class GeneradorDeGame {
 
-    public Game generarEntornoDeJuego() throws IOException {
+    public Game generarEntornoDeJuego(String fileName) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        JsonNode gameTree = objectMapper.readTree(new FileReader(new File("src/zork.json")));
+        JsonNode gameTree = objectMapper.readTree(new FileReader(new File(fileName)));
 
         JsonNode settings = gameTree.get(SETTINGS_KEY);
         String characterName = settings.get(CHARACTER_KEY).asText();
