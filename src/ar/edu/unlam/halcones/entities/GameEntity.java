@@ -31,6 +31,7 @@ public abstract class GameEntity {
 
 	public GameEntity() {
 		super();
+		this.status = "normal";
 	}
 	
 	public GameEntity(String name) {
@@ -76,7 +77,15 @@ public abstract class GameEntity {
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public String getFullDescription() {
 		String article = "";
 		

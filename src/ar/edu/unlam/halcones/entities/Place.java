@@ -8,12 +8,10 @@ public class Place extends GameEntity {
 
 	public Place() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Place(String name, String gender, String number) {
 		super(name, gender, number);
-		// TODO Auto-generated constructor stub
 	}
 
 	public Place(List<Item> items) {

@@ -3,7 +3,6 @@ package ar.edu.unlam.halcones.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
-import java.util.Optional;
 
 public class Item extends GameEntity implements Comparable<Item>, ITriggereable  {
 	@JsonProperty("actions")
@@ -61,72 +60,45 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 
 		return myName.compareTo(otherName);
 	}
-		
-	public String Use(String action, Npc over) throws Exception {
-		System.out.println("Action:" + action);
-		System.out.println("actions:" + actions);
-		
-		checkAction(action);
-		
-		if(!effectsOver.contains("npcs"))
-		{			
-			throw new Exception("Accion no valida sobre un NPC.");
+
+	public String use(String action, ITriggereable over) {
+
+		if(!canDoAction(action)) {
+			return "El item no puede realizar la accion";
 		}
-		
+
+		if(!effectsOver.contains(over.getType())) {
+			return "Accion no valida sobre un " + over.getType() + ".";
+		}
+
 		Trigger trigger = new Trigger("item", this.getName());
-		
-		return over.Execute(trigger);
-	}
-	
-	public String Use(String action, Character over) throws Exception {
-		checkAction(action);
-		
-		if(!this.effectsOver.contains("self"))
-		{			
-			throw new Exception("Accion no valida sobre ti mismo.");
-		}
-		
-		Trigger trigger = new Trigger("item", this.getName());
-		
-		return over.Execute(trigger);
-	}
-	
-	
-	public String Use(String action, Item over) throws Exception {
-		checkAction(action);
-		
-		if(!this.effectsOver.contains("item"))
-		{			
-			throw new Exception("Accion no valida sobre un item.");
-		}
-		
-		Trigger trigger = new Trigger("item", this.getName());
-		
-		return over.Execute(trigger);
-	}
-	
-	public void checkAction(String action) throws Exception{
-		if (!this.actions.contains(action))
-		{
-			throw new Exception("Accion no valida para el item.");
-		}
-	}
-	
-	
-	@Override
-	public String Execute(Trigger trigger) throws Exception {
-		Optional<Trigger> aux = triggers.stream().filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing())).findAny();	
-		
-		if (!aux.isPresent())
-		{
-			throw new Exception("Accion no valida en el Item");
-		}
-		
-		status = aux.get().getAfterTrigger();
-		
-		return aux.get().getOnTrigger();
+
+		return over.execute(trigger);
 	}
 
+	private boolean canDoAction(String action) {
+		return this.actions.contains(action);
+	}
+
+	@Override
+	public String execute(Trigger trigger) {
+		Trigger triggerToExecute = triggers.stream()
+				.filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing()))
+				.findAny()
+				.orElse(null);
+
+		if (triggerToExecute == null) {
+			return "Eso no ha servido de nada";
+		}
+
+		status = triggerToExecute.getAfterTrigger();
+		return triggerToExecute.getOnTrigger();
+	}
+
+	@Override
+	public String getType() {
+		return "item";
+	}
 
 	@Override
 	public int hashCode() {

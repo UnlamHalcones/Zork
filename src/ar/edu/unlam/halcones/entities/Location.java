@@ -18,7 +18,6 @@ public class Location extends GameEntity {
 		super(name);
 	}
 
-
 	public Location(String name, String gender, String number) {
 		super(name, gender, number);
 	}
@@ -38,30 +37,30 @@ public class Location extends GameEntity {
 		this.npcs = npcs;
 	}
 
-	public Location goTo(Location otherLocation) throws Exception {
+	public String goTo(Location otherLocation) {
 		// Valido que halla una connecion a la otra location
 		Optional<Connection> connectionOpt = this.connections.stream()
 				.filter(connect -> connect.isConnectedTo(otherLocation)).findAny();
 
+		// TODO Si no puedo ir en esa direccion puedo devolver la misma location (this)
 		if (!connectionOpt.isPresent()) {
-			throw new Exception("No se puede ir en esa direccion");
+			System.err.println("No se puede ir en esa direccion");
+			return "No se puede ir en esa direccion";
 		}
 
 		// Me fijo si algun npc es un obstaculo para ir a la otra location
 		Connection connectionToOtherLocation = connectionOpt.get();
+		// TODO Si hay un obstaculo tambien devuelvo la misma location, pero como digo que el problema es el obstaculo?
 		if (hasObstaclesWith(connectionToOtherLocation)) {
-			throw new Exception(connectionToOtherLocation.getMensajeObstaculo());
+			System.err.println(connectionToOtherLocation.getMensajeObstaculo());
+			return connectionToOtherLocation.getMensajeObstaculo();
 		}
 
-		return otherLocation;
+		return "OK";
 	}
 
 	private boolean hasObstaclesWith(Connection connection) {
 		return this.npcs.contains(connection.getObstacle());
-	}
-
-	public String getDescription() {
-		return description;
 	}
 
 	@Override

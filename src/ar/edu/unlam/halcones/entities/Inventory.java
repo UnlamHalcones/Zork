@@ -22,36 +22,35 @@ public class Inventory {
         return items;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
-
-    public void add(Item item) {
+    public String add(Item item) {
         if (!this.items.contains(item)) {
-            System.out.println("Agregaste " + item.getFullDescription() + " al inventario.");
             this.items.add(item);
+            return "Agregaste " + item.getFullDescription() + " al inventario.";
         }
+        return "Ya tienes ese item en el inventario";
     }
 
     public boolean add(List<Item> itemsForInventory) {
         return this.items.addAll(itemsForInventory);
     }
 
-    public void remove(Item item) {
+    public String remove(Item item) {
         if (this.items.contains(item)) {
-            System.out.println(StringUtils.capitalize(item.getFullDescription()) + " ya no esta en tu inventario.");
             this.items.remove(item);
+            return StringUtils.capitalize(item.getFullDescription()) + " ya no esta en tu inventario.";
         }
+        return StringUtils.capitalize(item.getFullDescription()) + " no esta en tu inventario.";
     }
 
-    public void showItems() {
+    public String showItems() {
         if (!this.items.isEmpty()) {
-            System.out.println("Tienes los siguientes items en el inventario:");
+            String dataInventario = "Tienes los siguientes items en el inventario:\n";
             for (Item item : getItems()) {
-                System.out.println("- " + item.getName());
+                dataInventario = dataInventario.concat("- " + item.getName() + ".\n");
             }
+            return dataInventario;
         } else {
-            System.out.println("No tienes items en tu inventario.");
+            return "No tienes items en tu inventario.";
         }
     }
 
