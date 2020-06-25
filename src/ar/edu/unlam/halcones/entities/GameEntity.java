@@ -19,9 +19,6 @@ public abstract class GameEntity {
 		this.state = state;
 	}
 
-
-
-
 	public GameEntity() {
 		super();
 	}

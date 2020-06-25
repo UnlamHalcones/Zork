@@ -21,12 +21,7 @@ public class Ejecutor {
 			Npc npc = (Npc) entity1;
 			npc.triggerThis(accion);
 			break;
-			
-		case CHARACTER:
-			Character character = (Character) entity1;
-			character.triggerThis(accion);
-			break;
-			
+				
 		default:
 			break;
 		}
@@ -38,7 +33,7 @@ public class Ejecutor {
 
 	}
 
-	public static void run(String entity1, String entity2, String accion) {
+	public static void run(GameEntity entity1, GameEntity entity2, String accion) {
 
 	}
 }

@@ -3,7 +3,7 @@ package ar.edu.unlam.halcones.entities;
 import java.util.List;
 import java.util.Optional;
 
-public class Character extends GameEntity implements ITriggereable {
+public class Character implements ITriggereable {
 	private Location location;
 	private Inventory inventory;
 	protected String status;
@@ -12,7 +12,6 @@ public class Character extends GameEntity implements ITriggereable {
 	public Character(Location location) {
 		this.location = location;
 		this.inventory = new Inventory();
-		this.type= GameEntityTypes.CHARACTER;
 	}
 
 	public Character(List<Trigger> triggers) {

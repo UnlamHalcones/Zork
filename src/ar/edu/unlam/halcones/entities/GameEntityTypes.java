@@ -5,7 +5,6 @@ public enum GameEntityTypes {
 	ITEM,
 	NPC,
 	LOCATION,
-	PLACE,
-	CHARACTER;
+	PLACE;
 	
 }
