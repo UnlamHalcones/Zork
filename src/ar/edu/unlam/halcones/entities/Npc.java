@@ -1,9 +1,11 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-public class Npc extends GameEntity implements ITriggereable {
+public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 	
 	private String description;
 	private String talk;
@@ -80,5 +82,15 @@ public class Npc extends GameEntity implements ITriggereable {
 		super.status = aux.get().getAfterTrigger();
 		
 		return aux.get().getOnTrigger();
+	}
+	
+	public Map<String, Npc> getNombres() {
+		Map<String, Npc> myMap = new HashMap<String, Npc>();
+
+		myMap.put(this.getName(), this);
+		myMap.put(this.getFullDescription(), this);
+		myMap.put(this.getFullDescriptionQty(), this);
+
+		return myMap;
 	}
 }

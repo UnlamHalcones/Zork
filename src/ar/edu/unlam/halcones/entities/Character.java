@@ -1,9 +1,11 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-public class Character implements ITriggereable {
+public class Character implements ITriggereable, INombrable<Character> {
 	private Location location;
 	private Inventory inventory;
 	protected String status;
@@ -114,6 +116,16 @@ public class Character implements ITriggereable {
 			throw new Exception("No se encuentra el " + npc.getName() + " en el lugar");
 		}
 		return npc.getTalk();
+	}
+
+	@Override
+	public Map<String, Character> getNombres() {
+		Map<String,Character> myMap = new HashMap<String,Character>();
+	    myMap.put("sobre mi", this);
+	    myMap.put("en mi", this);
+	    //myMap.put(this.name?, this);
+	    
+	    return myMap;	
 	}
 	
 }

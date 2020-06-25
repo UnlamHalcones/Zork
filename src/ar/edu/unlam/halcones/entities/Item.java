@@ -1,17 +1,20 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-public class Item extends GameEntity implements Comparable<Item>, ITriggereable  {
+public class Item extends GameEntity implements Comparable<Item>, ITriggereable, INombrable<Item> {
 	private List<String> actions;
 	private List<String> effectsOver;
 	private List<Trigger> triggers;
+
 	public Item() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Item(String name, String state) {
 		super(name, state);
 		// TODO Auto-generated constructor stub
@@ -21,7 +24,7 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 		super(name, gender, number);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Item(String name, String gender, String number, List<Trigger> triggers) {
 		super(name, gender, number);
 		this.triggers = triggers;
@@ -56,72 +59,64 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 
 		return myName.compareTo(otherName);
 	}
-		
+
 	public String Use(String action, Npc over) throws Exception {
-		System.out.println("Action:" + action);
-		System.out.println("actions:" + actions);
-		
+
 		checkAction(action);
-		
-		if(!effectsOver.contains("npcs"))
-		{			
+
+		if (!effectsOver.contains("npcs")) {
 			throw new Exception("Accion no valida sobre un NPC.");
 		}
-		
+
 		Trigger trigger = new Trigger("item", this.getName());
-		
+
 		return over.Execute(trigger);
 	}
-	
+
 	public String Use(String action, Character over) throws Exception {
 		checkAction(action);
-		
-		if(!this.effectsOver.contains("self"))
-		{			
+
+		if (!this.effectsOver.contains("self")) {
 			throw new Exception("Accion no valida sobre ti mismo.");
 		}
-		
+
 		Trigger trigger = new Trigger("item", this.getName());
-		
+
 		return over.Execute(trigger);
 	}
-	
-	
+
 	public String Use(String action, Item over) throws Exception {
 		checkAction(action);
-		
-		if(!this.effectsOver.contains("item"))
-		{			
+
+		if (!this.effectsOver.contains("item")) {
 			throw new Exception("Accion no valida sobre un item.");
 		}
-		
+
 		Trigger trigger = new Trigger("item", this.getName());
-		
+
 		return over.Execute(trigger);
 	}
-	
-	public void checkAction(String action) throws Exception{
-		if (!this.actions.contains(action))
-		{
+
+	public void checkAction(String action) throws Exception {
+		if (!this.actions.contains(action)) {
 			throw new Exception("Accion no valida para el item.");
 		}
 	}
-	
-	
+
 	@Override
 	public String Execute(Trigger trigger) throws Exception {
-		Optional<Trigger> aux = triggers.stream().filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing())).findAny();	
-		
-		if (!aux.isPresent())
-		{
+		Optional<Trigger> aux = triggers.stream()
+				.filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing()))
+				.findAny();
+
+		if (!aux.isPresent()) {
 			throw new Exception("Accion no valida en el Item");
 		}
-		
+
 		status = aux.get().getAfterTrigger();
-		
+
 		return aux.get().getOnTrigger();
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -152,6 +147,17 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable 
 		} else if (!effectsOver.equals(other.effectsOver))
 			return false;
 		return true;
+	}
+
+	public Map<String, Item> getNombres() {
+		Map<String, Item> myMap = new HashMap<String, Item>();
+
+		myMap.put(this.getName(), this);
+		myMap.put(this.getFullDescription(), this);
+		myMap.put(this.getFullDescriptionQty(), this);
+
+
+		return myMap;
 	}
 
 }

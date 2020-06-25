@@ -1,9 +1,11 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-public class Location extends GameEntity {
+public class Location extends GameEntity implements INombrable<Location> {
 	private String description;
 	private List<Place> places;
 	private List<Npc> npcs;
@@ -140,6 +142,17 @@ public class Location extends GameEntity {
 
 	public boolean isNpcInLocation(Npc npc) {
 		return this.npcs.contains(npc);
+	}
+
+	@Override
+	public Map<String, Location> getNombres() {
+
+		Map<String,Location> myMap = new HashMap<String,Location>();
+	    myMap.put(this.getDescription(), this);
+	    myMap.put(this.getName(), this);
+	    
+	    return myMap;	
+		
 	}
 
 }

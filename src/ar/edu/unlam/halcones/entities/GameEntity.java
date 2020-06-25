@@ -17,10 +17,7 @@ public abstract class GameEntity {
 	public void setState(String state) {
 		this.state = state;
 	}
-
-
-
-
+	
 	public GameEntity() {
 		super();
 	}

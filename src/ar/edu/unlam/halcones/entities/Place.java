@@ -1,8 +1,10 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class Place extends GameEntity {
+public class Place extends GameEntity implements INombrable<Place> {
 
 	private List<Item> items;
 
@@ -32,15 +34,13 @@ public class Place extends GameEntity {
 	@Override
 	public String getInformation() {
 		String info = "";
-		
-		if(!items.isEmpty()) {
+
+		if (!items.isEmpty()) {
 			info += "En " + getFullDescription() + " hay " + getFullInformationQty(items);
-		}
-		else
-		{
+		} else {
 			info += "Hay " + getFullDescriptionQty();
 		}
-		
+
 		return info;
 	}
 
@@ -73,5 +73,13 @@ public class Place extends GameEntity {
 		return true;
 	}
 
-	
+	public Map<String, Place> getNombres() {
+		Map<String, Place> myMap = new HashMap<String, Place>();
+
+		myMap.put(this.getName(), this);
+		myMap.put(this.getFullDescription(), this);
+		myMap.put(this.getFullDescriptionQty(), this);
+
+		return myMap;
+	}
 }
