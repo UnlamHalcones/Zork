@@ -13,6 +13,7 @@ public class Location extends GameEntity implements INombrable<Location> {
 
 	public Location() {
 		super();
+		this.type=GameEntityTypes.LOCATION;
 	}
 	
 	public Location(String name) {

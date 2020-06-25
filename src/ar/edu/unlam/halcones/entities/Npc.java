@@ -13,6 +13,7 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 
 	public Npc() {
 		super();
+		this.type=GameEntityTypes.NPC;
 	}
 	
 	public Npc(String description, String state) {
@@ -82,6 +83,20 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 		super.status = aux.get().getAfterTrigger();
 		
 		return aux.get().getOnTrigger();
+	}
+	
+	@Override
+	public void triggerThis(String action) throws Exception {
+		
+		for (Trigger triggers_IT : triggers) {
+		
+			if(triggers_IT.getType().contentEquals(action)) {
+				this.Execute(triggers_IT);
+				return;
+			}
+			
+		}
+		
 	}
 	
 	public Map<String, Npc> getNombres() {

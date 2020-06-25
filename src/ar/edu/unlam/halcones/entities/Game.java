@@ -10,17 +10,20 @@ import javafx.util.Pair;
 public class Game {
 
 	private String welcome;
-	private String character;
+	private String characterName;
 	private List<Location> locations;
 	private List<Npc> npcs;
 	private List<Item> items;
 	private List<EndGame> endGames;
+	private Character character;
+	
+	private List<GameEntity> gameEntities;
 
 	public Game(String welcome, String character, List<Location> locations, List<Npc> npcs, List<Item> items,
 			List<EndGame> endGame) {
 		super();
 		this.welcome = welcome;
-		this.character = character;
+		this.characterName = character;
 		this.locations = locations;
 		this.npcs = npcs;
 		this.items = items;
@@ -113,6 +116,19 @@ public class Game {
 
 		return new Pair<Boolean, String>(false, "");
 
+	}
+	
+	public GameEntity findEntity (String gameEntityName) {
+		
+		for (GameEntity gameEntity_IT : this.gameEntities) {
+			
+			if(gameEntity_IT.getName().contentEquals(gameEntityName)) {
+				return gameEntity_IT;
+			}
+			
+		}
+		return null;
+		
 	}
 
 }

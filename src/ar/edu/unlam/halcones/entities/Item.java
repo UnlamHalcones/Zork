@@ -12,6 +12,7 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 
 	public Item() {
 		super();
+		this.type=GameEntityTypes.ITEM;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -147,6 +148,20 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 		} else if (!effectsOver.equals(other.effectsOver))
 			return false;
 		return true;
+	}
+
+	@Override
+	public void triggerThis(String action) throws Exception {
+		
+		for (Trigger triggers_IT : triggers) {
+		
+			if(triggers_IT.getType().contentEquals(action)) {
+				this.Execute(triggers_IT);
+				return;
+			}
+			
+		}
+		
 	}
 
 	public Map<String, Item> getNombres() {

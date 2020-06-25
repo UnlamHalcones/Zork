@@ -128,4 +128,18 @@ public class Character implements ITriggereable, INombrable<Character> {
 	    return myMap;	
 	}
 	
+	@Override
+	public void triggerThis(String action) throws Exception {
+		
+		for (Trigger triggers_IT : triggers) {
+		
+			if(triggers_IT.getType().contentEquals(action)) {
+				this.Execute(triggers_IT);
+				return;
+			}
+			
+		}
+		
+	}
+	
 }

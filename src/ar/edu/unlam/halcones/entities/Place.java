@@ -10,6 +10,7 @@ public class Place extends GameEntity implements INombrable<Place> {
 
 	public Place() {
 		super();
+		this.type=GameEntityTypes.PLACE;
 		// TODO Auto-generated constructor stub
 	}
 
