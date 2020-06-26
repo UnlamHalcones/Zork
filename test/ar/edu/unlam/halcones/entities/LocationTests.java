@@ -12,38 +12,42 @@ public class LocationTests {
 	Location location;
 	Location locationTaberna;
 
-	@Test(expected = Exception.class)
-	public void queNoSePuedeIrAOtraLocationPorObstaculo() throws Exception {
+	@Test
+	public void queNoSePuedeIrAOtraLocationPorObstaculo() {
 		locationTaberna = new Location("Estas en una sucia taberna", Collections.emptyList(), Collections.emptyList(),
 				Collections.emptyList());
 
 		Trigger trigger = new Trigger("item", "rociador", "on trigger", "after trigger");
 
-		Npc npc = new Npc("¡No puedes pasar! El pirata fantasma no te dejara pasar",
-				"¡No hay nada que me digas que me haga cambiar de opinion", Arrays.asList(trigger));
+		Npc npc = new Npc("No puedes pasar! El pirata fantasma no te dejara pasar",
+				"No hay nada que me digas que me haga cambiar de opinion", Arrays.asList(trigger));
 
 		Connection muelleConnection = new Connection("south", locationTaberna, npc);
 
 		location = new Location("Estas en un muelle", Collections.emptyList(), Arrays.asList(npc),
 				Arrays.asList(muelleConnection));
 
-		location = location.goTo(locationTaberna);
+		String respuesta = location.goTo(locationTaberna);
+
+		Assert.assertEquals("No puedes pasar! El pirata fantasma no te dejara pasar", respuesta);
 	}
 
-	@Test(expected = Exception.class)
-	public void queNoSePuedeIrAOtraLocationPorFaltaDeConeccion() throws Exception {
+	@Test
+	public void queNoSePuedeIrAOtraLocationPorFaltaDeConeccion() {
 		locationTaberna = new Location("Estas en una sucia taberna", Collections.emptyList(), Collections.emptyList(),
 				Collections.emptyList());
 
 		Trigger trigger = new Trigger("item", "rociador", "on trigger", "after trigger");
 
-		Npc npc = new Npc("¡No puedes pasar! El pirata fantasma no te dejara pasar",
-				"¡No hay nada que me digas que me haga cambiar de opinion", Arrays.asList(trigger));
+		Npc npc = new Npc("ï¿½No puedes pasar! El pirata fantasma no te dejara pasar",
+				"ï¿½No hay nada que me digas que me haga cambiar de opinion", Arrays.asList(trigger));
 
 		location = new Location("Estas en un muelle", Collections.emptyList(), Arrays.asList(npc),
 				Collections.emptyList());
 
-		location = location.goTo(locationTaberna);
+		String respuesta = location.goTo(locationTaberna);
+
+		Assert.assertEquals("No se puede ir en esa direccion", respuesta);
 	}
 
 	@Test
@@ -53,21 +57,18 @@ public class LocationTests {
 
 		Trigger trigger = new Trigger("item", "rociador", "on trigger", "after trigger");
 
-		Npc npc = new Npc("¡No puedes pasar! El pirata fantasma no te dejara pasar",
-				"¡No hay nada que me digas que me haga cambiar de opinion", Arrays.asList(trigger));
+		Npc npc = new Npc("ï¿½No puedes pasar! El pirata fantasma no te dejara pasar",
+				"ï¿½No hay nada que me digas que me haga cambiar de opinion", Arrays.asList(trigger));
 
 		Connection muelleConnection = new Connection("south", locationTaberna, null); // A la connection no le seteo el
 																						// obstaculo
 
 		location = new Location("Estas en un muelle", Collections.emptyList(), Arrays.asList(npc),
 				Arrays.asList(muelleConnection));
-		try {
-			location = location.goTo(locationTaberna);
-		} catch (Exception e) {
-			Assert.fail();
-		}
 
-		Assert.assertEquals(locationTaberna, location);
+		String respuesta = location.goTo(locationTaberna);
+
+		Assert.assertEquals("OK", respuesta);
 	}
 
 	@Test
@@ -140,8 +141,8 @@ public class LocationTests {
 	@Test
 	public void queEncuentreNcpEnLocation() {
 		Npc npc = new Npc("pirata fantasma", "male", "singular",
-				"- '¡No puedes pasar!' El pirata fantasma no te dejará pasar",
-				"¡No hay nada que me digas que me haga cambiar de opinión!", Collections.emptyList());
+				"- 'ï¿½No puedes pasar!' El pirata fantasma no te dejarï¿½ pasar",
+				"ï¿½No hay nada que me digas que me haga cambiar de opiniï¿½n!", Collections.emptyList());
 
 		location = new Location("Muelle", Collections.emptyList(), Arrays.asList(npc),
 				Collections.emptyList());
@@ -152,8 +153,8 @@ public class LocationTests {
 	@Test
 	public void queNoEncuentreNcpEnLocation() {
 		Npc npc = new Npc("pirata fantasma", "male", "singular",
-				"- '¡No puedes pasar!' El pirata fantasma no te dejará pasar",
-				"¡No hay nada que me digas que me haga cambiar de opinión!", Collections.emptyList());
+				"- 'ï¿½No puedes pasar!' El pirata fantasma no te dejarï¿½ pasar",
+				"ï¿½No hay nada que me digas que me haga cambiar de opiniï¿½n!", Collections.emptyList());
 
 		location = new Location("Muelle", Collections.emptyList(), Arrays.asList(npc),
 				Collections.emptyList());

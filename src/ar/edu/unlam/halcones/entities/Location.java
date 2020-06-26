@@ -1,9 +1,12 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-public class Location extends GameEntity {
+public class Location extends GameEntity implements INombrable<Location> {
 	private String description;
 	private List<Place> places;
 	private List<Npc> npcs;
@@ -11,12 +14,12 @@ public class Location extends GameEntity {
 
 	public Location() {
 		super();
+		this.type=GameEntityTypes.LOCATION;
 	}
 	
 	public Location(String name) {
 		super(name);
 	}
-
 
 	public Location(String name, String gender, String number) {
 		super(name, gender, number);
@@ -30,31 +33,45 @@ public class Location extends GameEntity {
 		this.connections = connections;
 	}
 
-	public Location goTo(Location otherLocation) throws Exception {
+	public Location(String name, String gender, String number, String description, List<Place> places, List<Npc> npcs) {
+		super(name, gender, number);
+		this.description = description;
+		this.places = places;
+		this.npcs = npcs;
+	}
+
+	public List<Place> getPlaces() {
+		return places;
+	}
+	
+	public List<Connection> getConnections() {
+		return connections;
+	}
+
+	public String goTo(Location otherLocation) {
 		// Valido que halla una connecion a la otra location
 		Optional<Connection> connectionOpt = this.connections.stream()
 				.filter(connect -> connect.isConnectedTo(otherLocation)).findAny();
 
+		// TODO Si no puedo ir en esa direccion puedo devolver la misma location (this)
 		if (!connectionOpt.isPresent()) {
-			throw new Exception("No se puede ir en esa direccion");
+			return "No se puede ir en esa direccion";
 		}
 
 		// Me fijo si algun npc es un obstaculo para ir a la otra location
 		Connection connectionToOtherLocation = connectionOpt.get();
+		// TODO Si hay un obstaculo tambien devuelvo la misma location, pero como digo que el problema es el obstaculo?
 		if (hasObstaclesWith(connectionToOtherLocation)) {
-			throw new Exception(connectionToOtherLocation.getMensajeObstaculo());
+			return connectionToOtherLocation.getMensajeObstaculo();
 		}
 
-		return otherLocation;
+		return "OK";
 	}
 
 	private boolean hasObstaclesWith(Connection connection) {
 		return this.npcs.contains(connection.getObstacle());
 	}
 
-	public String getDescription() {
-		return description;
-	}
 
 	@Override
 	public int hashCode() {
@@ -140,6 +157,44 @@ public class Location extends GameEntity {
 
 	public boolean isNpcInLocation(Npc npc) {
 		return this.npcs.contains(npc);
+	}
+
+	public boolean addConnection(Connection connection) {
+		if(this.connections == null) {
+			this.connections = new LinkedList<>();
+		}
+		return this.connections.add(connection);
+	}
+
+	public void removeItemFromPlace(Item itemToRemove, Place placeToRemoveItem) {
+		places.stream().filter(p -> p.equals(placeToRemoveItem))
+				.findAny()
+				.ifPresent(p -> p.removeItem(itemToRemove));
+	}
+
+	public void removeItem(Item itemToRemove) {
+		this.places.stream().filter(p -> p.isItemInPlace(itemToRemove))
+				.findFirst()
+				.ifPresent(p -> p.removeItem(itemToRemove));
+	}
+	@Override
+	public Map<String, Location> getNombres() {
+
+		Map<String,Location> myMap = new HashMap<String,Location>();
+	    myMap.put(this.getName().trim(), this);
+	    
+	    return myMap;	
+		
+	}
+	
+	@Override 
+	public Location getEntity() {
+		return this;
+	}
+
+	@Override
+	public String ver() {
+		return this.getFullDescription();
 	}
 
 }

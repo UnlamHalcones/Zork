@@ -9,55 +9,37 @@ import javafx.util.Pair;
 
 public class Game {
 
-	private String welcome;
-	private String character;
 	private List<Location> locations;
 	private List<Npc> npcs;
 	private List<Item> items;
 	private List<EndGame> endGames;
+	private String welcome;
+	private String characterName;
+	private Character character;
+	private List<GameEntity> gameEntities;
+	public  Map<String, INombrable> interactuables = new HashMap<String, INombrable>(); 
 
-	public Game(String welcome, String character, List<Location> locations, List<Npc> npcs, List<Item> items,
-			List<EndGame> endGame) {
-		super();
-		this.welcome = welcome;
-		this.character = character;
+	public Game(String welcome, String characterName, List<Location> locations, List<Npc> npcs, List<Item> items,
+			List<EndGame> endGames) {
 		this.locations = locations;
 		this.npcs = npcs;
 		this.items = items;
-		this.endGames = endGame;
+		this.endGames = endGames;
+		this.welcome = welcome;
+		this.characterName = characterName;
+	
 	}
 
-	/*
-	 * "endgames": [
-    {
-      "condition": "location",
-      "action": "move",
-      "thing": "taberna",
-      "description": "¡Enhorabuena! Llegaste a la taberna, donde te espera una noche de borrachera con Grog y otros colegas piratas."
-    },
-    {
-      "condition": "action",
-      "action": "look",
-      "thing": "espejo",
-      "description": "i"
-    }
-    
-    {
-      "condition": "npc",
-      "action": "state-death",
-      "thing": "dragon",
-      "description": "¡Mataste al Dragon!!!!"
-    }
-  ]
-}
-	 * 
-	 */
-
-	// veo el parametro condition para analizar cual GameEntity iterar
-	// busco el objeto por nombre thing
-	// if(objeto.getState.contentEquals(endGame_IT.getCondition))
-	// es endGame, return String
+	public void setCharacter(Character character) {
+		this.character = character;
+		
+		generarInteractuables();
+	}
 	
+	public Character getCharacter() {
+		return this.character;
+	}
+
 	public Pair<Boolean, String> checkEndgame(String action, String thing) {
 
 		// Se iteran todos los Endgame verificando si se cumplen sus condiciones
@@ -115,4 +97,46 @@ public class Game {
 
 	}
 
+	public GameEntity findEntity(String gameEntityName) {
+
+		for (GameEntity gameEntity_IT : this.gameEntities) {
+
+			if (gameEntity_IT.getName().contentEquals(gameEntityName)) {
+				return gameEntity_IT;
+			}
+
+		}
+		return null;
+
+	}
+
+	
+	private void generarInteractuables() {
+
+		for(Item item: items) {
+			this.interactuables.putAll(item.getNombres());
+		}
+		
+		for(Npc npc: npcs) {
+			this.interactuables.putAll(npc.getNombres());
+		}
+		
+		for(Location location: locations) {
+			this.interactuables.putAll(location.getNombres());
+			
+			for (Place place: location.getPlaces())
+			{
+				this.interactuables.putAll(place.getNombres());
+			}
+			
+			for (Connection connection: location.getConnections())
+			{
+				this.interactuables.putAll(connection.getNombres());
+			}
+		}
+		
+		this.interactuables.putAll(character.getNombres());
+		
+		this.interactuables.putAll(character.getInventory().getNombres());
+	}
 }

@@ -44,24 +44,11 @@ public class InventoryTest {
 	}
 	
 	@Test
-	public void agregarYSacarUnItem() {
+	public void sacarUnItem() {
 		Item dummyItem = new Item("dummy", "male", "singular");
-		
 		inventory.add(dummyItem);
-		
 		inventory.remove(dummyItem);
-		
-		assertEquals(0, inventory.getItems().size());
-	}
-	
-	@Test
-	public void agregarDosItemsYSacarUno() {
-		Item dummyItem = new Item("dummy", "male", "singular");
-		Item dummyItem2 = new Item("dummy2", "female", "singular");
 
-		inventory.add(dummyItem);
-		inventory.add(dummyItem2);
-		inventory.remove(dummyItem);
-		assertEquals(1, inventory.getItems().size());
+		assertEquals(0, inventory.getItems().size());
 	}
 }

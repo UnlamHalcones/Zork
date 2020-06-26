@@ -1,0 +1,591 @@
+{
+	"settings": {
+		"welcome": "Realizaste un viaje a un parque natural y te hospédas en una cabaña en el corazón del parque, allí solo cuentas con lo básico. Debido a una extraña patología que tienes, caes en un profundo sueño por días, ésto era algo que sucedía muy pocas veces al año. Al despertar, escuchas por la radio que se ha declarado el estado de sitio en consecuencia de una pandemia. Ahora tienes que salir del parque natural, sin ayuda alguna aparente, ya que no hay guarda parques ni personal asistiendo al parque. Se sabe que hay tribus autoctonas distribuidas en el parque, y que los animales dentro del mistmo están en estado salvaje. Mientras dormías hubo una fuerte tormenta que arrasó con carteles, arboles y pequeños puestos de resguardo. Salir no será tan fácil.",
+		"character": "Jayden"
+	},
+	"locations": [{
+			"name": "cabaña",
+			"gender": "female",
+			"number": "singular",
+			"description": "Estás en una cabaña ",
+			"places": [{
+					"name": "cama",
+					"gender": "female",
+					"number": "singular",
+					"items": [
+						"mochila",
+						"ratón de juguete"
+					]
+				},
+				{
+					"name": "mesa",
+					"gender": "female",
+					"number": "singular",
+					"items": [
+						"alcohol en gel"
+					]
+				},
+				{
+					"name": "pared",
+					"gender": "female",
+					"number": "singular",
+					"items": [
+						"machete"
+					]
+				}
+			],
+			"connections": [{
+					"direction": "south",
+					"location": "sendero de salida"
+				},
+				{
+					"direction": "east",
+					"location": "orilla del rio"
+				},
+				{
+					"direction": "north",
+					"location": "bosque"
+				}
+			]
+		},
+		{
+			"name": "sendero de salida",
+			"gender": "male",
+			"number": "singular",
+			"description": "Éste sendero está obstruido por un gran árbol debido a la tormenta",
+			"places": [{
+					"name": "suelo",
+					"gender": "male",
+					"number": "singular",
+					"items": [
+						"tanza"
+					]
+				},
+				{
+					"name": "puesto de resguardo",
+					"gender": "male",
+					"number": "singular",
+					"items": [
+						"soga",
+						"motosierra"
+					]
+				}
+			],
+			"npcs": ["gran árbol"],
+			"connections": [{
+					"direction": "south-east",
+					"location": "salida",
+					"obstacles": "gran árbol"
+				},
+				{
+					"direction": "north",
+					"location": "cabaña"
+				}
+			]
+		},
+		{
+			"name": "orilla del rio",
+			"gender": "male",
+			"number": "singular",
+			"description": "Estás en la orilla del rio comechingones",
+			"places": [{
+					"name": "rocas grandes",
+					"gender": "female",
+					"number": "plural",
+					"items": [
+						"remo"
+					]
+				},
+				{
+					"name": "bote",
+					"gender": "female",
+					"number": "singular",
+					"items": [
+						"frutas"
+					]
+				}
+			],
+			"npcs": ["indio pescador"],
+			"connections": [{
+					"direction": "east",
+					"location": "orilla este rio",
+					"obstacles": "indio pescador"
+				},
+				{
+					"direction": "west",
+					"location": "cabaña"
+				}
+			]
+		},
+		{
+			"name": "camino a la serpiente",
+			"gender": "male",
+			"number": "singular",
+			"description": "Has cruzado el rio, estas en el famoso camino de la serpiente",
+			"places": [{
+					"name": "pastizal",
+					"gender": "male",
+					"number": "singular",
+					"items": [
+						"hierbas medicinales rojas",
+						"hierbas medicinales verdes"
+					]
+				},
+				{
+					"name": "madriguera de serpientes",
+					"gender": "female",
+					"number": "singular",
+					"items": ["billetera"]
+				},
+				{
+					"name": "tranquera",
+					"gender": "female",
+					"number": "singular",
+					"items": ["colmillo de jabali"]
+				}
+			],
+			"npcs": ["serpiente venenosa"],
+			"connections": [{
+				"direction": "south",
+				"location": "salida"
+			}]
+		},
+		{
+			"name": "bosque",
+			"gender": "male",
+			"number": "singular",
+			"description": "Éstas es un bosque sombrío",
+			"places": [{
+					"name": "arbustos",
+					"gender": "male",
+					"number": "plural",
+					"items": []
+				},
+				{
+					"name": "arboles",
+					"gender": "male",
+					"number": "plural",
+					"items": []
+				},
+				{
+					"name": "pantano",
+					"gender": "female",
+					"number": "singular",
+					"items": []
+				}
+			],
+			"npcs": ["jabali sagrado"],
+			"connections": [{
+					"direction": "south",
+					"location": "cabaña"
+				},
+				{
+					"direction": "east",
+					"location": "tribu"
+				}
+			]
+		},
+		{
+			"name": "tribu",
+			"gender": "female",
+			"number": "singular",
+			"description": "Éstas en las tierras de la tribu comechingones",
+			"places": [{
+					"name": "tiendas de campaña",
+					"gender": "female",
+					"number": "plural",
+					"items": []
+				},
+				{
+					"name": "circulo de las ofrendas",
+					"gender": "male",
+					"number": "singular",
+					"items": ["lanza"]
+				},
+				{
+					"name": "tienda del cacique",
+					"gender": "female",
+					"number": "singular",
+					"items": []
+				}
+			],
+			"npcs": ["cacique"],
+			"connections": [{
+				"direction": "west",
+				"location": "bosque"
+			}]
+		}
+	],
+	"npcs": [{
+			"name": "cacique",
+			"gender": "male",
+			"number": "singular",
+			"description": "Oh! te has topado con el inestable cacique de la tribu",
+			"talk": "¡Fuera de aquí extranjero, no queremos a gente como tu!",
+			"triggers": [{
+				"type": "item",
+				"thing": "machete",
+				"on_trigger": "- ¡Soy lo sufientemente fuerte para derrorte tengas el arma que tengas. Olvidalo o sufriras más de lo debido!",
+				"after_trigger": ""
+			}]
+		},
+		{
+			"name": "jabali sagrado",
+			"gender": "male",
+			"number": "singular",
+			"description": " El momento de pelear ha llegado. Ese terrible olor que se asomaba entre el follaje era nada más ni nada menos que el del asombroso jabalí sagrado",
+			"talk": "¡GGGGRRRIIIIIRR!",
+			"triggers": [{
+					"type": "item",
+					"thing": "lanza",
+					"on_trigger": "Sin darle posibilidad al jabalí al encontrarlo por detrás, clavaste la lanza en lo profundo de su ser. El gruñido se escuchó en todo el parque. ¿Que era esta criatura? te preguntas",
+					"after_trigger": "remove"
+				},
+				{
+					"type": "item",
+					"thing": "machete",
+					"on_trigger": "El machete penetró por completo el lomo del desesperado animal. Muy tarde para él, está en sus últimos momentos.",
+					"after_trigger": "remove"
+				}
+			]
+		},
+		{
+			"name": "indio pescador",
+			"gender": "male",
+			"number": "singular",
+			"description": "- '¡Espera!' Hay un indio pescando a la orilla del río. Está frustrado por haber perdido el remo del bote. Con el bote hubiese podido recolectar muchos peces para llevar a su tribu.",
+			"talk": "Si me ayudas a buscar el remo, podre cruzarte al otro lado del rio.",
+			"triggers": [{
+				"type": "item",
+				"thing": "remo",
+				"on_trigger": "- '¡Gracias Señor!' Ahora con el remo podre utilizar el bote para cruzarlo al otro lado del rio y despues continuar con mi pesca.",
+				"after_trigger": "remove"
+			}]
+		},
+		{
+			"name": "gran arbol",
+			"gender": "male",
+			"number": "singular",
+			"description": "- ¡Un gran árbol te te está bloqueando el camino a la salida!",
+			"talk": "Será imposible avanzar por este camino.",
+			"triggers": []
+		},
+		{
+			"name": "serpiente venenosa",
+			"gender": "female",
+			"number": "singular",
+			"description": "- ¡Cuidado! Una amenazante serpiente te tiene en la mira.",
+			"talk": "¡PSZZ!",
+			"triggers": [{
+					"type": "item",
+					"thing": "machete",
+					"on_trigger": "¡Has cortado en dos a la serpiente!",
+					"after_trigger": "remove"
+				},
+				{
+					"type": "item",
+					"thing": "lanza",
+					"on_trigger": "¡Has eliminado a la serpiente!",
+					"after_trigger": "remove"
+				},
+				{
+					"type": "item",
+					"thing": "ratón de juguete",
+					"on_trigger": "La serpiente fue engañada con el juguete y te has librado de ella.",
+					"after_trigger": "remove"
+				}
+			]
+		}
+	],
+	"items": [{
+			"name": "mochila",
+			"gender": "female",
+			"number": "singular",
+			"actions": [
+				"guardar",
+				"sacar",
+				"poner"
+			],
+			"effects_over": [
+				"item"
+			]
+		},
+		{
+			"name": "alcohol en gel",
+			"gender": "male",
+			"number": "singular",
+			"actions": [
+				"usar"
+			],
+			"effects_over": [
+				"self"
+			]
+		},
+		{
+			"name": "machete",
+			"gender": "male",
+			"number": "singular",
+			"actions": [
+				"usar",
+				"atacar",
+				"cortar",
+				"rebanar",
+				"matar",
+				"atacar"
+			],
+			"effects_over": [
+				"npcs"
+			]
+		},
+		{
+			"name": "colmillo jabalí",
+			"gender": "female",
+			"number": "singular",
+			"actions": [
+				"usar",
+				"colocar",
+				"oler",
+				"regalar",
+				"dar"
+			],
+			"effects_over": [
+				"self",
+				"npcs"
+			]
+		},
+		{
+			"name": "lanza",
+			"gender": "female",
+			"number": "singular",
+			"actions": [
+				"clavar",
+				"tirar",
+				"revolear",
+				"utilizar",
+				"atacar",
+				"matar"
+			],
+			"effects_over": [
+				"npcs",
+				"item"
+			]
+		},
+		{
+			"name": "frutas",
+			"gender": "female",
+			"number": "plural",
+			"actions": [
+				"comer",
+				"ofrecer",
+				"ofrendar",
+				"dar",
+				"lanzar",
+				"agarrar"
+			],
+			"effects_over": [
+				"npcs",
+				"self"
+			],
+			"triggers": [{
+					"type": "self",
+					"thing": "character",
+					"on_trigger": "Las exóticas frutas que consumiste te brindan una poderosa fuerza corporal y tus emociones suben por las nubes. Estás listo para todo",
+					"after_trigger": "remove"
+				},
+				{
+					"type": "npc",
+					"thing": "cacique",
+					"on_trigger": "- Gracias!",
+					"after_trigger": "remove"
+				},
+				{
+					"type": "npc",
+					"thing": "indio pescador",
+					"on_trigger": "- Gracias!",
+					"after_trigger": "remove"
+				},
+				{
+					"type": "npc",
+					"thing": "jabali sagrado",
+					"on_trigger": "Se han eliminado las frutas del inventario.",
+					"after_trigger": "remove"
+				}
+			]
+		},
+		{
+			"name": "hierbas medicinales rojas",
+			"gender": "female",
+			"number": "plural",
+			"actions": [
+				"comer",
+				"masticar",
+				"oler"
+			],
+			"effects_over": [
+				"self"
+			]
+		},
+		{
+			"name": "hierbas medicinales verdes",
+			"gender": "female",
+			"number": "plural",
+			"actions": [
+				"comer",
+				"masticar",
+				"oler"
+			],
+			"effects_over": [
+				"self"
+			]
+		},
+		{
+			"name": "billetera",
+			"gender": "female",
+			"number": "singular",
+			"actions": [
+				"agarrar",
+				"tomar",
+				"levantar",
+				"revisar",
+				"mirar",
+				"tomar"
+			],
+			"effects_over": [
+				"self"
+			],
+			"triggers": [{
+				"type": "self",
+				"thing": "character",
+				"on_trigger": "- Está vacía, que suerte la mía.",
+				"after_trigger": "remove"
+			}]
+		},
+		{
+			"name": "ratón de juguete",
+			"gender": "male",
+			"number": "singular",
+			"actions": [
+				"usar"
+			],
+			"effects_over": [
+				"npc"
+			]
+		},
+		{
+			"name": "soga",
+			"gender": "female",
+			"number": "singular",
+			"actions": [
+				"amarrar",
+				"tirar",
+				"arrastrar"
+			],
+			"effects_over": [
+				"npcs"
+			],
+			"triggers": [{
+				"type": "npc",
+				"thing": "gran árbol",
+				"on_trigger": "La soga estaba muy gastada y se ha roto!! Ya no sirve",
+				"after_trigger": "remove"
+			}]
+		},
+		{
+			"name": "motosierrra",
+			"gender": "female",
+			"number": "singular",
+			"actions": [
+				"prender",
+				"encender",
+				"cortar",
+				"arrancar"
+			],
+			"effects_over": [
+				"npcs"
+			],
+			"triggers": [{
+					"type": "npc",
+					"thing": "gran árbol",
+					"on_trigger": "Es inútil, no tiene gasolina y está demasiada oxidada.",
+					"after_trigger": "remove"
+				},
+				{
+					"type": "npc",
+					"thing": "serpiente venenosa",
+					"on_trigger": "Es inútil, no tiene gasolina y está demasiada oxidada.",
+					"after_trigger": "remove"
+				},
+				{
+					"type": "npc",
+					"thing": "indio pescador",
+					"on_trigger": "No funciona, está aberiada.",
+					"after_trigger": "remove"
+				},
+				{
+					"type": "npc",
+					"thing": "jabali sagrado",
+					"on_trigger": "Es inútil, no tiene gasolina y está demasiada oxidada.",
+					"after_trigger": "remove"
+				},
+				{
+					"type": "npc",
+					"thing": "cacique",
+					"on_trigger": "No funciona, está aberiada.",
+					"after_trigger": "remove"
+				}
+			]
+		},
+		{
+			"name": "tanza",
+			"gender": "female",
+			"number": "singular",
+			"actions": [
+				"enrroscar",
+				"atar",
+				"anudar"
+			],
+			"effects_over": [
+				"npcs"
+			],
+			"triggers": [{
+				"type": "npc",
+				"thing": "cacique",
+				"on_trigger": "- ¡Has sido bendecido... o maldecido por el gran guardían Drusco. Con esa tanza podemos reparar la lanza y podemos librarnos de una vez por todas de nuestro mal. Tu responsabilidad es salvar a nuestra gente del tenebroso jabalí sagrado que nos ha atormentado durante todo este tiempo. Acepta la tarea o muere!",
+				"after_trigger": "remove"
+			}]
+		}, {
+			"name": "tanza",
+			"gender": "female",
+			"number": "singular",
+			"actions": [
+				"usar",
+				"dar",
+				"entregar",
+				"regalar"
+			],
+			"effects_over": [
+				"npcs"
+			]
+		}
+	],
+	"inventory": [],
+	"endgames": [{
+			"condition": "location",
+			"action": "move",
+			"thing": "salida",
+			"description": "¡Felicidades, lograste salir del parque!."
+		},
+		{
+			"condition": "action",
+			"action": "eat",
+			"thing": "hierbas medicinales rojas",
+			"description": "Has comido la hierba con la cura del covid19, estas muerto."
+		},
+		{
+			"condition": "action",
+			"action": "give",
+			"thing": "colmillo de jabali",
+			"description": "¡Enhorabuena!  Te has convertido en el jefe de la tribu comechingones portador del halcon, siempre fue tu destino."
+		}
+	]
+}

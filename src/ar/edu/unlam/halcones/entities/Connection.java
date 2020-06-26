@@ -1,6 +1,9 @@
 package ar.edu.unlam.halcones.entities;
 
-public class Connection {
+import java.util.HashMap;
+import java.util.Map;
+
+public class Connection implements INombrable<Connection> {
 	private String direction;
 	private Location location;
 	private Npc obstacle;
@@ -28,4 +31,22 @@ public class Connection {
 		return " Al " + direction + " se puede ir hacia " + location.getFullDescriptionQty();
 	}
 
+	@Override
+	public Map<String, Connection> getNombres() {
+
+		Map<String,Connection> myMap = new HashMap<String,Connection>();
+	    myMap.put(this.direction, this);
+	    
+	    return myMap;	
+	}
+
+	@Override 
+	public Connection getEntity() {
+		return this;
+	}
+
+	@Override
+	public String ver() {
+		return this.getInformation();
+	}
 }
