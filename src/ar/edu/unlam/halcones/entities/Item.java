@@ -151,9 +151,9 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 	public Map<String, Item> getNombres() {
 		Map<String, Item> myMap = new HashMap<String, Item>();
 
-		myMap.put(this.getName(), this);
-		myMap.put(this.getFullDescription(), this);
-		myMap.put(this.getFullDescriptionQty(), this);
+		myMap.put(this.getName().trim(), this);
+		myMap.put(this.getFullDescription().trim(), this);
+		myMap.put(this.getFullDescriptionQty().trim(), this);
 
 		return myMap;
 	}
@@ -161,5 +161,10 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 	@Override 
 	public Item getEntity() {
 		return this;
+	}
+
+	@Override
+	public String ver() {
+		return this.getFullDescription();
 	}
 }

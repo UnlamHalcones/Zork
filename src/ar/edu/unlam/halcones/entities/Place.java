@@ -82,7 +82,7 @@ public class Place extends GameEntity implements INombrable {
 	public Map<String, Place> getNombres() {
 		Map<String, Place> myMap = new HashMap<String, Place>();
 
-		myMap.put(this.getName(), this);
+		myMap.put(this.getName().trim(), this);
 		myMap.put(this.getFullDescription(), this);
 		myMap.put(this.getFullDescriptionQty(), this);
 
@@ -92,5 +92,10 @@ public class Place extends GameEntity implements INombrable {
 	@Override 
 	public Place getEntity() {
 		return this;
+	}
+
+	@Override
+	public String ver() {
+		return getInformation();
 	}
 }

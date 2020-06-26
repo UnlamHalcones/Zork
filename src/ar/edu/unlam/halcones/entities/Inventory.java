@@ -73,4 +73,9 @@ public class Inventory implements INombrable<Inventory> {
 	public Inventory getEntity() {
 		return this;
 	}
+
+	@Override
+	public String ver() {
+		return showItems();
+	}
 }

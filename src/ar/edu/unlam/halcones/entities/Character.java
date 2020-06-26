@@ -138,11 +138,15 @@ public class Character implements ITriggereable, INombrable<Character> {
 			}
 			
 		}
-		
 	}
 	
 	@Override 
 	public Character getEntity() {
 		return this;
+	}
+
+	@Override
+	public String ver() {
+		return location.getFullDescription();
 	}
 }

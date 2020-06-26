@@ -5,6 +5,8 @@ import ar.edu.unlam.halcones.entities.*;
 import ar.edu.unlam.halcones.entities.Character;
 
 public class Ejecutor {
+	
+	//public static void commandRouter(Game game, String verbo)
 
 	public static void run(Character character, Item item, String accion) {
 

@@ -44,4 +44,9 @@ public class Connection implements INombrable<Connection> {
 	public Connection getEntity() {
 		return this;
 	}
+
+	@Override
+	public String ver() {
+		return this.getInformation();
+	}
 }

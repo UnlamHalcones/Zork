@@ -15,8 +15,11 @@ import ar.edu.unlam.halcones.entities.INombrable;
 import ar.edu.unlam.halcones.entities.ITriggereable;
 import ar.edu.unlam.halcones.entities.Inventory;
 import ar.edu.unlam.halcones.entities.Location;
+import ar.edu.unlam.halcones.entities.Npc;
 
 public class Interprete {
+	
+	private static Game game;	
 
 	public static void main(String[] args) {
 
@@ -49,6 +52,9 @@ public class Interprete {
 		imprimirSalida("Que juego queres jugar?");
 		String selectedGame = "";
 		String input = "";
+		
+		gameSelecting = false;
+		
 		while (gameSelecting) {
 
 			input = in.next();
@@ -61,11 +67,12 @@ public class Interprete {
 		}
 
 		selectedGame = input;
+		selectedGame = "piratasfantasmas";
 
 		// Logica para cargar el game
 		
 		GeneradorDeGame generador = new GeneradorDeGame();
-		Game game = null;
+		
 		
 		try {
 			game = generador.generarEntornoDeJuego(selectedGame + ".json");
@@ -81,6 +88,10 @@ public class Interprete {
 		String segundoSustantivo = "";
 
 		String invalidCommandMessage = "No entendi lo que ingresaste. Intenta de nuevo por favor.";
+		
+		for (Map.Entry<String, INombrable> entry : game.interactuables.entrySet()) {
+			System.out.println(entry.getKey());
+		}
 
 		while (keepPlaying) {
 
@@ -103,8 +114,6 @@ public class Interprete {
 			verbo = input.substring(0, input.indexOf(" "));
 			input = input.replace(verbo, "");
 
-			System.out.println("Verbo:" + verbo);
-			
 			if (!verbos.containsKey(verbo)) {
 				imprimirSalida(invalidCommandMessage);
 				continue;
@@ -153,15 +162,8 @@ public class Interprete {
 			}
 			
 			String salida = "El verbo es " + verbo + " - primer sustantivo:" + primerSustantivo + " - segundo sustantivo: " + segundoSustantivo;
-			
-			INombrable entidadUno = game.interactuables.get(primerSustantivo);	
-			
-			if (entidadUno instanceof Inventory)
-			{
-				if(verbo.equals("ver")) {
-					imprimirSalida(game.getCharacter().getInventory().showItems());
-				}
-			}
+
+			salida = commandRouter(verbo, primerSustantivo, segundoSustantivo);
 			
 			imprimirSalida(salida);
 
@@ -171,4 +173,38 @@ public class Interprete {
 	public static void imprimirSalida(String mensaje) {
 		System.out.println(mensaje);
 	}
+	
+	private static String commandRouter (String verbo, String primerSustantivo, String segundoSustantivo) {
+		
+		INombrable entidadUno = null;
+		INombrable entidadDos = null;
+		
+		if(primerSustantivo!= "")
+			entidadUno = game.interactuables.get(primerSustantivo);	
+		
+		if (segundoSustantivo != "")
+			entidadDos = game.interactuables.get(segundoSustantivo);
+		
+		if (verbo.equals("ver"))
+		{
+			if(entidadUno != null)
+			{
+				return entidadUno.ver();
+			}
+		}
+		
+		if (entidadUno instanceof Inventory)
+		{
+		
+		}
+		
+		if (entidadUno instanceof Npc)
+		{
+			
+		}
+		
+		return "";
+	}
+	
+
 }

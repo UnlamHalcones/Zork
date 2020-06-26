@@ -2,6 +2,7 @@ package ar.edu.unlam.halcones.entities;
 
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.xml.internal.ws.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -110,9 +111,9 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 	public Map<String, Npc> getNombres() {
 		Map<String, Npc> myMap = new HashMap<String, Npc>();
 
-		myMap.put(this.getName(), this);
-		myMap.put(this.getFullDescription(), this);
-		myMap.put(this.getFullDescriptionQty(), this);
+		myMap.put(this.getName().trim(), this);
+		myMap.put(this.getFullDescription().trim(), this);
+		myMap.put(this.getFullDescriptionQty().trim(), this);
 
 		return myMap;
 	}
@@ -125,5 +126,10 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 	@Override 
 	public Npc getEntity() {
 		return this;
+	}
+
+	@Override
+	public String ver() {
+		return StringUtils.capitalize(this.getFullDescription() +  this.getDescription());
 	}
 }
