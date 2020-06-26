@@ -1,4 +1,4 @@
-package ar.edu.unlam.halcones.interpretador;
+package ar.edu.unlam.halcones.interprete;
 
 import ar.edu.unlam.halcones.*;
 import ar.edu.unlam.halcones.entities.*;

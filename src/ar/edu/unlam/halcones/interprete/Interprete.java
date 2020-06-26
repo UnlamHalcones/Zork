@@ -43,6 +43,7 @@ public class Interprete {
 		verbos.put("mirar", "ver");
 
 		availableGames.add("piratasfantasmas");
+		availableGames.add("pandemia");
 
 
 		imprimirSalida("Que juego queres jugar?");
