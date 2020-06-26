@@ -9,7 +9,7 @@ public abstract class GameEntity {
 	private String number;
 	protected String status;
 	private String state;
-	public GameEntityTypes type;
+	public ITriggereableTypes type;
 
 	public String getState() {
 		return state;

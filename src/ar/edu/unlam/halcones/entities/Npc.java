@@ -11,7 +11,7 @@ public class Npc extends GameEntity implements ITriggereable {
 
 	public Npc() {
 		super();
-		this.type=GameEntityTypes.NPC;
+		this.type=ITriggereableTypes.NPC;
 	}
 	
 	public Npc(String description, String state) {

@@ -11,7 +11,7 @@ public class Location extends GameEntity {
 
 	public Location() {
 		super();
-		this.type=GameEntityTypes.LOCATION;
+		this.type=ITriggereableTypes.LOCATION;
 	}
 	
 	public Location(String name) {

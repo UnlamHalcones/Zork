@@ -8,7 +8,7 @@ public class Place extends GameEntity {
 
 	public Place() {
 		super();
-		this.type=GameEntityTypes.PLACE;
+		this.type=ITriggereableTypes.PLACE;
 		// TODO Auto-generated constructor stub
 	}
 

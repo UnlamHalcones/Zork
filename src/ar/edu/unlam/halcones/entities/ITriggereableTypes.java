@@ -1,6 +1,6 @@
 package ar.edu.unlam.halcones.entities;
 
-public enum GameEntityTypes {
+public enum ITriggereableTypes {
 	
 	ITEM,
 	NPC,
