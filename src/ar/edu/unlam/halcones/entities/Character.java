@@ -125,12 +125,12 @@ public class Character implements ITriggereable, INombrable<Character> {
 	}
 	
 	@Override
-	public void triggerThis(String action) throws Exception {
+	public void triggerThis(String action) {
 		
 		for (Trigger triggers_IT : triggers) {
 		
 			if(triggers_IT.getType().contentEquals(action)) {
-				this.Execute(triggers_IT);
+				this.execute(triggers_IT);
 				return;
 			}
 			

@@ -172,7 +172,8 @@ public class Location extends GameEntity implements INombrable<Location> {
 	public Map<String, Location> getNombres() {
 
 		Map<String,Location> myMap = new HashMap<String,Location>();
-	    myMap.put(this.getDescription(), this);
+	    myMap.put(this.getFullDescription(), this);
+	    myMap.put(this.description, this);
 	    myMap.put(this.getName(), this);
 	    
 	    return myMap;	

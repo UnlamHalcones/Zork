@@ -99,7 +99,7 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 		for (Trigger triggers_IT : triggers) {
 
 			if (triggers_IT.getType().contentEquals(action)) {
-				this.Execute(triggers_IT);
+				this.execute(triggers_IT);
 				return;
 			}
 
