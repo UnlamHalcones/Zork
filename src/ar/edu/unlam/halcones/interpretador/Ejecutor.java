@@ -6,34 +6,57 @@ import ar.edu.unlam.halcones.entities.Character;
 
 public class Ejecutor {
 
-	public static void run(GameEntity entity1, String accion) {
-		
-		try {
-		
-		switch (entity1.type) {
-		
-		case ITEM:
-			Item item = (Item) entity1;
-			item.triggerThis(accion);
+	public static void run(Character character, Item item, String accion) {
+
+		switch (accion) {
+
+		case "agarrar":
+			character.agarrarItem(item);
 			break;
-			
-		case NPC:
-			Npc npc = (Npc) entity1;
-			npc.triggerThis(accion);
-			break;
-				
+
 		default:
-			break;
-		}
-		
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			character.usarItem(item, accion, character);
 		}
 
 	}
 
-	public static void run(GameEntity entity1, GameEntity entity2, String accion) {
+	public static void run(Character character, Item item, ITriggereable entity2, String accion) {
+
+		switch (accion) {
+
+		case "":
+
+			break;
+
+		default:
+			character.usarItem(item, accion, entity2);
+			break;
+		}
+
+	}
+
+	public static void run(Character character, Npc npc, String accion) {
+
+		switch (accion) {
+		case "interactuar":
+			character.interactWithNpc(npc);
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
+	public static void run(Character character) {
+
+		character.mostrarInformacionDelInventario();
+
+	}
+
+	public static void run(Character character, Location location) {
+
+		character.moveTo(location);
 
 	}
 }
