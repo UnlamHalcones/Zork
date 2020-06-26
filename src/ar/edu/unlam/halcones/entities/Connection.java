@@ -38,7 +38,10 @@ public class Connection implements INombrable<Connection> {
 	    myMap.put(this.direction, this);
 	    
 	    return myMap;	
-		
 	}
 
+	@Override 
+	public Connection getEntity() {
+		return this;
+	}
 }

@@ -4,4 +4,6 @@ import java.util.Map;
 
 public interface INombrable<TEntity> {
 	public Map<String, TEntity> getNombres ();
+	
+	public TEntity getEntity();
 }

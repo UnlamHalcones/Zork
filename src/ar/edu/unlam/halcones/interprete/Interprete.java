@@ -13,6 +13,7 @@ import ar.edu.unlam.halcones.entities.Game;
 import ar.edu.unlam.halcones.entities.GameEntity;
 import ar.edu.unlam.halcones.entities.INombrable;
 import ar.edu.unlam.halcones.entities.ITriggereable;
+import ar.edu.unlam.halcones.entities.Inventory;
 import ar.edu.unlam.halcones.entities.Location;
 
 public class Interprete {
@@ -72,10 +73,6 @@ public class Interprete {
 			e.printStackTrace();
 		}
 		
-		for (Map.Entry<String, INombrable> entry : game.interactuables.entrySet()) {
-			System.out.println("Cargamos " + entry.getKey());
-		}
-
 		Boolean keepPlaying = true;
 
 		String verbo = "";
@@ -119,7 +116,7 @@ public class Interprete {
 			String segundoEncontrado = "";
 
 			for (Map.Entry<String, INombrable> entry : game.interactuables.entrySet()) {
-				imprimirSalida("Viendo si encuentro:" + entry.getKey());
+				
 				if (input.contains(entry.getKey())) {
 					if (indexPrimerEncontrado == 0) {
 						indexPrimerEncontrado = input.indexOf(entry.getKey());
@@ -155,6 +152,15 @@ public class Interprete {
 			}
 			
 			String salida = "El verbo es " + verbo + " - primer sustantivo:" + primerSustantivo + " - segundo sustantivo: " + segundoSustantivo;
+			
+			INombrable entidadUno = game.interactuables.get(primerSustantivo);	
+			
+			if (entidadUno instanceof Inventory)
+			{
+				if(verbo.equals("ver")) {
+					imprimirSalida(game.getCharacter().getInventory().showItems());
+				}
+			}
 			
 			imprimirSalida(salida);
 

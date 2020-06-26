@@ -68,4 +68,9 @@ public class Inventory implements INombrable<Inventory> {
 	    
 	    return myMap;	
 	}
+	
+	@Override 
+	public Inventory getEntity() {
+		return this;
+	}
 }

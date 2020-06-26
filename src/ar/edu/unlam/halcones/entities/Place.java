@@ -88,4 +88,9 @@ public class Place extends GameEntity implements INombrable {
 
 		return myMap;
 	}
+	
+	@Override 
+	public Place getEntity() {
+		return this;
+	}
 }

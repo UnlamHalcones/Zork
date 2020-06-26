@@ -188,5 +188,10 @@ public class Location extends GameEntity implements INombrable<Location> {
 	    return myMap;	
 		
 	}
+	
+	@Override 
+	public Location getEntity() {
+		return this;
+	}
 
 }

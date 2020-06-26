@@ -158,4 +158,8 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 		return myMap;
 	}
 
+	@Override 
+	public Item getEntity() {
+		return this;
+	}
 }

@@ -35,6 +35,10 @@ public class Game {
 		
 		generarInteractuables();
 	}
+	
+	public Character getCharacter() {
+		return this.character;
+	}
 
 	public Pair<Boolean, String> checkEndgame(String action, String thing) {
 

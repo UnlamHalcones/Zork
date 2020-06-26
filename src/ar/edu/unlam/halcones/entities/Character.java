@@ -141,4 +141,8 @@ public class Character implements ITriggereable, INombrable<Character> {
 		
 	}
 	
+	@Override 
+	public Character getEntity() {
+		return this;
+	}
 }
