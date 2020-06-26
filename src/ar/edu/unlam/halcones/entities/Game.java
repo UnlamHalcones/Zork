@@ -9,58 +9,29 @@ import javafx.util.Pair;
 
 public class Game {
 
-	private String welcome;
-	private String characterName;
 	private List<Location> locations;
 	private List<Npc> npcs;
 	private List<Item> items;
 	private List<EndGame> endGames;
+	private String welcome;
+	private String characterName;
 	private Character character;
-	
 	private List<GameEntity> gameEntities;
 
-	public Game(String welcome, String character, List<Location> locations, List<Npc> npcs, List<Item> items,
-			List<EndGame> endGame) {
-		super();
-		this.welcome = welcome;
-		this.characterName = character;
+	public Game(String welcome, String characterName, List<Location> locations, List<Npc> npcs, List<Item> items,
+			List<EndGame> endGames) {
 		this.locations = locations;
 		this.npcs = npcs;
 		this.items = items;
-		this.endGames = endGame;
+		this.endGames = endGames;
+		this.welcome = welcome;
+		this.characterName = characterName;
 	}
 
-	/*
-	 * "endgames": [
-    {
-      "condition": "location",
-      "action": "move",
-      "thing": "taberna",
-      "description": "¡Enhorabuena! Llegaste a la taberna, donde te espera una noche de borrachera con Grog y otros colegas piratas."
-    },
-    {
-      "condition": "action",
-      "action": "look",
-      "thing": "espejo",
-      "description": "i"
-    }
-    
-    {
-      "condition": "npc",
-      "action": "state-death",
-      "thing": "dragon",
-      "description": "¡Mataste al Dragon!!!!"
-    }
-  ]
-}
-	 * 
-	 */
+	public void setCharacter(Character character) {
+		this.character = character;
+	}
 
-	// veo el parametro condition para analizar cual GameEntity iterar
-	// busco el objeto por nombre thing
-	// if(objeto.getState.contentEquals(endGame_IT.getCondition))
-	// es endGame, return String
-	
 	public Pair<Boolean, String> checkEndgame(String action, String thing) {
 
 		// Se iteran todos los Endgame verificando si se cumplen sus condiciones
@@ -117,18 +88,18 @@ public class Game {
 		return new Pair<Boolean, String>(false, "");
 
 	}
-	
-	public GameEntity findEntity (String gameEntityName) {
-		
+
+	public GameEntity findEntity(String gameEntityName) {
+
 		for (GameEntity gameEntity_IT : this.gameEntities) {
-			
-			if(gameEntity_IT.getName().contentEquals(gameEntityName)) {
+
+			if (gameEntity_IT.getName().contentEquals(gameEntityName)) {
 				return gameEntity_IT;
 			}
-			
+
 		}
 		return null;
-		
+
 	}
 
 }

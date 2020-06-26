@@ -1,6 +1,9 @@
 package ar.edu.unlam.halcones.entities;
 
 public interface ITriggereable {
-	public String Execute(Trigger trigger) throws Exception;
-	public void triggerThis(String action) throws Exception;
+	public String execute(Trigger trigger);
+
+	public void triggerThis(String action);
+
+	public String getType();
 }

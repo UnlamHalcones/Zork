@@ -1,12 +1,19 @@
 package ar.edu.unlam.halcones.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Trigger {
 	private String type;
 	private String thing;
 	private String onTrigger;
 	private String afterTrigger;
-	
-	public Trigger(String type, String thing, String onTrigger, String afterTrigger) {
+
+	@JsonCreator
+	public Trigger(@JsonProperty("type") String type,
+				   @JsonProperty("thing") String thing,
+				   @JsonProperty("on_trigger") String onTrigger,
+				   @JsonProperty("after_trigger") String afterTrigger) {
 		super();
 		this.type = type;
 		this.thing = thing;

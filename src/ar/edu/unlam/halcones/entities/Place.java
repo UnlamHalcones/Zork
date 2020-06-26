@@ -1,5 +1,6 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.util.LinkedList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,11 +13,11 @@ public class Place extends GameEntity implements INombrable<Place> {
 		super();
 		this.type=GameEntityTypes.PLACE;
 		// TODO Auto-generated constructor stub
+		this.items = new LinkedList<>();
 	}
 
 	public Place(String name, String gender, String number) {
 		super(name, gender, number);
-		// TODO Auto-generated constructor stub
 	}
 
 	public Place(List<Item> items) {
@@ -74,6 +75,10 @@ public class Place extends GameEntity implements INombrable<Place> {
 		return true;
 	}
 
+
+	public void removeItem(Item itemToRemove) {
+		this.items.remove(itemToRemove);
+	}
 	public Map<String, Place> getNombres() {
 		Map<String, Place> myMap = new HashMap<String, Place>();
 
