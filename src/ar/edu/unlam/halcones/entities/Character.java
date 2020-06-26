@@ -7,6 +7,10 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Character implements ITriggereable, INombrable<Character> {
+	public Inventory getInventory() {
+		return inventory;
+	}
+
 	private Location location;
 	private Inventory inventory;
 	protected String status;
@@ -119,7 +123,6 @@ public class Character implements ITriggereable, INombrable<Character> {
 		Map<String,Character> myMap = new HashMap<String,Character>();
 	    myMap.put("sobre mi", this);
 	    myMap.put("en mi", this);
-	    //myMap.put(this.name?, this);
 	    
 	    return myMap;	
 	}

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Place extends GameEntity implements INombrable<Place> {
+public class Place extends GameEntity implements INombrable {
 
 	private List<Item> items;
 

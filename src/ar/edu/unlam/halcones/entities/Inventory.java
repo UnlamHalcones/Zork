@@ -3,9 +3,11 @@ package ar.edu.unlam.halcones.entities;
 import com.sun.xml.internal.ws.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class Inventory {
+public class Inventory implements INombrable<Inventory> {
     private List<Item> items;
 
     public Inventory(List<Item> items) {
@@ -57,4 +59,13 @@ public class Inventory {
     public boolean hasItem(Item item) {
         return items.contains(item);
     }
+
+	@Override
+	public Map<String, Inventory> getNombres() {
+		Map<String,Inventory> myMap = new HashMap<String,Inventory>();
+	    myMap.put("inventario", this);
+	    myMap.put("mis items", this);
+	    
+	    return myMap;	
+	}
 }

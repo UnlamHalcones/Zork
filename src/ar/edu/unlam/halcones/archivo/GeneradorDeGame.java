@@ -10,8 +10,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static ar.edu.unlam.halcones.archivo.JsonKey.*;
@@ -26,7 +28,7 @@ public class GeneradorDeGame {
         JsonNode settings = gameTree.get(SETTINGS_KEY);
         String characterName = settings.get(CHARACTER_KEY).asText();
         String welcomeMessage = settings.get(WELCOOME_KEY).asText();
-
+        
         // Proceso items
         JsonNode itemsNode = gameTree.get(ITEMS_KEY);
         List<Item> gameItems = objectMapper.readValue(itemsNode.toString(), new TypeReference<List<Item>>() {

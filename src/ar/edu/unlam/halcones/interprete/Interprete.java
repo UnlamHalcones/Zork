@@ -1,11 +1,13 @@
 package ar.edu.unlam.halcones.interprete;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import ar.edu.unlam.halcones.archivo.GeneradorDeGame;
 import ar.edu.unlam.halcones.entities.Connection;
 import ar.edu.unlam.halcones.entities.Game;
 import ar.edu.unlam.halcones.entities.GameEntity;
@@ -36,21 +38,11 @@ public class Interprete {
 		verbos.put("ir", "ir");
 		verbos.put("avanzar", "ir");
 		verbos.put("correr", "ir");
+		verbos.put("ver", "ver");
+		verbos.put("mirar", "ver");
 
-		availableGames.add("fantasmas");
+		availableGames.add("piratasfantasmas");
 
-		availableGames.add("autos");
-
-		Map<String, INombrable> interactuables = new HashMap<String, INombrable>();
-		
-		Connection norte = new Connection("norte", null, null);
-		Connection sur= new Connection("sur", null, null);
-		
-		interactuables.putAll(norte.getNombres());
-		interactuables.putAll(sur.getNombres());
-		
-		
-		// Cargamos los interactuables
 
 		imprimirSalida("Que juego queres jugar?");
 		String selectedGame = "";
@@ -69,6 +61,20 @@ public class Interprete {
 		selectedGame = input;
 
 		// Logica para cargar el game
+		
+		GeneradorDeGame generador = new GeneradorDeGame();
+		Game game = null;
+		
+		try {
+			game = generador.generarEntornoDeJuego(selectedGame + ".json");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (Map.Entry<String, INombrable> entry : game.interactuables.entrySet()) {
+			System.out.println("Cargamos " + entry.getKey());
+		}
 
 		Boolean keepPlaying = true;
 
@@ -112,7 +118,8 @@ public class Interprete {
 			String primerEncontrado = "";
 			String segundoEncontrado = "";
 
-			for (Map.Entry<String, INombrable> entry : interactuables.entrySet()) {
+			for (Map.Entry<String, INombrable> entry : game.interactuables.entrySet()) {
+				imprimirSalida("Viendo si encuentro:" + entry.getKey());
 				if (input.contains(entry.getKey())) {
 					if (indexPrimerEncontrado == 0) {
 						indexPrimerEncontrado = input.indexOf(entry.getKey());

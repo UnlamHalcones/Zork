@@ -40,6 +40,14 @@ public class Location extends GameEntity implements INombrable<Location> {
 		this.npcs = npcs;
 	}
 
+	public List<Place> getPlaces() {
+		return places;
+	}
+	
+	public List<Connection> getConnections() {
+		return connections;
+	}
+
 	public String goTo(Location otherLocation) {
 		// Valido que halla una connecion a la otra location
 		Optional<Connection> connectionOpt = this.connections.stream()
@@ -63,6 +71,7 @@ public class Location extends GameEntity implements INombrable<Location> {
 	private boolean hasObstaclesWith(Connection connection) {
 		return this.npcs.contains(connection.getObstacle());
 	}
+
 
 	@Override
 	public int hashCode() {

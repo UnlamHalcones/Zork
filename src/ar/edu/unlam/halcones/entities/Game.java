@@ -17,6 +17,7 @@ public class Game {
 	private String characterName;
 	private Character character;
 	private List<GameEntity> gameEntities;
+	public  Map<String, INombrable> interactuables = new HashMap<String, INombrable>(); 
 
 	public Game(String welcome, String characterName, List<Location> locations, List<Npc> npcs, List<Item> items,
 			List<EndGame> endGames) {
@@ -26,10 +27,13 @@ public class Game {
 		this.endGames = endGames;
 		this.welcome = welcome;
 		this.characterName = characterName;
+	
 	}
 
 	public void setCharacter(Character character) {
 		this.character = character;
+		
+		generarInteractuables();
 	}
 
 	public Pair<Boolean, String> checkEndgame(String action, String thing) {
@@ -102,4 +106,33 @@ public class Game {
 
 	}
 
+	
+	private void generarInteractuables() {
+
+		for(Item item: items) {
+			this.interactuables.putAll(item.getNombres());
+		}
+		
+		for(Npc npc: npcs) {
+			this.interactuables.putAll(npc.getNombres());
+		}
+		
+		for(Location location: locations) {
+			this.interactuables.putAll(location.getNombres());
+			
+			for (Place place: location.getPlaces())
+			{
+				this.interactuables.putAll(place.getNombres());
+			}
+			
+			for (Connection connection: location.getConnections())
+			{
+				this.interactuables.putAll(connection.getNombres());
+			}
+		}
+		
+		this.interactuables.putAll(character.getNombres());
+		
+		this.interactuables.putAll(character.getInventory().getNombres());
+	}
 }
