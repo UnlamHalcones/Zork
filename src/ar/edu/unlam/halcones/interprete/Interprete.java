@@ -14,12 +14,15 @@ import ar.edu.unlam.halcones.entities.GameEntity;
 import ar.edu.unlam.halcones.entities.INombrable;
 import ar.edu.unlam.halcones.entities.ITriggereable;
 import ar.edu.unlam.halcones.entities.Inventory;
+import ar.edu.unlam.halcones.entities.Item;
 import ar.edu.unlam.halcones.entities.Location;
 import ar.edu.unlam.halcones.entities.Npc;
 
 public class Interprete {
 	
 	private static Game game;	
+	
+	private final static String INVALIDCOMMAND = "No entendi lo que ingresaste. Intenta de nuevo por favor.";
 
 	public static void main(String[] args) {
 
@@ -86,8 +89,6 @@ public class Interprete {
 		String verbo = "";
 		String primerSustantivo = "";
 		String segundoSustantivo = "";
-
-		String invalidCommandMessage = "No entendi lo que ingresaste. Intenta de nuevo por favor.";
 		
 		for (Map.Entry<String, INombrable> entry : game.interactuables.entrySet()) {
 			System.out.println(entry.getKey());
@@ -107,7 +108,7 @@ public class Interprete {
 			// Entonces vamos a asumir que la primera palabra va a ser el verbo
 			System.out.println("input:" + input);
 			if (!input.contains(" ")) {
-				imprimirSalida(invalidCommandMessage);
+				imprimirSalida(INVALIDCOMMAND);
 				continue;
 			}
 
@@ -115,7 +116,7 @@ public class Interprete {
 			input = input.replace(verbo, "");
 
 			if (!verbos.containsKey(verbo)) {
-				imprimirSalida(invalidCommandMessage);
+				imprimirSalida(INVALIDCOMMAND);
 				continue;
 			}
 
@@ -141,7 +142,7 @@ public class Interprete {
 			}
 
 			if (indexPrimerEncontrado == 0) {
-				imprimirSalida(invalidCommandMessage);
+				imprimirSalida(INVALIDCOMMAND);
 				continue;
 			}
 			
@@ -189,18 +190,24 @@ public class Interprete {
 		{
 			if(entidadUno != null)
 			{
+				if(entidadUno instanceof Item)
+				{
+					Item item = (Item) entidadUno.getEntity();
+					
+					//Si no tiene el item en el inventario digo que es un comando invalido para no dar información de que ese item existe
+					
+					if(!game.getCharacter().isItemInInventory(item))
+						return INVALIDCOMMAND;
+				}
+				
 				return entidadUno.ver();
 			}
 		}
 		
-		if (entidadUno instanceof Inventory)
+		if (verbo.equals("usar"))
 		{
-		
-		}
-		
-		if (entidadUno instanceof Npc)
-		{
-			
+			if (!(entidadUno instanceof Item) && !(entidadDos instanceof Item))
+				return INVALIDCOMMAND;
 		}
 		
 		return "";
