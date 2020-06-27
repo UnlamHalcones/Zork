@@ -27,7 +27,6 @@ public class Game {
 		this.endGames = endGames;
 		this.welcome = welcome;
 		this.characterName = characterName;
-	
 	}
 
 	public void setCharacter(Character character) {

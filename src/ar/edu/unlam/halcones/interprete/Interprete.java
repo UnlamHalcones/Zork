@@ -17,6 +17,7 @@ import ar.edu.unlam.halcones.entities.Inventory;
 import ar.edu.unlam.halcones.entities.Item;
 import ar.edu.unlam.halcones.entities.Location;
 import ar.edu.unlam.halcones.entities.Npc;
+import javafx.util.Pair;
 
 public class Interprete {
 	
@@ -42,9 +43,11 @@ public class Interprete {
 
 		verbos.put("utilizar", "atacar");
 		verbos.put("golpear", "atacar");
+		
 		verbos.put("ir", "ir");
 		verbos.put("avanzar", "ir");
 		verbos.put("correr", "ir");
+		
 		verbos.put("ver", "ver");
 		verbos.put("mirar", "ver");
 
@@ -90,10 +93,6 @@ public class Interprete {
 		String primerSustantivo = "";
 		String segundoSustantivo = "";
 		
-		for (Map.Entry<String, INombrable> entry : game.interactuables.entrySet()) {
-			System.out.println(entry.getKey());
-		}
-
 		while (keepPlaying) {
 
 			System.out.print("Enter something:");
@@ -103,7 +102,7 @@ public class Interprete {
 				keepPlaying = false;
 			/// abrir puerta
 
-			// Investigando, encontré que no hay verbos con mas de una palabra en español (
+			// Investigando, encontrÃ© que no hay verbos con mas de una palabra en espaÃ±ol (
 			// o si lo hay, no son los comunes).
 			// Entonces vamos a asumir que la primera palabra va a ser el verbo
 			System.out.println("input:" + input);
@@ -162,6 +161,7 @@ public class Interprete {
 				primerSustantivo = primerEncontrado;
 			}
 			
+			
 			String salida = "El verbo es " + verbo + " - primer sustantivo:" + primerSustantivo + " - segundo sustantivo: " + segundoSustantivo;
 
 			salida = commandRouter(verbo, primerSustantivo, segundoSustantivo);
@@ -186,6 +186,11 @@ public class Interprete {
 		if (segundoSustantivo != "")
 			entidadDos = game.interactuables.get(segundoSustantivo);
 		
+		Pair<Boolean, String> checkEndgame = (game.checkEndgame(verbo, primerSustantivo);
+		
+		if (checkEndgame.getKey())
+			return checkEndgame.getValue();
+		
 		if (verbo.equals("ver"))
 		{
 			if(entidadUno != null)
@@ -194,7 +199,7 @@ public class Interprete {
 				{
 					Item item = (Item) entidadUno.getEntity();
 					
-					//Si no tiene el item en el inventario digo que es un comando invalido para no dar información de que ese item existe
+					//Si no tiene el item en el inventario digo que es un comando invalido para no dar informaciÃ³n de que ese item existe
 					
 					if(!game.getCharacter().isItemInInventory(item))
 						return INVALIDCOMMAND;
@@ -208,6 +213,29 @@ public class Interprete {
 		{
 			if (!(entidadUno instanceof Item) && !(entidadDos instanceof Item))
 				return INVALIDCOMMAND;
+			
+			Item item = null;
+			ITriggereable triggerable = null; 
+			if(entidadUno instanceof Item) {
+				item = (Item) entidadUno;
+				
+				if(entidadDos != null)
+				{
+					triggerable = (ITriggereable) entidadDos;
+				}
+				else {
+					triggerable = (ITriggereable) game.getCharacter();
+				}
+			}
+			else {
+				item = (Item) entidadDos;
+				triggerable = (ITriggereable) entidadDos;
+			}
+			
+			if (game.getCharacter().isItemInInventory(item))
+				return "No tienes este item en tu inventario";
+			
+			return item.use("usar", triggerable);
 		}
 		
 		return "";
