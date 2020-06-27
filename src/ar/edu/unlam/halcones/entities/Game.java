@@ -30,6 +30,17 @@ public class Game {
 	
 	}
 
+	public Game(String welcome, Character character, List<Location> locations, List<Npc> npcs, List<Item> items,
+			List<EndGame> endGames) {
+		this.locations = locations;
+		this.npcs = npcs;
+		this.items = items;
+		this.endGames = endGames;
+		this.welcome = welcome;
+		this.character = character;
+
+	}
+
 	public void setCharacter(Character character) {
 		this.character = character;
 		

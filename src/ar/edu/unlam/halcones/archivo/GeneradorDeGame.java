@@ -10,10 +10,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static ar.edu.unlam.halcones.archivo.JsonKey.*;
@@ -127,10 +125,8 @@ public class GeneradorDeGame {
             }
         }
 
-        Game game = new Game(welcomeMessage, characterName, gameLocations, gameNpcs, gameItems, gameEndGames);
-        Character character = new Character(gameLocations.get(0), inventory);
-        game.setCharacter(character);
-        return game;
+        Character character = new Character(gameLocations.get(0), inventory, characterName);
+        return new Game(welcomeMessage, character, gameLocations, gameNpcs, gameItems, gameEndGames);
     }
 
     private <T extends GameEntity> void findAndAddElements(ObjectMapper objectMapper, Collection<T> listFrom, Collection<T> listTo, JsonNode searchNode) throws IOException {

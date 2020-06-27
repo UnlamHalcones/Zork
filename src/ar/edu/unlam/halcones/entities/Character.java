@@ -4,13 +4,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class Character implements ITriggereable, INombrable<Character> {
-	public Inventory getInventory() {
-		return inventory;
-	}
 
+	private String name;
 	private Location location;
 	private Inventory inventory;
 	protected String status;
@@ -20,6 +17,13 @@ public class Character implements ITriggereable, INombrable<Character> {
 		this.location = location;
 		this.inventory = inventory;
 		this.triggers = new LinkedList<>();
+	}
+
+	public Character(Location location, Inventory inventory, String characterName) {
+		this.location = location;
+		this.inventory = inventory;
+		this.triggers = new LinkedList<>();
+		this.name = characterName;
 	}
 
 	public Character(Location location) {
@@ -139,8 +143,16 @@ public class Character implements ITriggereable, INombrable<Character> {
 			
 		}
 	}
-	
-	@Override 
+
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	@Override
 	public Character getEntity() {
 		return this;
 	}
