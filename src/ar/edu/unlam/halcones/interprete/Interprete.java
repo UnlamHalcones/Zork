@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import ar.edu.unlam.halcones.archivo.GeneradorDeGame;
+import ar.edu.unlam.halcones.archivo.LectorDiccionarioCSV;
 import ar.edu.unlam.halcones.entities.Connection;
 import ar.edu.unlam.halcones.entities.Game;
 import ar.edu.unlam.halcones.entities.GameEntity;
@@ -24,14 +25,14 @@ public class Interprete {
 	private static Game game;
 
 	private final static String INVALIDCOMMAND = "No entendi lo que ingresaste. Intenta de nuevo por favor.";
+	private final static String INVALIDCOMMANDONITEM = "No entendi lo que ingresaste. Intenta de nuevo por favor.";
 
 	private static boolean keepPlaying = true;
-	
+
 	public static void main(String[] args) {
 
-		System.out.println("Welcome to the interpreter");
+		System.out.println("Bienvenido al Zork de Zorks!");
 
-		String command = "";
 		Scanner in = new Scanner(System.in);
 
 		Boolean gameSelecting = true;
@@ -40,44 +41,34 @@ public class Interprete {
 
 		Map<String, String> verbos = new HashMap<String, String>();
 
-		verbos.put("usar", "usar");
-		verbos.put("utilizar", "usar");
-
-		verbos.put("utilizar", "atacar");
-		verbos.put("golpear", "atacar");
-
-		verbos.put("ir", "ir");
-		verbos.put("avanzar", "ir");
-		verbos.put("correr", "ir");
-
-		verbos.put("ver", "ver");
-		verbos.put("mirar", "ver");
-
-		verbos.put("agarrar", "agarrar");
-		verbos.put("recoger", "agarrar");
+		verbos = LectorDiccionarioCSV.leerDiccionario();
 
 		availableGames.add("piratasfantasmas");
 		availableGames.add("pandemia");
+		
+		imprimirSalida("Tengo los siguientes juegos disponibles:");
+		for (String game: availableGames) {
+			imprimirSalida(game);
+		}
 
+		imprimirSalida("\n");
+		
 		imprimirSalida("Que juego queres jugar?");
 		String selectedGame = "";
 		String input = "";
-
-		gameSelecting = false;
 
 		while (gameSelecting) {
 
 			input = in.nextLine();
 
 			if (!availableGames.contains(input.toLowerCase())) {
-				imprimirSalida("No tengo ese juego master, elegite otro\n");
+				imprimirSalida("No tengo ese juego por favor elegí otro.\n");
 			} else {
 				gameSelecting = false;
 			}
 		}
 
 		selectedGame = input;
-		selectedGame = "piratasfantasmas";
 
 		// Logica para cargar el game
 
@@ -96,7 +87,7 @@ public class Interprete {
 
 		while (keepPlaying) {
 
-			System.out.print("Enter something:\n");
+			System.out.print("¿Que queres hacer?:\n");
 			input = in.nextLine();
 
 			if (input == "stop")
@@ -106,7 +97,7 @@ public class Interprete {
 			// Investigando, encontré que no hay verbos con mas de una palabra en español (
 			// o si lo hay, no son los comunes).
 			// Entonces vamos a asumir que la primera palabra va a ser el verbo
-			System.out.println("input: " + input);
+			
 			if (!input.contains(" ")) {
 				imprimirSalida(INVALIDCOMMAND);
 				continue;
@@ -121,6 +112,7 @@ public class Interprete {
 				imprimirSalida(INVALIDCOMMAND);
 				continue;
 			}
+			verbo = verbos.get(verbo);
 
 			int indexPrimerEncontrado = 0;
 			int indexSegundoEncontrado = 0;
@@ -167,7 +159,7 @@ public class Interprete {
 			imprimirSalida(salida);
 
 		}
-		
+
 		imprimirSalida("Finalizaste el juego!");
 	}
 
@@ -179,18 +171,14 @@ public class Interprete {
 
 		INombrable entidadUno = null;
 		INombrable entidadDos = null;
-		
-		String response = "";
-		
-		Boolean checkEndGame = false;
+
+		String response = INVALIDCOMMANDONITEM;
 
 		if (primerSustantivo != "")
 			entidadUno = game.interactuables.get(primerSustantivo);
 
 		if (segundoSustantivo != "")
 			entidadDos = game.interactuables.get(segundoSustantivo);
-
-		
 
 		if (verbo.equals("ver")) {
 			if (entidadUno != null) {
@@ -205,7 +193,23 @@ public class Interprete {
 				}
 
 				response = entidadUno.ver();
-				checkEndGame = true;
+			}
+		}
+
+		
+		if (verbo.equals("agarrar")) {
+			if (entidadUno != null && entidadUno instanceof Item) {
+				Item item = (Item) entidadUno.getEntity();
+
+				response = game.getCharacter().agarrarItem(item);
+			}
+		}
+
+		if (verbo.equals("ir")) {
+			if (entidadUno != null && entidadUno instanceof Location) {
+				Location location = (Location) entidadUno.getEntity();
+
+				response = game.getCharacter().moveTo(location);
 			}
 		}
 
@@ -223,50 +227,27 @@ public class Interprete {
 				} else {
 					triggerable = (ITriggereable) game.getCharacter();
 				}
-				
+
 			} else {
-				
+
 				item = (Item) entidadDos;
 				triggerable = (ITriggereable) entidadDos;
-				
+
 			}
 
 			if (!game.getCharacter().isItemInInventory(item))
 				return "No tienes este item en tu inventario";
 
-			
 			response = item.use("usar", triggerable);
-			checkEndGame = true;
 		}
 
-		if (verbo.equals("agarrar")) {
-			if (entidadUno != null && entidadUno instanceof Item) {
-				Item item = (Item) entidadUno.getEntity();
-
-				response = game.getCharacter().agarrarItem(item);
-				checkEndGame = true;
-			}
-		}
-
-		if (verbo.equals("ir")) {
-			if (entidadUno != null && entidadUno instanceof Location) {
-				Location location = (Location) entidadUno.getEntity();
-
-				response = game.getCharacter().moveTo(location);
-				checkEndGame = true;
-			}
-		}
-		
-		
 		Pair<Boolean, String> checkEndgame = game.checkEndgame(verbo, primerSustantivo);
 
 		if (checkEndgame.getKey().booleanValue()) {
 			keepPlaying = false;
 			return checkEndgame.getValue();
 		}
-	
-		
-			
+
 		return response;
 	}
 

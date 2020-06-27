@@ -9,57 +9,45 @@ import java.util.Map;
 
 public class LectorDiccionarioCSV {
 
-	
 	public static Map<String, String> leerDiccionario() {
 
-        String csvFile = "DiccionarioZork.csv";
-        BufferedReader br = null;
-        String line = "";
-        String cvsSplitBy = ";";
-        
-        Map<String, String> verbos = new HashMap<String, String>();
-        
-        try {
+		String csvFile = "DiccionarioZork.csv";
+		BufferedReader br = null;
+		String line = "";
+		String cvsSplitBy = ";";
 
-            br = new BufferedReader(new FileReader(csvFile));
-            while ((line = br.readLine()) != null) {
+		Map<String, String> verbos = new HashMap<String, String>();
 
-                String[] linea_spliteada = line.split(cvsSplitBy);
-                
-                for (int i=0; i<linea_spliteada.length;i++) {
-                	
-                	verbos.put(linea_spliteada[0], linea_spliteada[i]);
-                	System.out.println(linea_spliteada[0]);
-                	System.out.println(linea_spliteada[i]);
-                	System.out.println("----------------");
-                	
-                }
+		try {
 
-            }
-            
-            System.out.println(verbos);
-            
-            return verbos;
+			br = new BufferedReader(new FileReader(csvFile));
+			while ((line = br.readLine()) != null) {
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+				String[] linea_spliteada = line.split(cvsSplitBy);
+
+				for (int i = 0; i < linea_spliteada.length; i++) {
+					verbos.put(linea_spliteada[i], linea_spliteada[0]);
+				}
+
+			}
+
+			return verbos;
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		return verbos;
-        
-       
-    }
 
+	}
 
-	
-	
 }
