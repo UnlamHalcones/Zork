@@ -33,6 +33,49 @@ public class Character implements ITriggereable, INombrable<Character> {
 	}
 	
 	public String moveTo(Location otherLocation) {
+		
+		//VALIDO CARDINALIDAD
+		switch(otherLocation.getName().toUpperCase()) {
+			case "NORTE":
+				Connection northConnection = this.location.getConnections().stream().filter(x -> x.getDirection().toUpperCase().equals("NORTE")).findAny().orElse(null);
+				
+				if(northConnection != null)
+					otherLocation = northConnection.getLocation();
+				else
+					return "No puedo ir en esa dirección";
+				
+				break;
+			case "SUR":
+				Connection southConnection = this.location.getConnections().stream().filter(x -> x.getDirection().toUpperCase().equals("SUR")).findAny().orElse(null);
+				
+				if(southConnection != null)
+					otherLocation = southConnection.getLocation();
+				else
+					return "No puedo ir en esa dirección";
+				
+				break;
+			case "ESTE":
+				Connection eastConnection = this.location.getConnections().stream().filter(x -> x.getDirection().toUpperCase().equals("ESTE")).findAny().orElse(null);
+				
+				if(eastConnection != null)
+					otherLocation = eastConnection.getLocation();
+				else
+					return "No puedo ir en esa dirección";
+				
+				break;
+			case "OESTE":
+				Connection westConnection = this.location.getConnections().stream().filter(x -> x.getDirection().toUpperCase().equals("OESTE")).findAny().orElse(null);
+				
+				if(westConnection != null)
+					otherLocation = westConnection.getLocation();
+				else
+					return "No puedo ir en esa dirección";
+				
+				break;
+			default:
+				break;
+		}
+		
 		if(this.location.equals(otherLocation)) {
 			return "Ya estas en esa ubicacion";
 		}
