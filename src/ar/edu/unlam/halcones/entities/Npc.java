@@ -120,7 +120,7 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 
 	@Override
 	public String getType() {
-		return "npcs";
+		return "npc";
 	}
 	
 	@Override 

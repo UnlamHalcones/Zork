@@ -39,9 +39,7 @@ public class Interprete {
 
 		List<String> availableGames = new ArrayList<String>();
 
-		Map<String, String> verbos = new HashMap<String, String>();
-
-		verbos = LectorDiccionarioCSV.leerDiccionario();
+		Map<String, String> verbos = LectorDiccionarioCSV.leerDiccionario();
 
 		availableGames.add("piratasfantasmas");
 		availableGames.add("pandemia");

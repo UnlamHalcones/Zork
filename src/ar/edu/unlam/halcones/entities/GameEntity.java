@@ -32,6 +32,10 @@ public abstract class GameEntity {
 	
 	public GameEntity() {
 		super();
+		this.name = "";
+		this.gender = "";
+		this.number = "";
+		this.state = "";
 		this.status = "normal";
 	}
 	
