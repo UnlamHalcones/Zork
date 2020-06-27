@@ -127,9 +127,12 @@ public class Character implements ITriggereable, INombrable<Character> {
 		return this.location.getName().equals(otherLocation);
 	}
 
-
 	public boolean isItemInInventory(Item item) {
 		return this.inventory.hasItem(item);
+	}
+
+	public boolean isItemInInventory(String itemName) {
+		return this.inventory.hasItem(itemName);
 	}
 
 	public String usarItem(Item item, String action, ITriggereable over) {

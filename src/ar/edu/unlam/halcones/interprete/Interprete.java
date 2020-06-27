@@ -78,6 +78,7 @@ public class Interprete {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		imprimirSalida(game.getWelcome());
 		
 		String verbo = "";
@@ -150,10 +151,7 @@ public class Interprete {
 				primerSustantivo = primerEncontrado;
 			}
 
-			String salida = "El verbo es " + verbo + " - primer sustantivo:" + primerSustantivo
-					+ " - segundo sustantivo: " + segundoSustantivo;
-
-			salida = commandRouter(verbo, primerSustantivo, segundoSustantivo);
+			String salida = commandRouter(verbo, primerSustantivo, segundoSustantivo);
 
 			imprimirSalida(salida);
 

@@ -62,21 +62,21 @@
       "gender": "female",
       "number": "singular",
       "actions": ["usar"],
-      "effects_over": ["npcs", "self", "item"]
+      "effects_over": ["npc", "self", "item"]
     },
     {
       "name": "rociador con cerveza de raiz",
       "gender": "male",
       "number": "singular",
       "actions": ["usar"],
-      "effects_over": ["npcs", "self", "item"]
+      "effects_over": ["npc", "self", "item"]
     },
     {
       "name": "espejo",
       "gender": "male",
       "number": "singular",
       "actions": ["usar"],
-      "effects_over": ["npcs", "self", "item"]
+      "effects_over": ["npc", "self", "item"]
     }
   ],
   "inventory": [],
@@ -88,7 +88,7 @@
       "description": "¡Enhorabuena! Llegaste a la taberna, donde te espera una noche de borrachera con Grog y otros colegas piratas."
     },
     {
-      "condition": "action",
+      "condition": "inventory-item",
       "action": "mirar",
       "thing": "espejo",
       "description": "¡Oh, no! Acabas de descubrir que tú también eres un pirata fantasma... ¡el horror!"

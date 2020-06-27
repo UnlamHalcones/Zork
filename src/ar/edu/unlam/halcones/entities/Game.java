@@ -37,13 +37,11 @@ public class Game {
 		this.endGames = endGames;
 		this.welcome = welcome;
 		this.character = character;
-
+		generarInteractuables();
 	}
 
 	public void setCharacter(Character character) {
 		this.character = character;
-
-		generarInteractuables();
 	}
 	
 	public String getWelcome() {
@@ -99,13 +97,14 @@ public class Game {
 					}
 				}
 
-			} else if (action.contentEquals(endGame_IT.getAction()) && thing.contentEquals(endGame_IT.getThing())) {
-
-				return new Pair<Boolean, String>(true, endGame_IT.getDescription());
-
 			} else if (endGame_IT.getCondition().equals("location")) {
 
 				if (character.isInLocation(endGame_IT.getThing()))
+					return new Pair<Boolean, String>(true, endGame_IT.getDescription());
+
+			} else if (endGame_IT.getCondition().equals("inventory-item")) {
+
+				if (character.isItemInInventory(endGame_IT.getThing()) && endGame_IT.getAction().equals(action))
 					return new Pair<Boolean, String>(true, endGame_IT.getDescription());
 			}
 

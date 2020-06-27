@@ -60,6 +60,10 @@ public class Inventory implements INombrable<Inventory> {
         return items.contains(item);
     }
 
+    public boolean hasItem(String itemName) {
+        return items.stream().anyMatch(item -> item.getName().equals(itemName));
+    }
+
 	@Override
 	public Map<String, Inventory> getNombres() {
 		Map<String,Inventory> myMap = new HashMap<String,Inventory>();
