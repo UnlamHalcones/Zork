@@ -1,9 +1,12 @@
 package ar.edu.unlam.halcones.interpretador;
 
+import ar.edu.unlam.halcones.archivo.LectorDiccionarioCSV;
+
 public class AppTesting {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+		LectorDiccionarioCSV.leerDiccionario();
 
 	}
 

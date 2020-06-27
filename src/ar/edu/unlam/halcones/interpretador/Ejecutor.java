@@ -13,7 +13,7 @@ public class Ejecutor {
 		case "agarrar":
 			character.agarrarItem(item);
 			break;
-
+			
 		default:
 			character.usarItem(item, accion, character);
 		}

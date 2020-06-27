@@ -49,10 +49,10 @@ public class Interprete {
 		String input = "";
 		while (gameSelecting) {
 
-			input = in.next();
+			input = in.nextLine();
 
 			if (!availableGames.contains(input.toLowerCase())) {
-				imprimirSalida("No tengo ese juego master, elegite otro");
+				imprimirSalida("No tengo ese juego master, elegite otro\n");
 			} else {
 				gameSelecting = false;
 			}
@@ -73,7 +73,7 @@ public class Interprete {
 		}
 		
 		for (Map.Entry<String, INombrable> entry : game.interactuables.entrySet()) {
-			System.out.println("Cargamos " + entry.getKey());
+			//System.out.println("Cargamos " + entry.getKey());
 		}
 
 		Boolean keepPlaying = true;
@@ -86,7 +86,7 @@ public class Interprete {
 
 		while (keepPlaying) {
 
-			System.out.print("Enter something:");
+			System.out.print("Enter something:\n");
 			input = in.nextLine();
 
 			if (input == "stop")
@@ -96,7 +96,7 @@ public class Interprete {
 			// Investigando, encontré que no hay verbos con mas de una palabra en español (
 			// o si lo hay, no son los comunes).
 			// Entonces vamos a asumir que la primera palabra va a ser el verbo
-			System.out.println("input:" + input);
+			System.out.println("input: " + input);
 			if (!input.contains(" ")) {
 				imprimirSalida(invalidCommandMessage);
 				continue;
@@ -105,7 +105,7 @@ public class Interprete {
 			verbo = input.substring(0, input.indexOf(" "));
 			input = input.replace(verbo, "");
 
-			System.out.println("Verbo:" + verbo);
+			//System.out.println("Verbo:" + verbo);
 			
 			if (!verbos.containsKey(verbo)) {
 				imprimirSalida(invalidCommandMessage);
@@ -119,7 +119,7 @@ public class Interprete {
 			String segundoEncontrado = "";
 
 			for (Map.Entry<String, INombrable> entry : game.interactuables.entrySet()) {
-				imprimirSalida("Viendo si encuentro:" + entry.getKey());
+				//imprimirSalida("Viendo si encuentro:" + entry.getKey());
 				if (input.contains(entry.getKey())) {
 					if (indexPrimerEncontrado == 0) {
 						indexPrimerEncontrado = input.indexOf(entry.getKey());
