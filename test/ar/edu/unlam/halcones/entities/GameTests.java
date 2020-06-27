@@ -11,48 +11,47 @@ import javafx.util.Pair;
 public class GameTests {
 	
 	private Game game;
-	
+	private Character character;
+	private List<Location> locations;
+	private List<Npc> npcs;
+	private List<Item> items;
+	private List<EndGame> endGames;
+	private Inventory inventory;
+
 	@Before	
 	public void initialize () {
 
 
-		List<Npc> npcs = new ArrayList<Npc>();
+		npcs = new ArrayList<Npc>();
 		npcs.add(new Npc("Pirata Fantasma","boring"));
 		npcs.add(new Npc("dragon","alive")); // nacio muerto por cuestiones practicas
 
-		List<Location> locations = new ArrayList<Location>();
-		locations.add(new Location("taberna", new LinkedList(), npcs, new LinkedList<>()));
+		locations = new ArrayList<Location>();
+		locations.add(new Location("taberna"));
 		locations.add(new Location("muelle"));
 
-		List<Item> items = new ArrayList<Item>();
+		items = new ArrayList<Item>();
 		items.add(new Item("espejo","unWatch"));
 		
-		List<EndGame> endGames = new ArrayList<EndGame>();
+		endGames = new ArrayList<EndGame>();
 		endGames.add(new EndGame("location","move","taberna",
 				"¡Enhorabuena! Llegaste a la taberna, donde te espera una noche de borrachera con Grog y "
 						+ "otros colegas piratas."));
 		
-		endGames.add(new EndGame("action","look","espejo","¡Oh, no! Acabas de descubrir que tú también "
+		endGames.add(new EndGame("inventory-item","mirar","espejo","¡Oh, no! Acabas de descubrir que tú también "
 							+ "eres un pirata fantasma... ¡el horror!"));
 		
 		endGames.add(new EndGame("npc","state-death","dragon","¡Mataste al Dragonn!"));
 
-		Character testGuy = new Character(locations.get(0), new Inventory(), "TestGuy");
-		game = new Game("Welcome", testGuy ,locations,npcs,items,endGames);
-	}
-	
-	
-	
-	@Test
-	public void endGame_ThereIsNotEndGametest() {
-		
-		Assert.assertFalse(game.checkEndgame("move", "muelle").getKey());
-		
+		inventory = new Inventory();
+		inventory.add(items);
 	}
 	
 	@Test
 	public void endGame_MoveTaberna() {
-		
+		character = new Character(locations.get(0), inventory, "TestGuy");
+		game = new Game("Welcome", character ,locations,npcs,items,endGames);
+
 		Pair<Boolean, String> result = game.checkEndgame("move", "taberna");
 		
 		String text = "¡Enhorabuena! Llegaste a la taberna, donde te espera una noche de borrachera con Grog y otros colegas piratas.";
@@ -63,11 +62,12 @@ public class GameTests {
 
 	@Test
 	public void endGame_LookMirror() {
-		
-		
+		character = new Character(locations.get(1), inventory, "TestGuy");
+		game = new Game("Welcome", character ,locations,npcs,items,endGames);
+
 		Pair<Boolean, String> result;
 		
-		result =game.checkEndgame("look", "espejo");
+		result = game.checkEndgame("mirar", "espejo");
 		
 		String text = "¡Oh, no! Acabas de descubrir que tú también "
 				+ "eres un pirata fantasma... ¡el horror!";

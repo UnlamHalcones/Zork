@@ -37,7 +37,6 @@ public class Game {
 		this.endGames = endGames;
 		this.welcome = welcome;
 		this.character = character;
-		generarInteractuables();
 	}
 
 	public void setCharacter(Character character) {
@@ -127,7 +126,7 @@ public class Game {
 
 	}
 
-	private void generarInteractuables() {
+	public void generarInteractuables() {
 
 		for (Item item : items) {
 			this.interactuables.putAll(item.getNombres());

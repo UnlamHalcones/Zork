@@ -42,6 +42,10 @@ public abstract class GameEntity {
 	public GameEntity(String name) {
 		super();
 		this.name=name;
+		this.gender = "";
+		this.number = "";
+		this.state = "";
+		this.status = "normal";
 	}
 	
 	public GameEntity(String name, String gender, String number) {
@@ -57,6 +61,9 @@ public abstract class GameEntity {
 		super();
 		this.name = name;
 		this.state = state;
+		this.gender = "";
+		this.number = "";
+		this.status = "normal";
 	}
 
 	public String getName() {

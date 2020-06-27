@@ -74,6 +74,7 @@ public class Interprete {
 
 		try {
 			game = generador.generarEntornoDeJuego(selectedGame + ".json");
+			game.generarInteractuables();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
