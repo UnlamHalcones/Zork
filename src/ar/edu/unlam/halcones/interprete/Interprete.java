@@ -67,10 +67,10 @@ public class Interprete {
 
 		while (gameSelecting) {
 
-			input = in.next();
+			input = in.nextLine();
 
 			if (!availableGames.contains(input.toLowerCase())) {
-				imprimirSalida("No tengo ese juego master, elegite otro");
+				imprimirSalida("No tengo ese juego master, elegite otro\n");
 			} else {
 				gameSelecting = false;
 			}
@@ -96,7 +96,7 @@ public class Interprete {
 
 		while (keepPlaying) {
 
-			System.out.print("Enter something:");
+			System.out.print("Enter something:\n");
 			input = in.nextLine();
 
 			if (input == "stop")
@@ -106,7 +106,7 @@ public class Interprete {
 			// Investigando, encontré que no hay verbos con mas de una palabra en español (
 			// o si lo hay, no son los comunes).
 			// Entonces vamos a asumir que la primera palabra va a ser el verbo
-			System.out.println("input:" + input);
+			System.out.println("input: " + input);
 			if (!input.contains(" ")) {
 				imprimirSalida(INVALIDCOMMAND);
 				continue;
