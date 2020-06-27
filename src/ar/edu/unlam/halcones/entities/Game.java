@@ -17,7 +17,7 @@ public class Game {
 	private String characterName;
 	private Character character;
 	private List<GameEntity> gameEntities;
-	public  Map<String, INombrable> interactuables = new HashMap<String, INombrable>(); 
+	public Map<String, INombrable> interactuables = new HashMap<String, INombrable>();
 
 	public Game(String welcome, String characterName, List<Location> locations, List<Npc> npcs, List<Item> items,
 			List<EndGame> endGames) {
@@ -27,7 +27,6 @@ public class Game {
 		this.endGames = endGames;
 		this.welcome = welcome;
 		this.characterName = characterName;
-	
 	}
 
 	public Game(String welcome, Character character, List<Location> locations, List<Npc> npcs, List<Item> items,
@@ -43,10 +42,10 @@ public class Game {
 
 	public void setCharacter(Character character) {
 		this.character = character;
-		
+
 		generarInteractuables();
 	}
-	
+
 	public Character getCharacter() {
 		return this.character;
 	}
@@ -100,6 +99,10 @@ public class Game {
 
 				return new Pair<Boolean, String>(true, endGame_IT.getDescription());
 
+			} else if (endGame_IT.getCondition().equals("location")) {
+
+				if (character.isInLocation(endGame_IT.getThing()))
+					return new Pair<Boolean, String>(true, endGame_IT.getDescription());
 			}
 
 		}
@@ -121,33 +124,38 @@ public class Game {
 
 	}
 
-	
 	private void generarInteractuables() {
 
-		for(Item item: items) {
+		for (Item item : items) {
 			this.interactuables.putAll(item.getNombres());
 		}
-		
-		for(Npc npc: npcs) {
+
+		for (Npc npc : npcs) {
 			this.interactuables.putAll(npc.getNombres());
 		}
-		
-		for(Location location: locations) {
+
+		for (Location location : locations) {
 			this.interactuables.putAll(location.getNombres());
-			
-			for (Place place: location.getPlaces())
-			{
+
+			for (Place place : location.getPlaces()) {
 				this.interactuables.putAll(place.getNombres());
 			}
-			
-			for (Connection connection: location.getConnections())
-			{
+
+			for (Connection connection : location.getConnections()) {
 				this.interactuables.putAll(connection.getNombres());
 			}
 		}
-		
+
+		// AGREGO PUNTOS CARDINALES
+		this.interactuables.put("norte", new Location("NORTE"));
+		this.interactuables.put("sur", new Location("SUR"));
+		this.interactuables.put("este", new Location("ESTE"));
+		this.interactuables.put("oeste", new Location("OESTE"));
+
 		this.interactuables.putAll(character.getNombres());
-		
+
+		this.interactuables.putAll(character.getNombresLocation());
+
 		this.interactuables.putAll(character.getInventory().getNombres());
 	}
 }

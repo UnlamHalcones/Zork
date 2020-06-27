@@ -91,16 +91,16 @@ public abstract class GameEntity {
 		String article = "";
 		
 		//Esto se puede poner en menos IFs, pero así queda mas legible
-		if (gender == "male" && number == "singular")
+		if (gender.equals("male") && number.equals("singular"))
 			article = "el";
 		
-		if (gender == "female" && number == "singular")
+		if (gender.equals("female") && number.equals("singular"))
 			article = "la";
 		
-		if (gender == "male" && number == "plural")
+		if (gender.equals("male") && number.equals("plural"))
 			article = "los";
 		
-		if (gender == "female" && number == "plural")
+		if (gender.equals("female") && number.equals("plural"))
 			article = "las";
 		
 		return article + " " + this.name;
@@ -110,13 +110,16 @@ public abstract class GameEntity {
 	public String getFullDescriptionQty() {
 		String article = "";
 		
-		if (gender == "male" && number == "singular")
+		if (gender.equals("male") && number.equals("singular"))
 			article = "un";
-		if (gender == "female" && number == "singular")
+		
+		if (gender.equals("female") && number.equals("singular"))
 			article = "una";
-		if (gender == "male" && number == "plural")
+		
+		if (gender.equals("male") && number.equals("plural"))
 			article = "unos";
-		if (gender == "female" && number == "plural")
+		
+		if (gender.equals("female") && number.equals("plural"))
 			article = "unas";
 		
 		return article + " " + this.name;
