@@ -86,7 +86,7 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 				.filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing()))
 				.findAny();
 		if (!aux.isPresent()) {
-			return "Accion no valida en el Npc";
+			return "No puede hacer eso con " + this.getFullDescription();
 		}
 
 		super.status = aux.get().getAfterTrigger();
@@ -120,7 +120,7 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 
 	@Override
 	public String getType() {
-		return "npc";
+		return "npcs";
 	}
 	
 	@Override 

@@ -42,7 +42,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 				if(northConnection != null)
 					otherLocation = northConnection.getLocation();
 				else
-					return "No puedo ir en esa dirección";
+					return "No puedo ir en esa direcciï¿½n";
 				
 				break;
 			case "SUR":
@@ -51,7 +51,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 				if(southConnection != null)
 					otherLocation = southConnection.getLocation();
 				else
-					return "No puedo ir en esa dirección";
+					return "No puedo ir en esa direcciï¿½n";
 				
 				break;
 			case "ESTE":
@@ -60,7 +60,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 				if(eastConnection != null)
 					otherLocation = eastConnection.getLocation();
 				else
-					return "No puedo ir en esa dirección";
+					return "No puedo ir en esa direcciï¿½n";
 				
 				break;
 			case "OESTE":
@@ -69,7 +69,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 				if(westConnection != null)
 					otherLocation = westConnection.getLocation();
 				else
-					return "No puedo ir en esa dirección";
+					return "No puedo ir en esa direcciï¿½n";
 				
 				break;
 			default:
@@ -118,6 +118,11 @@ public class Character implements ITriggereable, INombrable<Character> {
 	public boolean isInLocation(Location otherLocation) {
 		return this.location.equals(otherLocation);
 	}
+	
+	public boolean isInLocation(String otherLocation) {
+		return this.location.getName().equals(otherLocation);
+	}
+
 
 	public boolean isItemInInventory(Item item) {
 		return this.inventory.hasItem(item);

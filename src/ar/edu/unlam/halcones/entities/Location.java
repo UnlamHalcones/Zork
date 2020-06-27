@@ -14,9 +14,9 @@ public class Location extends GameEntity implements INombrable<Location> {
 
 	public Location() {
 		super();
-		this.type=GameEntityTypes.LOCATION;
+		this.type = GameEntityTypes.LOCATION;
 	}
-	
+
 	public Location(String name) {
 		super(name);
 	}
@@ -43,7 +43,7 @@ public class Location extends GameEntity implements INombrable<Location> {
 	public List<Place> getPlaces() {
 		return places;
 	}
-	
+
 	public List<Connection> getConnections() {
 		return connections;
 	}
@@ -60,7 +60,8 @@ public class Location extends GameEntity implements INombrable<Location> {
 
 		// Me fijo si algun npc es un obstaculo para ir a la otra location
 		Connection connectionToOtherLocation = connectionOpt.get();
-		// TODO Si hay un obstaculo tambien devuelvo la misma location, pero como digo que el problema es el obstaculo?
+		// TODO Si hay un obstaculo tambien devuelvo la misma location, pero como digo
+		// que el problema es el obstaculo?
 		if (hasObstaclesWith(connectionToOtherLocation)) {
 			return connectionToOtherLocation.getMensajeObstaculo();
 		}
@@ -69,9 +70,10 @@ public class Location extends GameEntity implements INombrable<Location> {
 	}
 
 	private boolean hasObstaclesWith(Connection connection) {
-		return this.npcs.contains(connection.getObstacle());
-	}
+		return this.npcs.stream().filter(x -> x.equals(connection.getObstacle()) && !x.status.equals("remove"))
+				.findAny().isPresent();
 
+	}
 
 	@Override
 	public int hashCode() {
@@ -119,21 +121,21 @@ public class Location extends GameEntity implements INombrable<Location> {
 	@Override
 	public String getInformation() {
 		String landscape = description + '.';
-	
-		if(!places.isEmpty())
-			for(Place p : places) {
+
+		if (!places.isEmpty())
+			for (Place p : places) {
 				landscape += p.getInformation();
 			}
-		
-		if(!npcs.isEmpty()) {
+
+		if (!npcs.isEmpty()) {
 			landscape += " Hay " + getFullInformationQty(npcs);
 		}
-		
-		if(!connections.isEmpty())
-			for(Connection c : connections) {
+
+		if (!connections.isEmpty())
+			for (Connection c : connections) {
 				landscape += c.getInformation();
 			}
-		
+
 		return landscape;
 	}
 
@@ -141,14 +143,14 @@ public class Location extends GameEntity implements INombrable<Location> {
 		// Retorno true si el item se encuentra en algun place de la location
 		return places.stream().filter(place -> place.isItemInPlace(item)).findAny().isPresent();
 	}
-	
+
 	public boolean isItemInLocation(Item item, Place place) {
 		// Retorno true si el item se encuentra en algun place de la location
-		if(!places.contains(place)) {
+		if (!places.contains(place)) {
 			return false;
 		}
 		Optional<Place> desiredPlaceOpt = places.stream().filter(p -> p.equals(place)).findAny();
-		if(!desiredPlaceOpt.isPresent()) {
+		if (!desiredPlaceOpt.isPresent()) {
 			return false;
 		}
 		Place desiredPlace = desiredPlaceOpt.get();
@@ -160,34 +162,32 @@ public class Location extends GameEntity implements INombrable<Location> {
 	}
 
 	public boolean addConnection(Connection connection) {
-		if(this.connections == null) {
+		if (this.connections == null) {
 			this.connections = new LinkedList<>();
 		}
 		return this.connections.add(connection);
 	}
 
 	public void removeItemFromPlace(Item itemToRemove, Place placeToRemoveItem) {
-		places.stream().filter(p -> p.equals(placeToRemoveItem))
-				.findAny()
-				.ifPresent(p -> p.removeItem(itemToRemove));
+		places.stream().filter(p -> p.equals(placeToRemoveItem)).findAny().ifPresent(p -> p.removeItem(itemToRemove));
 	}
 
 	public void removeItem(Item itemToRemove) {
-		this.places.stream().filter(p -> p.isItemInPlace(itemToRemove))
-				.findFirst()
+		this.places.stream().filter(p -> p.isItemInPlace(itemToRemove)).findFirst()
 				.ifPresent(p -> p.removeItem(itemToRemove));
 	}
+
 	@Override
 	public Map<String, Location> getNombres() {
 
-		Map<String,Location> myMap = new HashMap<String,Location>();
-	    myMap.put(this.getName().trim(), this);
-	    
-	    return myMap;	
-		
+		Map<String, Location> myMap = new HashMap<String, Location>();
+		myMap.put(this.getName().trim(), this);
+
+		return myMap;
+
 	}
-	
-	@Override 
+
+	@Override
 	public Location getEntity() {
 		return this;
 	}

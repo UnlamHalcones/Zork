@@ -20,11 +20,13 @@ import ar.edu.unlam.halcones.entities.Npc;
 import javafx.util.Pair;
 
 public class Interprete {
-	
-	private static Game game;	
-	
+
+	private static Game game;
+
 	private final static String INVALIDCOMMAND = "No entendi lo que ingresaste. Intenta de nuevo por favor.";
 
+	private static boolean keepPlaying = true;
+	
 	public static void main(String[] args) {
 
 		System.out.println("Welcome to the interpreter");
@@ -43,27 +45,26 @@ public class Interprete {
 
 		verbos.put("utilizar", "atacar");
 		verbos.put("golpear", "atacar");
-		
+
 		verbos.put("ir", "ir");
 		verbos.put("avanzar", "ir");
 		verbos.put("correr", "ir");
-		
+
 		verbos.put("ver", "ver");
 		verbos.put("mirar", "ver");
-		
+
 		verbos.put("agarrar", "agarrar");
 		verbos.put("recoger", "agarrar");
 
 		availableGames.add("piratasfantasmas");
 		availableGames.add("pandemia");
 
-
 		imprimirSalida("Que juego queres jugar?");
 		String selectedGame = "";
 		String input = "";
-		
+
 		gameSelecting = false;
-		
+
 		while (gameSelecting) {
 
 			input = in.next();
@@ -79,23 +80,20 @@ public class Interprete {
 		selectedGame = "piratasfantasmas";
 
 		// Logica para cargar el game
-		
+
 		GeneradorDeGame generador = new GeneradorDeGame();
-		
-		
+
 		try {
 			game = generador.generarEntornoDeJuego(selectedGame + ".json");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		Boolean keepPlaying = true;
 
 		String verbo = "";
 		String primerSustantivo = "";
 		String segundoSustantivo = "";
-		
+
 		while (keepPlaying) {
 
 			System.out.print("Enter something:");
@@ -114,6 +112,8 @@ public class Interprete {
 				continue;
 			}
 
+			input = input.toLowerCase();
+
 			verbo = input.substring(0, input.indexOf(" "));
 			input = input.replace(verbo, "");
 
@@ -127,17 +127,17 @@ public class Interprete {
 
 			String primerEncontrado = "";
 			String segundoEncontrado = "";
+			primerSustantivo = "";
+			segundoSustantivo = "";
 
 			for (Map.Entry<String, INombrable> entry : game.interactuables.entrySet()) {
 				if (input.contains(entry.getKey())) {
 					if (indexPrimerEncontrado == 0) {
 						indexPrimerEncontrado = input.indexOf(entry.getKey());
 						primerEncontrado = entry.getKey();
-						input = input.replace(primerEncontrado, "");
 					} else if (indexSegundoEncontrado == 0) {
 						indexSegundoEncontrado = input.indexOf(entry.getKey());
 						segundoEncontrado = entry.getKey();
-						input = input.replace(segundoEncontrado, "");
 					}
 				}
 			}
@@ -146,120 +146,128 @@ public class Interprete {
 				imprimirSalida(INVALIDCOMMAND);
 				continue;
 			}
-			
-			if (indexPrimerEncontrado > 0 && indexSegundoEncontrado > 0)
-			{
-				if (indexPrimerEncontrado > indexSegundoEncontrado)
-				{
+
+			if (indexPrimerEncontrado > 0 && indexSegundoEncontrado > 0) {
+				if (indexSegundoEncontrado > indexPrimerEncontrado) {
 					primerSustantivo = primerEncontrado;
 					segundoSustantivo = segundoEncontrado;
-				}
-				else {
+				} else {
 					primerSustantivo = segundoEncontrado;
 					segundoSustantivo = primerEncontrado;
 				}
-			}
-			else {
+			} else {
 				primerSustantivo = primerEncontrado;
 			}
-			
-			
-			String salida = "El verbo es " + verbo + " - primer sustantivo:" + primerSustantivo + " - segundo sustantivo: " + segundoSustantivo;
+
+			String salida = "El verbo es " + verbo + " - primer sustantivo:" + primerSustantivo
+					+ " - segundo sustantivo: " + segundoSustantivo;
 
 			salida = commandRouter(verbo, primerSustantivo, segundoSustantivo);
-			
+
 			imprimirSalida(salida);
 
 		}
+		
+		imprimirSalida("Finalizaste el juego!");
 	}
 
 	public static void imprimirSalida(String mensaje) {
 		System.out.println(mensaje);
 	}
-	
-	private static String commandRouter (String verbo, String primerSustantivo, String segundoSustantivo) {
-		
+
+	private static String commandRouter(String verbo, String primerSustantivo, String segundoSustantivo) {
+
 		INombrable entidadUno = null;
 		INombrable entidadDos = null;
 		
-		if(primerSustantivo!= "")
-			entidadUno = game.interactuables.get(primerSustantivo);	
+		String response = "";
 		
+		Boolean checkEndGame = false;
+
+		if (primerSustantivo != "")
+			entidadUno = game.interactuables.get(primerSustantivo);
+
 		if (segundoSustantivo != "")
 			entidadDos = game.interactuables.get(segundoSustantivo);
+
 		
-		Pair<Boolean, String> checkEndgame = game.checkEndgame(verbo, primerSustantivo);
-		
-		if (checkEndgame.getKey())
-			return checkEndgame.getValue();
-		
-		if (verbo.equals("ver"))
-		{
-			if(entidadUno != null)
-			{
-				if(entidadUno instanceof Item)
-				{
+
+		if (verbo.equals("ver")) {
+			if (entidadUno != null) {
+				if (entidadUno instanceof Item) {
 					Item item = (Item) entidadUno.getEntity();
-					
-					//Si no tiene el item en el inventario digo que es un comando invalido para no dar información de que ese item existe
-					
-					if(!game.getCharacter().isItemInInventory(item))
+
+					// Si no tiene el item en el inventario digo que es un comando invalido para no
+					// dar información de que ese item existe
+
+					if (!game.getCharacter().isItemInInventory(item))
 						return INVALIDCOMMAND;
 				}
-				
-				return entidadUno.ver();
+
+				response = entidadUno.ver();
+				checkEndGame = true;
 			}
 		}
-		
-		if (verbo.equals("usar"))
-		{
+
+		if (verbo.equals("usar")) {
 			if (!(entidadUno instanceof Item) && !(entidadDos instanceof Item))
 				return INVALIDCOMMAND;
-			
+
 			Item item = null;
-			ITriggereable triggerable = null; 
-			if(entidadUno instanceof Item) {
+			ITriggereable triggerable = null;
+			if (entidadUno instanceof Item) {
 				item = (Item) entidadUno;
-				
-				if(entidadDos != null)
-				{
+
+				if (entidadDos != null) {
 					triggerable = (ITriggereable) entidadDos;
-				}
-				else {
+				} else {
 					triggerable = (ITriggereable) game.getCharacter();
 				}
-			}
-			else {
+				
+			} else {
+				
 				item = (Item) entidadDos;
 				triggerable = (ITriggereable) entidadDos;
-			}
-			
-			if (game.getCharacter().isItemInInventory(item))
-				return "No tienes este item en tu inventario";
-			
-			return item.use("usar", triggerable);
-		}
-		
-		if (verbo.equals("agarrar"))
-		{
-			if(entidadUno != null && entidadUno instanceof Item){
-					Item item = (Item) entidadUno.getEntity();
-					
-					return game.getCharacter().agarrarItem(item);
-			}
-		}
-		
-		if (verbo.equals("ir")){
-			if(entidadUno != null && entidadUno instanceof Location){
-				Location location = (Location) entidadUno.getEntity();
 				
-				return game.getCharacter().moveTo(location);
+			}
+
+			if (!game.getCharacter().isItemInInventory(item))
+				return "No tienes este item en tu inventario";
+
+			
+			response = item.use("usar", triggerable);
+			checkEndGame = true;
+		}
+
+		if (verbo.equals("agarrar")) {
+			if (entidadUno != null && entidadUno instanceof Item) {
+				Item item = (Item) entidadUno.getEntity();
+
+				response = game.getCharacter().agarrarItem(item);
+				checkEndGame = true;
+			}
+		}
+
+		if (verbo.equals("ir")) {
+			if (entidadUno != null && entidadUno instanceof Location) {
+				Location location = (Location) entidadUno.getEntity();
+
+				response = game.getCharacter().moveTo(location);
+				checkEndGame = true;
 			}
 		}
 		
 		
-		return "";
-	}
+		Pair<Boolean, String> checkEndgame = game.checkEndgame(verbo, primerSustantivo);
+
+		if (checkEndgame.getKey().booleanValue()) {
+			keepPlaying = false;
+			return checkEndgame.getValue();
+		}
 	
+		
+			
+		return response;
+	}
 
 }

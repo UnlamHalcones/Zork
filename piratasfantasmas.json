@@ -14,17 +14,13 @@
           "name": "suelo",
           "gender": "male",
           "number": "singular",
-          "items": [
-            "barreta",
-            "rociador con cerveza de raiz",
-            "espejo"
-          ]
+          "items": ["barreta", "rociador con cerveza de raiz", "espejo"]
         }
       ],
       "npcs": ["pirata fantasma"],
       "connections": [
         {
-          "direction": "south",
+          "direction": "sur",
           "location": "taberna",
           "obstacles": "pirata fantasma"
         }
@@ -37,12 +33,11 @@
       "description": "Estás en una sucia taberna",
       "connections": [
         {
-          "direction": "north",
+          "direction": "norte",
           "location": "muelle"
         }
       ]
     }
-    
   ],
   "npcs": [
     {
@@ -66,53 +61,35 @@
       "name": "barreta",
       "gender": "female",
       "number": "singular",
-      "actions": [
-        "usar"
-      ],
-      "effects_over": [
-        "npcs",
-        "self",
-        "item"
-      ]
+      "actions": ["usar"],
+      "effects_over": ["npcs", "self", "item"]
     },
     {
       "name": "rociador con cerveza de raiz",
       "gender": "male",
       "number": "singular",
-      "actions": [
-        "usar"
-      ],
-      "effects_over": [
-        "npcs",
-        "self",
-        "item"
-      ]
+      "actions": ["usar"],
+      "effects_over": ["npcs", "self", "item"]
     },
     {
       "name": "espejo",
       "gender": "male",
       "number": "singular",
-      "actions": [
-        "usar"
-      ],
-      "effects_over": [
-        "npcs",
-        "self",
-        "item"
-      ]
+      "actions": ["usar"],
+      "effects_over": ["npcs", "self", "item"]
     }
   ],
   "inventory": [],
   "endgames": [
     {
       "condition": "location",
-      "action": "move",
+      "action": "ir",
       "thing": "taberna",
       "description": "¡Enhorabuena! Llegaste a la taberna, donde te espera una noche de borrachera con Grog y otros colegas piratas."
     },
     {
       "condition": "action",
-      "action": "look",
+      "action": "mirar",
       "thing": "espejo",
       "description": "¡Oh, no! Acabas de descubrir que tú también eres un pirata fantasma... ¡el horror!"
     }
