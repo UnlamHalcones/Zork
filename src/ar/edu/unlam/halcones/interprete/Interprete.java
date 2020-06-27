@@ -126,7 +126,6 @@ public class Interprete {
 			String segundoEncontrado = "";
 
 			for (Map.Entry<String, INombrable> entry : game.interactuables.entrySet()) {
-				
 				if (input.contains(entry.getKey())) {
 					if (indexPrimerEncontrado == 0) {
 						indexPrimerEncontrado = input.indexOf(entry.getKey());
@@ -186,7 +185,7 @@ public class Interprete {
 		if (segundoSustantivo != "")
 			entidadDos = game.interactuables.get(segundoSustantivo);
 		
-		Pair<Boolean, String> checkEndgame = (game.checkEndgame(verbo, primerSustantivo);
+		Pair<Boolean, String> checkEndgame = game.checkEndgame(verbo, primerSustantivo);
 		
 		if (checkEndgame.getKey())
 			return checkEndgame.getValue();
