@@ -135,12 +135,6 @@ public class Game {
 			}
 		}
 		
-		//AGREGO PUNTOS CARDINALES
-		this.interactuables.put("Norte", new Location("NORTE"));
-		this.interactuables.put("Sur", new Location("SUR"));
-		this.interactuables.put("Este", new Location("ESTE"));
-		this.interactuables.put("Oeste", new Location("OESTE"));
-		
 		this.interactuables.putAll(character.getNombres());
 		
 		this.interactuables.putAll(character.getInventory().getNombres());

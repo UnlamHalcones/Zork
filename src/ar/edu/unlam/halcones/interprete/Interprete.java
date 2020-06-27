@@ -47,9 +47,6 @@ public class Interprete {
 		verbos.put("correr", "ir");
 		verbos.put("ver", "ver");
 		verbos.put("mirar", "ver");
-		
-		verbos.put("agarrar", "agarrar");
-		verbos.put("recoger", "agarrar");
 
 		availableGames.add("piratasfantasmas");
 		availableGames.add("pandemia");
@@ -212,24 +209,6 @@ public class Interprete {
 			if (!(entidadUno instanceof Item) && !(entidadDos instanceof Item))
 				return INVALIDCOMMAND;
 		}
-		
-		if (verbo.equals("agarrar"))
-		{
-			if(entidadUno != null && entidadUno instanceof Item){
-					Item item = (Item) entidadUno.getEntity();
-					
-					return game.getCharacter().agarrarItem(item);
-			}
-		}
-		
-		if (verbo.equals("ir")){
-			if(entidadUno != null && entidadUno instanceof Location){
-				Location location = (Location) entidadUno.getEntity();
-				
-				return game.getCharacter().moveTo(location);
-			}
-		}
-		
 		
 		return "";
 	}

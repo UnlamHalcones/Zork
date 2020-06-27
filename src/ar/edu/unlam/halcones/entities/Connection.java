@@ -3,7 +3,7 @@ package ar.edu.unlam.halcones.entities;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Connection implements INombrable<Location> {
+public class Connection implements INombrable<Connection> {
 	private String direction;
 	private Location location;
 	private Npc obstacle;
@@ -32,29 +32,21 @@ public class Connection implements INombrable<Location> {
 	}
 
 	@Override
-	public Map<String, Location> getNombres() {
+	public Map<String, Connection> getNombres() {
 
-		Map<String,Location> myMap = new HashMap<String,Location>();
-	    myMap.put(this.direction, this.location);
+		Map<String,Connection> myMap = new HashMap<String,Connection>();
+	    myMap.put(this.direction, this);
 	    
 	    return myMap;	
 	}
 
 	@Override 
-	public Location getEntity() {
-		return this.location;
+	public Connection getEntity() {
+		return this;
 	}
 
 	@Override
 	public String ver() {
 		return this.getInformation();
-	}
-	
-	public String getDirection() {
-		return direction;
-	}
-	
-	public Location getLocation() {
-		return location;
 	}
 }
