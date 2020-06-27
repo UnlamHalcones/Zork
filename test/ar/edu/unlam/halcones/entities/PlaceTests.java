@@ -20,12 +20,12 @@ public class PlaceTests {
 	}
 	
 	@Test
-	public void queDevuelveTrueSiEstaElItem() {
+	public void queExistaItem() {
 		Assert.assertTrue(place.isItemInPlace(new Item("item1","gender1","number1")));
 	}
 	
 	@Test
-	public void queDevuelveFalseSiNoEstaElItem() {
+	public void queNoExistaItem() {
 		Assert.assertFalse(place.isItemInPlace(new Item("item3","gender3","number3")));
 	}
 }

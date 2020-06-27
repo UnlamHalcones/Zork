@@ -1,18 +1,29 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.xml.internal.ws.util.StringUtils;
+
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-public class Npc extends GameEntity implements ITriggereable {
-	
+public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
+
+	@JsonProperty("description")
 	private String description;
+
+	@JsonProperty("talk")
 	private String talk;
+
+	@JsonProperty("triggers")
 	private List<Trigger> triggers;
 
 	public Npc() {
 		super();
+		this.type = GameEntityTypes.NPC;
 	}
-	
+
 	public Npc(String description, String state) {
 		super(description, state);
 	}
@@ -22,7 +33,7 @@ public class Npc extends GameEntity implements ITriggereable {
 		this.talk = talk;
 		this.triggers = triggers;
 	}
-	
+
 	public Npc(String name, String gender, String number, String description, String talk, List<Trigger> triggers) {
 		super(name, gender, number);
 		this.description = description;
@@ -68,17 +79,57 @@ public class Npc extends GameEntity implements ITriggereable {
 
 		return canDo;
 	}
-	
-	public String Execute(Trigger trigger) throws Exception {
-		Optional<Trigger> aux = triggers.stream().filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing())).findAny();	
-		
-		if (!aux.isPresent())
-		{
-			throw new Exception("Accion no valida en el Npc");
+
+	@Override
+	public String execute(Trigger trigger) {
+		Optional<Trigger> aux = triggers.stream()
+				.filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing()))
+				.findAny();
+		if (!aux.isPresent()) {
+			return "No puede hacer eso con " + this.getFullDescription();
 		}
-		
+
 		super.status = aux.get().getAfterTrigger();
-		
+
 		return aux.get().getOnTrigger();
+	}
+
+	@Override
+	public void triggerThis(String action) {
+
+		for (Trigger triggers_IT : triggers) {
+
+			if (triggers_IT.getType().contentEquals(action)) {
+				this.execute(triggers_IT);
+				return;
+			}
+
+		}
+
+	}
+
+	public Map<String, Npc> getNombres() {
+		Map<String, Npc> myMap = new HashMap<String, Npc>();
+
+		myMap.put(this.getName().trim(), this);
+		myMap.put(this.getFullDescription().trim(), this);
+		myMap.put(this.getFullDescriptionQty().trim(), this);
+
+		return myMap;
+	}
+
+	@Override
+	public String getType() {
+		return "npc";
+	}
+	
+	@Override 
+	public Npc getEntity() {
+		return this;
+	}
+
+	@Override
+	public String ver() {
+		return StringUtils.capitalize(this.getFullDescription() +  this.getDescription());
 	}
 }

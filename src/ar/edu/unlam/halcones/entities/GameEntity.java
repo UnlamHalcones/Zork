@@ -1,14 +1,26 @@
 package ar.edu.unlam.halcones.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public abstract class GameEntity {
 
-	private String name;
-	private String gender;
-	private String number;
+	@JsonProperty("status")
 	protected String status;
+
+	@JsonProperty("name")
+	private String name;
+
+	@JsonProperty("gender")
+	private String gender;
+
+	@JsonProperty("number")
+	private String number;
+
+	@JsonProperty("state")
 	private String state;
+	public GameEntityTypes type;
 
 	public String getState() {
 		return state;
@@ -17,17 +29,23 @@ public abstract class GameEntity {
 	public void setState(String state) {
 		this.state = state;
 	}
-
-
-
-
+	
 	public GameEntity() {
 		super();
+		this.name = "";
+		this.gender = "";
+		this.number = "";
+		this.state = "";
+		this.status = "normal";
 	}
 	
 	public GameEntity(String name) {
 		super();
 		this.name=name;
+		this.gender = "";
+		this.number = "";
+		this.state = "";
+		this.status = "normal";
 	}
 	
 	public GameEntity(String name, String gender, String number) {
@@ -43,6 +61,9 @@ public abstract class GameEntity {
 		super();
 		this.name = name;
 		this.state = state;
+		this.gender = "";
+		this.number = "";
+		this.status = "normal";
 	}
 
 	public String getName() {
@@ -68,21 +89,29 @@ public abstract class GameEntity {
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public String getFullDescription() {
 		String article = "";
 		
 		//Esto se puede poner en menos IFs, pero así queda mas legible
-		if (gender == "male" && number == "singular")
+		if (gender.equals("male") && number.equals("singular"))
 			article = "el";
 		
-		if (gender == "female" && number == "singular")
+		if (gender.equals("female") && number.equals("singular"))
 			article = "la";
 		
-		if (gender == "male" && number == "plural")
+		if (gender.equals("male") && number.equals("plural"))
 			article = "los";
 		
-		if (gender == "female" && number == "plural")
+		if (gender.equals("female") && number.equals("plural"))
 			article = "las";
 		
 		return article + " " + this.name;
@@ -92,13 +121,16 @@ public abstract class GameEntity {
 	public String getFullDescriptionQty() {
 		String article = "";
 		
-		if (gender == "male" && number == "singular")
+		if (gender.equals("male") && number.equals("singular"))
 			article = "un";
-		if (gender == "female" && number == "singular")
+		
+		if (gender.equals("female") && number.equals("singular"))
 			article = "una";
-		if (gender == "male" && number == "plural")
+		
+		if (gender.equals("male") && number.equals("plural"))
 			article = "unos";
-		if (gender == "female" && number == "plural")
+		
+		if (gender.equals("female") && number.equals("plural"))
 			article = "unas";
 		
 		return article + " " + this.name;

@@ -1,19 +1,23 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class Place extends GameEntity {
+public class Place extends GameEntity implements INombrable {
 
 	private List<Item> items;
 
 	public Place() {
 		super();
+		this.type=GameEntityTypes.PLACE;
 		// TODO Auto-generated constructor stub
+		this.items = new LinkedList<>();
 	}
 
 	public Place(String name, String gender, String number) {
 		super(name, gender, number);
-		// TODO Auto-generated constructor stub
 	}
 
 	public Place(List<Item> items) {
@@ -32,15 +36,13 @@ public class Place extends GameEntity {
 	@Override
 	public String getInformation() {
 		String info = "";
-		
-		if(!items.isEmpty()) {
+
+		if (!items.isEmpty()) {
 			info += "En " + getFullDescription() + " hay " + getFullInformationQty(items);
+		} else {
+			info += "No hay nada en " + getFullDescription();
 		}
-		else
-		{
-			info += "Hay " + getFullDescriptionQty();
-		}
-		
+
 		return info;
 	}
 
@@ -73,5 +75,27 @@ public class Place extends GameEntity {
 		return true;
 	}
 
+
+	public void removeItem(Item itemToRemove) {
+		this.items.remove(itemToRemove);
+	}
+	public Map<String, Place> getNombres() {
+		Map<String, Place> myMap = new HashMap<String, Place>();
+
+		myMap.put(this.getName().trim(), this);
+		myMap.put(this.getFullDescription(), this);
+		myMap.put(this.getFullDescriptionQty(), this);
+
+		return myMap;
+	}
 	
+	@Override 
+	public Place getEntity() {
+		return this;
+	}
+
+	@Override
+	public String ver() {
+		return getInformation();
+	}
 }
