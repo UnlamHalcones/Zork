@@ -78,7 +78,8 @@ public class Interprete {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		imprimirSalida(game.getWelcome());
+		
 		String verbo = "";
 		String primerSustantivo = "";
 		String segundoSustantivo = "";
@@ -88,7 +89,7 @@ public class Interprete {
 			System.out.print("¿Que queres hacer?:\n");
 			input = in.nextLine();
 
-			if (input == "stop")
+			if (input.equals("stop"))
 				keepPlaying = false;
 			/// abrir puerta
 
@@ -172,10 +173,10 @@ public class Interprete {
 
 		String response = INVALIDCOMMANDONITEM;
 
-		if (primerSustantivo != "")
+		if (!primerSustantivo.isEmpty())
 			entidadUno = game.interactuables.get(primerSustantivo);
 
-		if (segundoSustantivo != "")
+		if (!segundoSustantivo.isEmpty())
 			entidadDos = game.interactuables.get(segundoSustantivo);
 
 		if (verbo.equals("ver")) {

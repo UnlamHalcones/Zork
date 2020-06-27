@@ -45,6 +45,10 @@ public class Game {
 
 		generarInteractuables();
 	}
+	
+	public String getWelcome() {
+		return this.welcome;
+	}
 
 	public Character getCharacter() {
 		return this.character;
