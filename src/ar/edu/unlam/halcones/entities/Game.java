@@ -136,6 +136,8 @@ public class Game {
 		
 		this.interactuables.putAll(character.getNombres());
 		
+		this.interactuables.putAll(character.getNombresLocation());
+		
 		this.interactuables.putAll(character.getInventory().getNombres());
 	}
 }

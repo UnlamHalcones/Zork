@@ -127,6 +127,13 @@ public class Character implements ITriggereable, INombrable<Character> {
 	    return myMap;	
 	}
 	
+	public Map<String, Location> getNombresLocation() {
+		Map<String,Location> myMap = new HashMap<String,Location>();
+	    myMap.put("alrededor", this.location);
+	    
+	    return myMap;	
+	}
+	
 	@Override
 	public void triggerThis(String action) {
 		

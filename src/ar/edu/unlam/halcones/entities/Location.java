@@ -194,7 +194,7 @@ public class Location extends GameEntity implements INombrable<Location> {
 
 	@Override
 	public String ver() {
-		return this.getFullDescription();
+		return this.getInformation();
 	}
 
 }
