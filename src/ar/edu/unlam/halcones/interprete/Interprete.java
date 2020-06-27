@@ -44,7 +44,7 @@ public class Interprete {
 		verbos = LectorDiccionarioCSV.leerDiccionario();
 
 		availableGames.add("piratasfantasmas");
-		availableGames.add("pandemia");
+		//availableGames.add("pandemia");
 		
 		imprimirSalida("Tengo los siguientes juegos disponibles:");
 		for (String game: availableGames) {
@@ -211,6 +211,14 @@ public class Interprete {
 				Location location = (Location) entidadUno.getEntity();
 
 				response = game.getCharacter().moveTo(location);
+			}
+		}
+		
+		if (verbo.equals("hablar")) {
+			if (entidadUno instanceof Npc) {
+				Npc npc = (Npc) entidadUno.getEntity();
+
+				response = npc.getTalk();
 			}
 		}
 
