@@ -31,11 +31,11 @@ public class GuardadorHistoria {
 	}
 	
 	public void agregarEntrada (String input) {
-		agregarRegistro ("Comando ingresado: '" + input + "'");
+		agregarRegistro ("Comando: '" + input + "'");
 	}
 	
 	public void agregarSalida (String input) {
-		agregarRegistro ("Respuesta: '" + input + "'");
+		agregarRegistro ("-" + input + "'");
 	}
 
 	public void agregarRegistro(String linea) {

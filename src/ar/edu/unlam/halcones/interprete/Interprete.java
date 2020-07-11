@@ -178,7 +178,7 @@ public class Interprete {
 				primerSustantivo = primerEncontrado;
 			}
 			
-			guardador.agregarEntrada(input);
+			guardador.agregarEntrada(comandoIngresado);
 
 			String salida = commandRouter(verbo, primerSustantivo, segundoSustantivo);
 			
