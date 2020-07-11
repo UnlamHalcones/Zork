@@ -1,5 +1,6 @@
 package ar.edu.unlam.halcones.game;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JMenuBar;
@@ -9,7 +10,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
@@ -25,6 +30,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Map;
+import javax.swing.JPanel;
 
 public class RunnableGame extends JFrame {
 
@@ -45,6 +51,7 @@ public class RunnableGame extends JFrame {
 	private Interprete_game interprete;
 	private Map<String, String> verbos;
 	private GeneradorDeGame generador;
+	private JPanel panel;
 
 	public RunnableGame() {
 		initialize();
@@ -56,6 +63,9 @@ public class RunnableGame extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new MigLayout("", "[grow]", "[grow][][][][][][][][][][grow][][][]"));
 		this.setLocationRelativeTo(null);
+		
+		panel = new DrawPanel();
+		getContentPane().add(panel, "cell 0 0 1 10,grow");
 
 		scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -132,6 +142,7 @@ public class RunnableGame extends JFrame {
 				interprete = new Interprete_game();
 				verbos = LectorDiccionarioCSV.leerDiccionario();
 				mostrarSalida(game.getWelcome());
+				display();
 				txtComando.setEditable(true);
 				txtComando.setFocusable(true);
 			} catch (IOException e) {
@@ -244,6 +255,45 @@ public class RunnableGame extends JFrame {
 	private void limpiarComando() {
 		txtComando.setText("");
 		txtComando.setFocusable(true);
+	}
+	
+	public void display() {
+		panel.repaint();
+	}
+	
+	private class DrawPanel extends JPanel {
+		
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			ImageIcon imagen1, imagen2, imagen3, imagen4, imagen5, imagen6;
+			imagen1 = new ImageIcon("imagenes/a.jpg");
+			imagen2 = new ImageIcon("imagenes/b.jpg");
+			imagen3 = new ImageIcon("imagenes/c.jpg");
+			imagen4 = new ImageIcon("imagenes/d.jpg");
+			imagen5 = new ImageIcon("imagenes/e.jpg");
+			imagen6 = new ImageIcon("imagenes/f.jpg");
+			Graphics2D g2 = (Graphics2D) g;
+			Dimension currentDimension = getContentPane().getSize();
+			g2.scale(currentDimension.getWidth() / 300, currentDimension.getHeight() / 200);
+			g2.setColor(Color.black);
+			g2.fillRect(0, 0, 300, 200);
+			
+			g2.drawImage(imagen1.getImage(), 0, 50, 50, 50, null);
+			g2.drawImage(imagen2.getImage(), 50, 50, 50, 50, null);
+			g2.drawImage(imagen3.getImage(), 100, 50, 50, 50, null);
+			g2.drawImage(imagen4.getImage(), 150, 50, 50, 50, null);
+			g2.drawImage(imagen5.getImage(), 200, 50, 50, 50, null);
+			
+			g2.drawImage(imagen6.getImage(), 0, 50, 50, 50, null);
+		}
+
+		@Override
+		public Dimension getPreferredSize() {
+			return new Dimension(300, 200);
+		}
 	}
 
 }
