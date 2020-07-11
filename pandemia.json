@@ -35,15 +35,15 @@
 				}
 			],
 			"connections": [{
-					"direction": "south",
+					"direction": "sur",
 					"location": "sendero de salida"
 				},
 				{
-					"direction": "east",
+					"direction": "este",
 					"location": "orilla del rio"
 				},
 				{
-					"direction": "north",
+					"direction": "norte",
 					"location": "bosque"
 				}
 			]
@@ -73,12 +73,12 @@
 			],
 			"npcs": ["gran árbol"],
 			"connections": [{
-					"direction": "south-east",
+					"direction": "sur-este",
 					"location": "salida",
 					"obstacles": "gran árbol"
 				},
 				{
-					"direction": "north",
+					"direction": "norte",
 					"location": "cabaña"
 				}
 			]
@@ -107,12 +107,12 @@
 			],
 			"npcs": ["indio pescador"],
 			"connections": [{
-					"direction": "east",
+					"direction": "este",
 					"location": "orilla este rio",
 					"obstacles": "indio pescador"
 				},
 				{
-					"direction": "west",
+					"direction": "oeste",
 					"location": "cabaña"
 				}
 			]
@@ -146,7 +146,7 @@
 			],
 			"npcs": ["serpiente venenosa"],
 			"connections": [{
-				"direction": "south",
+				"direction": "sur",
 				"location": "salida"
 			}]
 		},
@@ -176,11 +176,11 @@
 			],
 			"npcs": ["jabali sagrado"],
 			"connections": [{
-					"direction": "south",
+					"direction": "sur",
 					"location": "cabaña"
 				},
 				{
-					"direction": "east",
+					"direction": "este",
 					"location": "tribu"
 				}
 			]
@@ -211,7 +211,7 @@
 			],
 			"npcs": ["cacique"],
 			"connections": [{
-				"direction": "west",
+				"direction": "oeste",
 				"location": "bosque"
 			}]
 		}
@@ -279,14 +279,14 @@
 			"triggers": [{
 					"type": "item",
 					"thing": "machete",
-					"on_trigger": "¡Has cortado en dos a la serpiente!",
-					"after_trigger": "remove"
+					"on_trigger": "¡Oh, no les hecho nada! Y te pico quitandote vida",
+					"after_trigger": "vida-10"
 				},
 				{
 					"type": "item",
 					"thing": "lanza",
-					"on_trigger": "¡Has eliminado a la serpiente!",
-					"after_trigger": "remove"
+					"on_trigger": "¡Has eliminado a la serpiente! Dandote mas vida",
+					"after_trigger": "remove,vida+15"
 				},
 				{
 					"type": "item",
@@ -334,7 +334,7 @@
 				"atacar"
 			],
 			"effects_over": [
-				"npcs"
+				"npc"
 			]
 		},
 		{
@@ -350,7 +350,7 @@
 			],
 			"effects_over": [
 				"self",
-				"npcs"
+				"npc"
 			]
 		},
 		{
@@ -366,7 +366,7 @@
 				"matar"
 			],
 			"effects_over": [
-				"npcs",
+				"npc",
 				"item"
 			]
 		},
@@ -383,14 +383,14 @@
 				"agarrar"
 			],
 			"effects_over": [
-				"npcs",
+				"npc",
 				"self"
 			],
 			"triggers": [{
 					"type": "self",
 					"thing": "character",
 					"on_trigger": "Las exóticas frutas que consumiste te brindan una poderosa fuerza corporal y tus emociones suben por las nubes. Estás listo para todo",
-					"after_trigger": "remove"
+					"after_trigger": "remove, vida+50"
 				},
 				{
 					"type": "npc",
@@ -423,10 +423,35 @@
 			],
 			"effects_over": [
 				"self"
-			]
+			],
+			"triggers": [{
+				"type": "item",
+				"thing": "hierbas medicinales verdes",
+				"on_trigger": "Has creado un nuevo tipo de hierba medicinal.",
+				"after_trigger": "remove, create-hierbas medicinales azules"
+			}]
 		},
 		{
 			"name": "hierbas medicinales verdes",
+			"gender": "female",
+			"number": "plural",
+			"actions": [
+				"comer",
+				"masticar",
+				"oler"
+			],
+			"effects_over": [
+				"self"
+			],
+			"triggers": [{
+				"type": "item",
+				"thing": "hierbas medicinales rojas",
+				"on_trigger": "Has creado un nuevo tipo de hierba medicinal.",
+				"after_trigger": "remove, create-hierbas medicinales azules"
+			}]
+		},
+		{
+			"name": "hierbas medicinales azules",
 			"gender": "female",
 			"number": "plural",
 			"actions": [
@@ -481,7 +506,7 @@
 				"arrastrar"
 			],
 			"effects_over": [
-				"npcs"
+				"npc"
 			],
 			"triggers": [{
 				"type": "npc",
@@ -501,7 +526,7 @@
 				"arrancar"
 			],
 			"effects_over": [
-				"npcs"
+				"npc"
 			],
 			"triggers": [{
 					"type": "npc",
@@ -545,7 +570,7 @@
 				"anudar"
 			],
 			"effects_over": [
-				"npcs"
+				"npc"
 			],
 			"triggers": [{
 				"type": "npc",
@@ -564,7 +589,7 @@
 				"regalar"
 			],
 			"effects_over": [
-				"npcs"
+				"npc"
 			]
 		}
 	],

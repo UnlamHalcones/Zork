@@ -186,4 +186,14 @@ public class Game {
 		character.removerItemDeInventario(item);
 
 	}
+
+	public void modificarVidaCharacter(String substring) {
+		this.character.modificarVida(Long.valueOf(substring));
+	}
+
+	public void crearNuevoItem(String itemName) {
+		this.items.stream().filter(i -> i.getName().equals(itemName))
+				.findAny()
+				.ifPresent(i -> this.character.agregarItemAlInventario(i));
+	}
 }

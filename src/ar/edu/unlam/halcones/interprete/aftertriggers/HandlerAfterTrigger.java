@@ -8,9 +8,14 @@ public class HandlerAfterTrigger {
     private static CommandHandler commandHandler;
 
     static {
-        commandHandler = new RemoveCommandHandler();
+        VidaCommandHandler vidaCommandHandler = new VidaCommandHandler();
         DefaultCommandHandler defaultCommandHandler = new DefaultCommandHandler();
-        commandHandler.setNext(defaultCommandHandler);
+        CreateCommandHandler createCommandHandler = new CreateCommandHandler();
+        commandHandler = new RemoveCommandHandler();
+        commandHandler.setNext(vidaCommandHandler);
+        vidaCommandHandler.setNext(createCommandHandler);
+        createCommandHandler.setNext(defaultCommandHandler);
+
     }
 
     public static void handleCommand(Command command) {

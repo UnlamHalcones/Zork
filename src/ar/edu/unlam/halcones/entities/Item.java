@@ -77,9 +77,11 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 			return "Accion no valida sobre un " + over.getType() + ".";
 		}
 
+		Trigger trigger = new Trigger("item", this.getName());
+
+		// Esto comando siempre se ejecuta para poder sacar un item del inventario
 		Command command = new Command("remove", this.getName(), this.getType());
 		HandlerAfterTrigger.handleCommand(command);
-		Trigger trigger = new Trigger("item", this.getName());
 
 		return over.execute(trigger);
 	}
@@ -98,7 +100,15 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 			return "Eso no ha servido de nada";
 		}
 
-		status = triggerToExecute.getAfterTrigger();
+		String afterTrigger = triggerToExecute.getAfterTrigger();
+		if(afterTrigger != null) {
+			String[] split = afterTrigger.split(",");
+			for(String s : split) {
+				Command command = new Command(s, this.getName(), this.getType());
+				HandlerAfterTrigger.handleCommand(command);
+			}
+		}
+
 		return triggerToExecute.getOnTrigger();
 	}
 

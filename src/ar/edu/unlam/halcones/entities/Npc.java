@@ -91,9 +91,14 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 			return "No puede hacer eso con " + this.getFullDescription();
 		}
 
-		Command command = new Command(aux.get().getAfterTrigger(), this.getName(), this.getType());
-		HandlerAfterTrigger.handleCommand(command);
-//		super.status = aux.get().getAfterTrigger();
+		String afterTrigger = aux.get().getAfterTrigger();
+		if(afterTrigger != null) {
+			String[] split = afterTrigger.split(",");
+			for(String s : split) {
+				Command command = new Command(s, this.getName(), this.getType());
+				HandlerAfterTrigger.handleCommand(command);
+			}
+		}
 
 		return aux.get().getOnTrigger();
 	}

@@ -129,6 +129,10 @@ public class Inventory implements INombrable<Inventory> {
         }
     }
 
+    public void addItem(Item item) {
+        this.add(item, 1);
+    }
+
     /*private List<Item> items;
 
     public Inventory(List<Item> items) {

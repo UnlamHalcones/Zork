@@ -42,7 +42,7 @@ public class Interprete {
 		Map<String, String> verbos = LectorDiccionarioCSV.leerDiccionario();
 
 		availableGames.add("piratasfantasmas");
-		//availableGames.add("pandemia");
+		availableGames.add("pandemia");
 		
 		imprimirSalida("Tengo los siguientes juegos disponibles:");
 		for (String game: availableGames) {
@@ -87,7 +87,6 @@ public class Interprete {
 		String segundoSustantivo = "";
 
 		while (keepPlaying) {
-
 			System.out.print("¿Que queres hacer?:\n");
 			input = in.nextLine();
 
