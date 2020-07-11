@@ -219,4 +219,8 @@ public class Character implements ITriggereable, INombrable<Character> {
 	public String ver() {
 		return location.getFullDescription();
 	}
+
+	public void removerItemDeInventario(Item item) {
+		this.inventory.removeItemQuantity(item);
+	}
 }

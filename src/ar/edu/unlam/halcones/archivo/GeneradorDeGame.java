@@ -2,6 +2,7 @@ package ar.edu.unlam.halcones.archivo;
 
 import ar.edu.unlam.halcones.entities.Character;
 import ar.edu.unlam.halcones.entities.*;
+import ar.edu.unlam.halcones.interprete.aftertriggers.HandlerAfterTrigger;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,10 +47,26 @@ public class GeneradorDeGame {
         Inventory inventory = new Inventory();
         List<Item> itemsForInventory = new LinkedList<>();
         JsonNode inventoryNode = gameTree.get(INVENTORY_KEY);
+        JsonNode[] inventoryArrayNode = objectMapper.readValue(inventoryNode.toString(), JsonNode[].class);
+        for(JsonNode itemInInventory : inventoryArrayNode) {
+            String itemName = itemInInventory.get(NAME_KEY).asText();
+            Item item = gameItems.stream().filter(i -> i.getName().equals(itemName))
+                    .findAny()
+                    .orElse(null);
+            int itemQuantity = itemInInventory.get("quantity").asInt();
+            inventory.add(item, itemQuantity);
+        }
+
+        /*String[] itemsNameInInvetory = objectMapper.readValue(inventoryNode.toString(), String[].class);
+        for (String itemName : itemsNameInInvetory) {
+            gameItems.stream().filter(item -> item.getName().equals(itemName))
+                    .findAny()
+                    .ifPresent(itemsForInventory::add);
+        }
 
         findAndAddElements(objectMapper, gameItems, itemsForInventory, inventoryNode);
 
-        inventory.add(itemsForInventory);
+        inventory.add(itemsForInventory);*/
 
         // Proceso Location por primera vez para generar places
         List<Location> gameLocations = new LinkedList<>();
@@ -126,7 +143,9 @@ public class GeneradorDeGame {
         }
 
         Character character = new Character(gameLocations.get(0), inventory, characterName);
-        return new Game(welcomeMessage, character, gameLocations, gameNpcs, gameItems, gameEndGames);
+        Game game = new Game(welcomeMessage, character, gameLocations, gameNpcs, gameItems, gameEndGames);
+        HandlerAfterTrigger.setGame(game);
+        return game;
     }
 
     private <T extends GameEntity> void findAndAddElements(ObjectMapper objectMapper, Collection<T> listFrom, Collection<T> listTo, JsonNode searchNode) throws IOException {

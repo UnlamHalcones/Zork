@@ -19,6 +19,7 @@ public class Game {
 	private List<GameEntity> gameEntities;
 	public Map<String, INombrable> interactuables = new HashMap<String, INombrable>();
 
+
 	public Game(String welcome, String characterName, List<Location> locations, List<Npc> npcs, List<Item> items,
 			List<EndGame> endGames) {
 		this.locations = locations;
@@ -159,5 +160,30 @@ public class Game {
 		this.interactuables.putAll(character.getNombresLocation());
 
 		this.interactuables.putAll(character.getInventory().getNombres());
+	}
+
+	public void removeNpc(String npcName) {
+		Npc npcABorrar = this.npcs.stream().filter(npc -> npc.getName().equals(npcName))
+				.findAny()
+				.orElse(null);
+		if(npcABorrar != null) {
+			this.npcs.remove(npcABorrar);
+
+			// Ahora lo saco de cada location,  si esta en la connection lo pongo en null
+			for(Location location : this.locations) {
+				location.removerNpc(npcABorrar);
+			}
+
+			// Lo saco de los interactuables
+			this.interactuables.remove(npcName);
+		}
+	}
+
+	public void removeItemFromCharacter(String itemName) {
+		Item item = this.items.stream().filter(item1 -> item1.getName().equals(itemName))
+				.findFirst()
+				.orElse(null);
+		character.removerItemDeInventario(item);
+
 	}
 }

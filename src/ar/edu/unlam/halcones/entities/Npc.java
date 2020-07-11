@@ -1,6 +1,9 @@
 package ar.edu.unlam.halcones.entities;
 
 import java.util.HashMap;
+
+import ar.edu.unlam.halcones.interprete.aftertriggers.HandlerAfterTrigger;
+import ar.edu.unlam.halcones.interprete.aftertriggers.Command;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.xml.internal.ws.util.StringUtils;
 
@@ -21,7 +24,6 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 
 	public Npc() {
 		super();
-		this.type = GameEntityTypes.NPC;
 	}
 
 	public Npc(String description, String state) {
@@ -89,7 +91,9 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 			return "No puede hacer eso con " + this.getFullDescription();
 		}
 
-		super.status = aux.get().getAfterTrigger();
+		Command command = new Command(aux.get().getAfterTrigger(), this.getName(), this.getType());
+		HandlerAfterTrigger.handleCommand(command);
+//		super.status = aux.get().getAfterTrigger();
 
 		return aux.get().getOnTrigger();
 	}

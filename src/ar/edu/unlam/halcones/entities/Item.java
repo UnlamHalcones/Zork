@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import ar.edu.unlam.halcones.interprete.aftertriggers.Command;
+import ar.edu.unlam.halcones.interprete.aftertriggers.HandlerAfterTrigger;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Item extends GameEntity implements Comparable<Item>, ITriggereable, INombrable<Item> {
@@ -18,7 +21,6 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 
 	public Item() {
 		super();
-		this.type = GameEntityTypes.ITEM;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -75,6 +77,8 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 			return "Accion no valida sobre un " + over.getType() + ".";
 		}
 
+		Command command = new Command("remove", this.getName(), this.getType());
+		HandlerAfterTrigger.handleCommand(command);
 		Trigger trigger = new Trigger("item", this.getName());
 
 		return over.execute(trigger);

@@ -31,6 +31,12 @@ public class Connection implements INombrable<Location> {
 		return " Al " + direction + " se puede ir hacia " + location.getFullDescriptionQty();
 	}
 
+	public void removeNpc(Npc npc) {
+		if(this.obstacle != null && this.obstacle.equals(npc)) {
+			this.obstacle = null;
+		}
+	}
+
 	@Override
 	public Map<String, Location> getNombres() {
 

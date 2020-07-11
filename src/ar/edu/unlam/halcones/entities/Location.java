@@ -14,7 +14,6 @@ public class Location extends GameEntity implements INombrable<Location> {
 
 	public Location() {
 		super();
-		this.type = GameEntityTypes.LOCATION;
 	}
 
 	public Location(String name) {
@@ -175,6 +174,13 @@ public class Location extends GameEntity implements INombrable<Location> {
 	public void removeItem(Item itemToRemove) {
 		this.places.stream().filter(p -> p.isItemInPlace(itemToRemove)).findFirst()
 				.ifPresent(p -> p.removeItem(itemToRemove));
+	}
+
+	public void removerNpc(Npc npc) {
+		this.npcs.remove(npc);
+		for(Connection connection : this.connections) {
+			connection.removeNpc(npc);
+		}
 	}
 
 	@Override
