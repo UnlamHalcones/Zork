@@ -59,9 +59,9 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 		return effectsOver;
 	}
 	
-	public Image getImage() {
+	public Icon getImage() {
 		
-		return new ImageIcon(this.getClass().getResource("icon-test.png")).getImage();
+		return new ImageIcon(getName()+".png");
 	}
 
 	public void setEffectsOver(List<String> effectsOver) {

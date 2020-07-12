@@ -50,22 +50,17 @@ public class VentanaInventario extends JFrame {
 	 */
 	private JFrame frame = new JFrame("Inventario");
     
-	private Icon errorIcon = (Icon) UIManager.getIcon("OptionPane.errorIcon");
-    private Icon infoIcon = (Icon) UIManager.getIcon("OptionPane.informationIcon");
-    private Icon warnIcon = (Icon) UIManager.getIcon("OptionPane.warningIcon");
-	
-    private String[] columnNames = {"Item", "Nombre"};
+    private String[] columnNames = {"Item", "Nombre (Cantidad)"};
     
     // -------------------  ----------- -------------
 
-    private static class LabelIcon {
+   /* private static class LabelIcon {
 
         ImageIcon icon;
-        //String label;
 
-        public LabelIcon(ImageIcon icon/*,String label*/) {
+        public LabelIcon(ImageIcon icon) {
             this.icon = icon;
-            //this.label = label;
+            
         }
     }
 
@@ -74,6 +69,7 @@ public class VentanaInventario extends JFrame {
         public LabelIconRenderer() {
             setHorizontalTextPosition(JLabel.CENTER);
             setVerticalTextPosition(JLabel.BOTTOM);
+            setHorizontalAlignment(JLabel.CENTER);
         }
 
         @Override
@@ -81,11 +77,12 @@ public class VentanaInventario extends JFrame {
             value, boolean isSelected, boolean hasFocus, int row, int col) {
             JLabel r = (JLabel) super.getTableCellRendererComponent(
                 table, value, isSelected, hasFocus, row, col);
-            setIcon(((LabelIcon) value).icon);
+            //setIcon(((LabelIcon) value).icon);
+            setIcon((ImageIcon) value);
             //setText(((LabelIcon) value).label);
             return r;
         }
-    }
+    }*/
     
     
     // -------------------  ----------- -------------
@@ -108,20 +105,19 @@ public class VentanaInventario extends JFrame {
     	JTable table = new JTable(model) {
             @Override
             public int getRowHeight() {
-                return super.getRowHeight() + infoIcon.getIconHeight();
+                return super.getRowHeight()*3;
             }
 
             @Override
             public Dimension getPreferredScrollableViewportSize() {
                 return new Dimension(
-                    (5 * super.getPreferredSize().width) / 4,
-                    4 * this.getRowHeight());
+                    (10 * super.getPreferredSize().width) / 4,
+                    6 * this.getRowHeight());
             }
         };
         
         table.setAutoCreateRowSorter(true);
-        table.setDefaultRenderer(LabelIcon.class, new LabelIconRenderer());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(new JScrollPane(table));
         frame.pack();
         frame.setLocationRelativeTo(null);
