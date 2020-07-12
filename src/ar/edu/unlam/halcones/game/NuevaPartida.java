@@ -18,14 +18,15 @@ public class NuevaPartida extends JDialog {
 	private JTextField txtNombre;
 	private boolean iniciarJuego;
 	private String archivo;
+	private String carpetaImagenes;
 	private String nombreCharacter;
 	private JComboBox<String> comboHistoria;
 
-	public NuevaPartida(JFrame padre) {
+	public NuevaPartida(JFrame padre, String nombreCharacter) {
 		super(padre, "Nueva partida...", true);
 		this.iniciarJuego = false;
 		this.archivo = "";
-		this.nombreCharacter = "";
+		this.nombreCharacter = nombreCharacter;
 		initialize();
 	}
 
@@ -39,6 +40,7 @@ public class NuevaPartida extends JDialog {
 		this.getContentPane().add(lblIngresoNombre, "cell 0 0,alignx trailing");
 
 		txtNombre = new JTextField();
+		txtNombre.setText(this.nombreCharacter);
 		this.getContentPane().add(txtNombre, "cell 1 0 6 1,growx");
 		txtNombre.setColumns(10);
 
@@ -79,8 +81,10 @@ public class NuevaPartida extends JDialog {
 			this.nombreCharacter = this.txtNombre.getText();
 			if (this.comboHistoria.getSelectedIndex() == 1) {
 				this.archivo = "piratasfantasmas.json";
+				this.carpetaImagenes = "piratafantasma";
 			} else {
 				this.archivo = "pandemia.json";
+				this.carpetaImagenes = "pandemia";
 			}
 			this.setVisible(false);
 		}
@@ -100,6 +104,10 @@ public class NuevaPartida extends JDialog {
 
 	public String getNombreCharacter() {
 		return nombreCharacter;
+	}
+
+	public String getCarpetaImagenes() {
+		return carpetaImagenes;
 	}
 
 }

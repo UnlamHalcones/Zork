@@ -28,8 +28,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+
 import javax.swing.JPanel;
 
 public class RunnableGame extends JFrame {
@@ -51,7 +55,10 @@ public class RunnableGame extends JFrame {
 	private Interprete_game interprete;
 	private Map<String, String> verbos;
 	private GeneradorDeGame generador;
+	private Set<String> imagenes;
 	private JPanel panel;
+	private String directorioImagenes;
+	private String nombreCharacter = "Guybrush Threepwood";
 
 	public RunnableGame() {
 		initialize();
@@ -60,10 +67,11 @@ public class RunnableGame extends JFrame {
 	private void initialize() {
 		this.setTitle("Bienvenido a Zork!!!");
 		this.setBounds(100, 100, 800, 450);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.getContentPane().setLayout(new MigLayout("", "[grow]", "[grow][][][][][][][][][][grow][][][]"));
 		this.setLocationRelativeTo(null);
-		
+
+		imagenes = new HashSet<String>();
 		panel = new DrawPanel();
 		getContentPane().add(panel, "cell 0 0 1 10,grow");
 
@@ -124,14 +132,21 @@ public class RunnableGame extends JFrame {
 		mntmSalir.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ev) {
-				System.exit(0);
+				salirDelJuego();
 			}
 		});
 		mnPartida.add(mntmSalir);
 	}
 
+	private void salirDelJuego() {
+		if (JOptionPane.showConfirmDialog(this, "Realmente quieres irte del juego", "Atención...",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
+			System.exit(0);
+		}
+	}
+
 	private void nuevaPartida() {
-		nuevaPartida = new NuevaPartida(this);
+		nuevaPartida = new NuevaPartida(this, nombreCharacter);
 		if (nuevaPartida.iniciaJuego()) {
 			generador = new GeneradorDeGame();
 			try {
@@ -141,10 +156,15 @@ public class RunnableGame extends JFrame {
 				mntmGuardar.setEnabled(true);
 				interprete = new Interprete_game();
 				verbos = LectorDiccionarioCSV.leerDiccionario();
-				mostrarSalida(game.getWelcome());
-				display();
+				directorioImagenes = "imagenes/" + nuevaPartida.getCarpetaImagenes().trim() + "/";
+				nombreCharacter = nuevaPartida.getNombreCharacter().trim();
+				txtHistoria.setText("");
 				txtComando.setEditable(true);
 				txtComando.setFocusable(true);
+				mostrarSalida("Bienvenido a Zork " + nombreCharacter + ". Espero te diviertas!");
+				mostrarSalida(game.getWelcome());
+				buscarImagenes("character " + game.getWelcome());
+				display();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -157,24 +177,26 @@ public class RunnableGame extends JFrame {
 	}
 
 	private void enviarComando() {
+		String comando = txtComando.getText().toLowerCase().trim();
 		String input = "";
 		String verbo = "";
 		String primerSustantivo = "";
 		String segundoSustantivo = "";
 
-		if (txtComando.getText().isEmpty()) {
-		} else if (txtComando.getText().equals("salir")) {
+		if (comando.isEmpty()) {
+		} else if (comando.equals("salir")) {
 			limpiarComando();
 			if (JOptionPane.showConfirmDialog(this, "Realmente quieres abandonar el juego sin antes guardar la partida",
 					"Atención...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
+				mostrarSalida("Acabas de abandonar el juego!");
 				finalizarGame();
 			}
-		} else if (!txtComando.getText().contains(" ")) {
+		} else if (!comando.contains(" ")) {
 			mostrarSalida(INVALIDCOMMAND);
 			limpiarComando();
 		} else {
 
-			input = txtComando.getText().toLowerCase();
+			input = comando;
 			verbo = input.substring(0, input.indexOf(" "));
 			input = input.replace(verbo, "");
 
@@ -222,16 +244,41 @@ public class RunnableGame extends JFrame {
 					}
 
 					String salida = interprete.commandRouter(game, verbo, primerSustantivo, segundoSustantivo);
+					mostrarSalida(salida);
+					buscarImagenes(salida);
+					display();
+					limpiarComando();
 
 					if (interprete.isKeepPlaying()) {
-						mostrarSalida(salida);
 						mostrarSalida("Finalizaste el juego!");
 						finalizarGame();
-					} else {
-						mostrarSalida(salida);
-						limpiarComando();
 					}
 				}
+			}
+		}
+	}
+
+	private void buscarImagenes(String salida) {
+		File imagen;
+		String[] str = salida.toLowerCase().replace(".", "").replace(",", "").replace("¡", "").replace("!", "")
+				.split(" ");
+		boolean actualizarListaDeImagenes = false;
+		Set<String> imagenesABuscar = new HashSet<String>();
+
+		for (int i = 0; i < str.length; i++) {
+			if (!str[i].isEmpty()) {
+				imagen = new File(directorioImagenes + str[i].trim() + ".jpg");
+				if (imagen.exists()) {
+					imagenesABuscar.add(str[i]);
+					actualizarListaDeImagenes = true;
+				}
+			}
+		}
+
+		if (actualizarListaDeImagenes) {
+			imagenes.clear();
+			for (String string : imagenesABuscar) {
+				imagenes.add(string);
 			}
 		}
 	}
@@ -241,7 +288,6 @@ public class RunnableGame extends JFrame {
 		game = null;
 		interprete = null;
 		verbos = null;
-		txtComando.setText("");
 		txtComando.setEditable(false);
 		txtComando.setFocusable(false);
 		mntmNueva.setEnabled(true);
@@ -256,38 +302,42 @@ public class RunnableGame extends JFrame {
 		txtComando.setText("");
 		txtComando.setFocusable(true);
 	}
-	
+
 	public void display() {
 		panel.repaint();
 	}
-	
+
 	private class DrawPanel extends JPanel {
-		
+
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			ImageIcon imagen1, imagen2, imagen3, imagen4, imagen5, imagen6;
-			imagen1 = new ImageIcon("imagenes/a.jpg");
-			imagen2 = new ImageIcon("imagenes/b.jpg");
-			imagen3 = new ImageIcon("imagenes/c.jpg");
-			imagen4 = new ImageIcon("imagenes/d.jpg");
-			imagen5 = new ImageIcon("imagenes/e.jpg");
-			imagen6 = new ImageIcon("imagenes/f.jpg");
+
 			Graphics2D g2 = (Graphics2D) g;
 			Dimension currentDimension = getContentPane().getSize();
 			g2.scale(currentDimension.getWidth() / 300, currentDimension.getHeight() / 200);
 			g2.setColor(Color.black);
 			g2.fillRect(0, 0, 300, 200);
-			
-			g2.drawImage(imagen1.getImage(), 0, 50, 50, 50, null);
-			g2.drawImage(imagen2.getImage(), 50, 50, 50, 50, null);
-			g2.drawImage(imagen3.getImage(), 100, 50, 50, 50, null);
-			g2.drawImage(imagen4.getImage(), 150, 50, 50, 50, null);
-			g2.drawImage(imagen5.getImage(), 200, 50, 50, 50, null);
-			
-			g2.drawImage(imagen6.getImage(), 0, 50, 50, 50, null);
+
+			int x = 1, y = 1, cantFila = 0, cantTotal = 0;
+
+			for (String img : imagenes) {
+				ImageIcon imagen = new ImageIcon(directorioImagenes + img + ".jpg");
+				g2.drawImage(imagen.getImage(), x, y, 30, 30, null);
+				cantTotal++;
+				if (cantTotal >= 30) {
+					break;
+				} else if (cantFila < 10) {
+					x += 31;
+					cantFila++;
+				} else {
+					x = 0;
+					y += 31;
+					cantFila = 0;
+				}
+			}
 		}
 
 		@Override
