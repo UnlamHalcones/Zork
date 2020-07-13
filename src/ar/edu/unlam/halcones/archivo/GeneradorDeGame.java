@@ -27,7 +27,11 @@ public class GeneradorDeGame {
         JsonNode settings = gameTree.get(SETTINGS_KEY);
         String characterName = settings.get(CHARACTER_KEY).asText();
         String welcomeMessage = settings.get(WELCOOME_KEY).asText();
-        
+
+        JsonNode character_triggers = gameTree.get("character_triggers");
+        List<Trigger> characterTriggers = objectMapper.readValue(character_triggers.toString(), new TypeReference<List<Trigger>>() {
+        });
+
         // Proceso items
         JsonNode itemsNode = gameTree.get(ITEMS_KEY);
         List<Item> gameItems = objectMapper.readValue(itemsNode.toString(), new TypeReference<List<Item>>() {
@@ -142,7 +146,7 @@ public class GeneradorDeGame {
             }
         }
 
-        Character character = new Character(gameLocations.get(0), inventory, characterName);
+        Character character = new Character(gameLocations.get(0), inventory, characterName, characterTriggers);
         Game game = new Game(welcomeMessage, character, gameLocations, gameNpcs, gameItems, gameEndGames);
         HandlerAfterTrigger.setGame(game);
         return game;

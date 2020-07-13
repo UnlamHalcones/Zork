@@ -64,7 +64,8 @@ public class Interprete {
 		
 		availableGames.add("piratasfantasmas");
 		availableGames.add("pandemia");
-		
+		availableGames.add("pandemiaV1");
+
 		imprimirSalida("Hola "+ playerName +"! Tengo los siguientes juegos disponibles:");
 		for (String game: availableGames) {
 			imprimirSalida(game);

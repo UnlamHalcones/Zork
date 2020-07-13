@@ -32,6 +32,14 @@ public class Character implements ITriggereable, INombrable<Character> {
 		this.vida = 100L;
 	}
 
+	public Character(Location location, Inventory inventory, String characterName, List<Trigger> triggers) {
+		this.location = location;
+		this.inventory = inventory;
+		this.name = characterName;
+		this.triggers = triggers;
+		this.vida = 100L;
+	}
+
 	public Character(Location location) {
 		this.location = location;
 		this.inventory = new Inventory();
