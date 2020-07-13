@@ -10,11 +10,9 @@ public class HandlerAfterTrigger {
     static {
         VidaCommandHandler vidaCommandHandler = new VidaCommandHandler();
         DefaultCommandHandler defaultCommandHandler = new DefaultCommandHandler();
-        CreateCommandHandler createCommandHandler = new CreateCommandHandler();
         commandHandler = new RemoveCommandHandler();
+        vidaCommandHandler.setNext(defaultCommandHandler);
         commandHandler.setNext(vidaCommandHandler);
-        vidaCommandHandler.setNext(createCommandHandler);
-        createCommandHandler.setNext(defaultCommandHandler);
 
     }
 
