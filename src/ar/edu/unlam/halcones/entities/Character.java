@@ -13,6 +13,8 @@ public class Character implements ITriggereable, INombrable<Character> {
 	protected String status;
 	private List<Trigger> triggers;
 
+
+
 	public Character(Location location, Inventory inventory) {
 		this.location = location;
 		this.inventory = inventory;
@@ -34,6 +36,10 @@ public class Character implements ITriggereable, INombrable<Character> {
 
 	public Character(List<Trigger> triggers) {
 		this.triggers = triggers;
+	}
+	
+	public Location getLocation() {
+		return location;
 	}
 	
 	public String moveTo(Location otherLocation) {

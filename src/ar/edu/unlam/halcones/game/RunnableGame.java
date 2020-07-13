@@ -28,6 +28,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -35,11 +37,13 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 
 public class RunnableGame extends JFrame {
 
 	private final static String INVALIDCOMMAND = "No entendi lo que ingresaste. Intenta de nuevo por favor.";
-
+	private final static String ZORKLANDSCAPE = "imagenes/Zork.png";
+	
 	private static final long serialVersionUID = 1L;
 	private JTextArea txtHistoria;
 	private JTextField txtComando;
@@ -56,24 +60,53 @@ public class RunnableGame extends JFrame {
 	private Map<String, String> verbos;
 	private GeneradorDeGame generador;
 	private Set<String> imagenes;
-	private JPanel panel;
 	private String directorioImagenes;
 	private String nombreCharacter = "Guybrush Threepwood";
+	
+	private JSplitPane splitPane;
+	private JPanel landscapePanel;
+	private JPanel interactuablePanel;
 
+	private String landscapeImageUrl;
+	
 	public RunnableGame() {
+		setResizable(false);
 		initialize();
 	}
 
 	private void initialize() {
 		this.setTitle("Bienvenido a Zork!!!");
-		this.setBounds(100, 100, 800, 450);
-		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.getContentPane().setLayout(new MigLayout("", "[grow]", "[grow][][][][][][][][][][grow][][][]"));
+		this.setBounds(100, 100, 1200, 800);
+		this.getContentPane().setLayout(new MigLayout("", "[grow]", "[66.00,grow][][][][][][][][][][grow][][][]"));
 		this.setLocationRelativeTo(null);
-
+		
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.addWindowListener( new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {
+        		salirDelJuego();
+            }
+        } );
+		
+		landscapeImageUrl = ZORKLANDSCAPE;
+		
 		imagenes = new HashSet<String>();
-		panel = new DrawPanel();
-		getContentPane().add(panel, "cell 0 0 1 10,grow");
+
+		splitPane = new JSplitPane();
+		splitPane.setEnabled(false);
+		splitPane.setContinuousLayout(true);
+		splitPane.setBackground(Color.BLACK);
+		splitPane.setDividerLocation(800);
+		getContentPane().add(splitPane, "cell 0 0,grow");
+		
+		landscapePanel = new LandscapePanel();
+		landscapePanel.setBackground(Color.BLACK);
+		splitPane.setLeftComponent(landscapePanel);
+		
+		interactuablePanel = new DrawPanel();
+		interactuablePanel.setBackground(Color.BLACK);
+		splitPane.setRightComponent(interactuablePanel);
+		
 
 		scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -139,7 +172,7 @@ public class RunnableGame extends JFrame {
 	}
 
 	private void salirDelJuego() {
-		if (JOptionPane.showConfirmDialog(this, "Realmente quieres irte del juego", "Atención...",
+		if (JOptionPane.showConfirmDialog(this, "Realmente quieres irte del juego", "Atenciï¿½n...",
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
 			System.exit(0);
 		}
@@ -183,11 +216,12 @@ public class RunnableGame extends JFrame {
 		String primerSustantivo = "";
 		String segundoSustantivo = "";
 
+
 		if (comando.isEmpty()) {
 		} else if (comando.equals("salir")) {
 			limpiarComando();
 			if (JOptionPane.showConfirmDialog(this, "Realmente quieres abandonar el juego sin antes guardar la partida",
-					"Atención...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
+					"Atenciï¿½n...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
 				mostrarSalida("Acabas de abandonar el juego!");
 				finalizarGame();
 			}
@@ -243,6 +277,7 @@ public class RunnableGame extends JFrame {
 						primerSustantivo = primerEncontrado;
 					}
 
+					
 					String salida = interprete.commandRouter(game, verbo, primerSustantivo, segundoSustantivo);
 					mostrarSalida(salida);
 					buscarImagenes(salida);
@@ -260,7 +295,7 @@ public class RunnableGame extends JFrame {
 
 	private void buscarImagenes(String salida) {
 		File imagen;
-		String[] str = salida.toLowerCase().replace(".", "").replace(",", "").replace("¡", "").replace("!", "")
+		String[] str = salida.toLowerCase().replace(".", "").replace(",", "").replace("ï¿½", "").replace("!", "")
 				.split(" ");
 		boolean actualizarListaDeImagenes = false;
 		Set<String> imagenesABuscar = new HashSet<String>();
@@ -304,7 +339,15 @@ public class RunnableGame extends JFrame {
 	}
 
 	public void display() {
-		panel.repaint();
+		String locationImageUrl = "";
+		
+		interactuablePanel.repaint();
+		
+		locationImageUrl = directorioImagenes + game.getCharacter().getLocation().getName() + ".jpg";
+		if(!locationImageUrl.equals(landscapeImageUrl)){
+			landscapeImageUrl = locationImageUrl;
+			landscapePanel.repaint();
+		}
 	}
 
 	private class DrawPanel extends JPanel {
@@ -338,6 +381,7 @@ public class RunnableGame extends JFrame {
 					cantFila = 0;
 				}
 			}
+			
 		}
 
 		@Override
@@ -345,5 +389,24 @@ public class RunnableGame extends JFrame {
 			return new Dimension(300, 200);
 		}
 	}
+	
+	private class LandscapePanel extends JPanel {
+
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+
+			Graphics2D g2 = (Graphics2D) g;
+			Dimension currentDimension = getSize();
+			g2.setColor(Color.black);
+
+			ImageIcon imagen = new ImageIcon(landscapeImageUrl);
+			g2.drawImage(imagen.getImage(), 0, 0, currentDimension.width, currentDimension.height, null);
+			
+		}
+	}
+
 
 }
