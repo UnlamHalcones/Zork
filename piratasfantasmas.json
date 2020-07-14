@@ -14,7 +14,7 @@
           "name": "suelo",
           "gender": "male",
           "number": "singular",
-          "items": ["barreta", "rociador con cerveza de raiz", "espejo"]
+          "items": ["barreta", "rociador con cerveza de raiz", "espejo", "barreta", "rociador con cerveza de raiz", "espejo" ]
         }
       ],
       "npcs": ["pirata fantasma"],

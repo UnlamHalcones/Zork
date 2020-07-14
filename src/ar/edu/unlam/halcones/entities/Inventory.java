@@ -92,9 +92,7 @@ public class Inventory implements INombrable<Inventory> {
 	}
 	
 	private void mostrarVentanaInventario() {
-		
-		VentanaInventario ventInv = new VentanaInventario(this.getItemsTable());
-		ventInv.setVisible(true);
+		new VentanaInventario(this.getItemsTable());
 	}
 	
 	@Override 

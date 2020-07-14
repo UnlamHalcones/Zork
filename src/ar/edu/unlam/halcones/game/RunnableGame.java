@@ -70,7 +70,7 @@ public class RunnableGame extends JFrame {
 	private String landscapeImageUrl;
 	
 	public RunnableGame() {
-		setResizable(false);
+		//setResizable(false);
 		initialize();
 	}
 
@@ -93,7 +93,7 @@ public class RunnableGame extends JFrame {
 		imagenes = new HashSet<String>();
 
 		splitPane = new JSplitPane();
-		splitPane.setEnabled(false);
+		//splitPane.setEnabled(false);
 		splitPane.setContinuousLayout(true);
 		splitPane.setBackground(Color.BLACK);
 		splitPane.setDividerLocation(800);
@@ -343,7 +343,7 @@ public class RunnableGame extends JFrame {
 		
 		interactuablePanel.repaint();
 		
-		locationImageUrl = directorioImagenes + game.getCharacter().getLocation().getName() + ".jpg";
+		locationImageUrl = directorioImagenes + game.getCharacter().getLocation().getName() + "_location.jpg";
 		if(!locationImageUrl.equals(landscapeImageUrl)){
 			landscapeImageUrl = locationImageUrl;
 			landscapePanel.repaint();
