@@ -186,6 +186,8 @@ public class Interprete {
 			guardador.agregarSalida(salida);
 			
 			imprimirSalida(salida);
+			
+			game.actualizarInteractuables();
 
 		}
 
@@ -280,10 +282,18 @@ public class Interprete {
 				triggerable = (ITriggereable) entidadDos;
 
 			}
-
+			
 			if (!game.getCharacter().isItemInInventory(item))
 				return "No tienes este item en tu inventario";
 
+			if (triggerable instanceof Npc)
+			{
+				if (!(game.getCharacter().getLocation().isNpcInLocation((Npc) triggerable)))
+				{
+					return INVALIDCOMMAND;
+				}
+			}
+			
 			response = item.use(verbo, triggerable);
 		}
 

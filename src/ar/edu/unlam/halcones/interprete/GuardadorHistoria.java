@@ -7,28 +7,8 @@ import java.io.IOException;
 
 public class GuardadorHistoria {
 
-	private String directoryName = "JuegosAnteriores";
 	
-	private String fileName;
-	
-	private String fullPath;
-	
-
-	public GuardadorHistoria(String fileName) {
-		super();
-		this.fileName = fileName+ ".txt";
-		this.fullPath = directoryName + File.separator + this.fileName;
-
-		checkFolder();
-		File archivo = new File(this.fullPath);
-		try {
-			archivo.createNewFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
+	private String salida = "";
 	
 	public void agregarEntrada (String input) {
 		agregarRegistro ("Comando: '" + input + "'");
@@ -39,24 +19,11 @@ public class GuardadorHistoria {
 	}
 
 	public void agregarRegistro(String linea) {
-
-		BufferedWriter out;
-
-		try {
-			out = new BufferedWriter(new FileWriter(this.fullPath, true));
-			out.write(linea + "\n");
-			out.close();
-		} catch (IOException e) {
-			System.out.println("Error al leer el archivo");
-
-		}
+		
+		salida.concat(linea + System.lineSeparator());
 	}
 
-	private void checkFolder() {
-		File directory = new File(directoryName);
-		if (!directory.exists()) {
-			directory.mkdir();
-		}
+	public String getSalida(){
+		return salida;
 	}
-
 }

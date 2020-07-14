@@ -160,10 +160,15 @@ public class Game {
 		this.interactuables.put("oeste", new Location("OESTE"));
 
 		this.interactuables.putAll(character.getNombres());
-
+		
 		this.interactuables.putAll(character.getNombresLocation());
 
 		this.interactuables.putAll(character.getInventory().getNombres());
+	}
+	
+	public void actualizarInteractuables() {
+		this.interactuables.putAll(character.getNombres());
+		this.interactuables.putAll(character.getNombresLocation());
 	}
 
 	public void removeNpc(String npcName) {
