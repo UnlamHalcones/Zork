@@ -88,7 +88,7 @@ public class Interprete {
 
 		while (keepPlaying) {
 
-			System.out.print("Â¿Que queres hacer?:\n");
+			System.out.print("¿Que queres hacer?:\n");
 			input = in.nextLine();
 
 			if (input.equals("stop"))

@@ -1,9 +1,15 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.awt.Image;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Item extends GameEntity implements Comparable<Item>, ITriggereable, INombrable<Item> {
@@ -51,6 +57,11 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 
 	public List<String> getEffectsOver() {
 		return effectsOver;
+	}
+	
+	public Icon getImage() {
+		
+		return new ImageIcon(getName()+".png");
 	}
 
 	public void setEffectsOver(List<String> effectsOver) {
