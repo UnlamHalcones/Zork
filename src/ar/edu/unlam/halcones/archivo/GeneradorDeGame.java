@@ -19,13 +19,17 @@ import static ar.edu.unlam.halcones.archivo.JsonKey.*;
 
 public class GeneradorDeGame {
 
-    public Game generarEntornoDeJuego(String fileName) throws IOException {
+    public Game generarEntornoDeJuego(String fileName, String playerName) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode gameTree = objectMapper.readTree(new FileReader(new File(fileName)));
 
         JsonNode settings = gameTree.get(SETTINGS_KEY);
         String characterName = settings.get(CHARACTER_KEY).asText();
+        
+        if (playerName != "")
+        	characterName = playerName;
+        
         String welcomeMessage = settings.get(WELCOOME_KEY).asText();
 
         JsonNode character_triggers = gameTree.get("character_triggers");

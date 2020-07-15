@@ -202,6 +202,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 	    myMap.put("sobre mi", this);
 	    myMap.put("en mi", this);
 	    myMap.put("vida", this);
+	    myMap.put(this.name.toLowerCase(), this);
 	    myMap.put("estadisticas", this);
 	    
 	    return myMap;	

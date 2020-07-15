@@ -107,7 +107,7 @@ public class Game {
 				if (character.isItemInInventory(endGame_IT.getThing()) && endGame_IT.getAction().equals(action))
 					return new Pair<Boolean, String>(true, endGame_IT.getDescription());
 			} else if (endGame_IT.getCondition().equals("vida")) {
-				if(character.getVida().equals(0L)) {
+				if(character.getVida() <= 0L) {
 					return new Pair<Boolean, String>(true, endGame_IT.getDescription());
 				}
 			}

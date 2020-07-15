@@ -95,10 +95,10 @@ public class Interprete {
 		String currentDate = new SimpleDateFormat("dd-MM-yyyy hh mm").format(Calendar.getInstance().getTime());
 		String fileName = "Sesion de "+ playerName + " - " + selectedGame + " - " + currentDate;
 		
-		GuardadorHistoria guardador = new GuardadorHistoria(fileName);
+		GuardadorHistoria guardador = new GuardadorHistoria();
 
 		try {
-			game = generador.generarEntornoDeJuego(selectedGame + ".json");
+			game = generador.generarEntornoDeJuego(selectedGame + ".json", playerName);
 			game.generarInteractuables();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -111,6 +111,8 @@ public class Interprete {
 		
 		String verbo = "";
 		String primerSustantivo = "";
+		
+		
 		String segundoSustantivo = "";
 
 		while (keepPlaying) {
@@ -271,6 +273,10 @@ public class Interprete {
 				item = (Item) entidadUno;
 
 				if (entidadDos != null) {
+					
+					if (!(entidadDos instanceof ITriggereable))
+						return INVALIDCOMMAND;
+					
 					triggerable = (ITriggereable) entidadDos;
 				} else {
 					triggerable = (ITriggereable) game.getCharacter();
@@ -279,7 +285,12 @@ public class Interprete {
 			} else {
 
 				item = (Item) entidadDos;
-				triggerable = (ITriggereable) entidadDos;
+				
+				if (!(entidadUno instanceof ITriggereable))
+					return INVALIDCOMMAND;
+				
+				
+				triggerable = (ITriggereable) entidadUno;
 
 			}
 			

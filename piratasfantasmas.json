@@ -1,191 +1,196 @@
 {
-    "settings": {
-        "welcome": "Te encuentras en un muelle. Es de noche pero la luna ilumina todo el lugar. En el suelo hay algunos objetos, y sientes muchas ganas de ir hacia una taberna.",
-        "character": "Guybrush Threepwood"
+  "settings": {
+    "welcome": "Te encuentras en un muelle. Es de noche pero la luna ilumina todo el lugar. En el suelo hay algunos objetos, y sientes muchas ganas de ir hacia una taberna.",
+    "character": "Guybrush Threepwood"
+  },
+  "character_triggers": [  ],
+  "locations": [
+    {
+      "name": "muelle",
+      "gender": "male",
+      "number": "singular",
+      "description": "Estás en un muelle",
+      "places": [
+        {
+          "name": "suelo",
+          "gender": "male",
+          "number": "singular",
+          "items": [
+            "barreta",
+            "rociador con cerveza de raiz",
+            "espejo"
+          ]
+        }
+      ],
+      "npcs": [
+        "pirata fantasma"
+      ],
+      "connections": [
+        {
+          "direction": "sur",
+          "location": "taberna",
+          "obstacles": "pirata fantasma"
+        }
+      ]
     },
-    "locations": [
+    {
+      "name": "taberna",
+      "gender": "female",
+      "number": "singular",
+      "description": "Estás en una sucia taberna",
+      "connections": [
         {
-            "name": "muelle",
-            "gender": "male",
-            "number": "singular",
-            "description": "Estás en un muelle",
-            "places": [
-                {
-                    "name": "suelo",
-                    "gender": "male",
-                    "number": "singular",
-                    "items": [
-                        "barreta",
-                        "rociador con cerveza de raiz",
-                        "espejo"
-                    ]
-                }
-            ],
-            "npcs": [
-                "pirata fantasma"
-            ],
-            "connections": [
-                {
-                    "direction": "sur",
-                    "location": "taberna",
-                    "obstacles": "pirata fantasma"
-                }
-            ]
-        },
-        {
-            "name": "taberna",
-            "gender": "female",
-            "number": "singular",
-            "description": "Estás en una sucia taberna",
-            "connections": [
-                {
-                    "direction": "norte",
-                    "location": "muelle"
-                }
-            ]
+          "direction": "norte",
+          "location": "muelle"
         }
-    ],
-    "npcs": [
+      ]
+    }
+  ],
+  "npcs": [
+    {
+      "name": "pirata fantasma",
+      "gender": "male",
+      "number": "singular",
+      "description": "'¡No puedes pasar!' El pirata fantasma no te dejará pasar",
+      "talk": "¡No hay nada que me digas que me haga cambiar de opinión!",
+      "triggers": [
         {
-            "name": "pirata fantasma",
-            "gender": "male",
-            "number": "singular",
-            "description": "'¡No puedes pasar!' El pirata fantasma no te dejará pasar",
-            "talk": "¡No hay nada que me digas que me haga cambiar de opinión!",
-            "triggers": [
-                {
-                    "type": "item",
-                    "thing": "rociador con cerveza de raiz",
-                    "on_trigger": "'¡Me encanta la cerveza de raiz!' El pirata fantasma se veía entusiasmado por tu ofrecimiento... sin embargo, cuando lo rociaste comenzó a desintegrarse. La mitad de arriba de su cuerpo se desvaneció, y las piernas inmediatamente echaron a correr.",
-                    "after_trigger": "remove,vida-10"
-                }
-            ]
+          "type": "item",
+          "thing": "rociador con cerveza de raiz",
+          "on_trigger": "'¡Me encanta la cerveza de raiz!' El pirata fantasma se veía entusiasmado por tu ofrecimiento... sin embargo, cuando lo rociaste comenzó a desintegrarse. La mitad de arriba de su cuerpo se desvaneció, y las piernas inmediatamente echaron a correr.",
+          "after_trigger": "remove,vida-10"
         }
-    ],
-    "items": [
+      ]
+    }
+  ],
+  "items": [
+    {
+      "name": "barreta",
+      "gender": "female",
+      "number": "singular",
+      "actions": [
+        "usar"
+      ],
+      "effects_over": [
+        "npc",
+        "self",
+        "item"
+      ]
+    },
+    {
+      "name": "rociador con cerveza de raiz",
+      "gender": "male",
+      "number": "singular",
+      "actions": [
+        "usar"
+      ],
+      "effects_over": [
+        "npc",
+        "self",
+        "item"
+      ]
+    },
+    {
+      "name": "espejo",
+      "gender": "male",
+      "number": "singular",
+      "actions": [
+        "usar"
+      ],
+      "effects_over": [
+        "npc",
+        "self",
+        "item"
+      ]
+    },
+    {
+      "name": "hierbas medicinales rojas",
+      "gender": "female",
+      "number": "plural",
+      "actions": [
+        "comer",
+        "masticar",
+        "oler",
+        "usar"
+      ],
+      "effects_over": [
+        "self",
+        "item"
+      ],
+      "triggers": [
         {
-            "name": "barreta",
-            "gender": "female",
-            "number": "singular",
-            "actions": [
-                "usar"
-            ],
-            "effects_over": [
-                "npc",
-                "self",
-                "item"
-            ]
-        },
-        {
-            "name": "rociador con cerveza de raiz",
-            "gender": "male",
-            "number": "singular",
-            "actions": [
-                "usar"
-            ],
-            "effects_over": [
-                "npc",
-                "self",
-                "item"
-            ]
-        },
-        {
-            "name": "espejo",
-            "gender": "male",
-            "number": "singular",
-            "actions": [
-                "usar"
-            ],
-            "effects_over": [
-                "npc",
-                "self",
-                "item"
-            ]
-        },
-        {
-            "name": "hierbas medicinales rojas",
-            "gender": "female",
-            "number": "plural",
-            "actions": [
-                "comer",
-                "masticar",
-                "oler",
-                "usar"
-            ],
-            "effects_over": [
-                "self",
-                "item"
-            ],
-            "triggers": [{
-                "type": "item",
-                "thing": "hierbas medicinales verdes",
-                "on_trigger": "Has creado un nuevo tipo de hierba medicinal.",
-                "after_trigger": "remove, create-hierbas medicinales azules"
-            }]
-        },
-        {
-            "name": "hierbas medicinales verdes",
-            "gender": "female",
-            "number": "plural",
-            "actions": [
-                "comer",
-                "masticar",
-                "oler",
-                "usar"
-            ],
-            "effects_over": [
-                "self",
-                "item"
-            ],
-            "triggers": [{
-                "type": "item",
-                "thing": "hierbas medicinales rojas",
-                "on_trigger": "Has creado un nuevo tipo de hierba medicinal.",
-                "after_trigger": "remove, create-hierbas medicinales azules"
-            }]
-        },
-        {
-            "name": "hierbas medicinales azules",
-            "gender": "female",
-            "number": "plural",
-            "actions": [
-                "comer",
-                "masticar",
-                "oler",
-                "usar"
-            ],
-            "effects_over": [
-                "self",
-                "item"
-            ]
+          "type": "item",
+          "thing": "hierbas medicinales verdes",
+          "on_trigger": "Has creado un nuevo tipo de hierba medicinal.",
+          "after_trigger": "remove, create-hierbas medicinales azules"
         }
-    ],
-    "inventory": [
+      ]
+    },
+    {
+      "name": "hierbas medicinales verdes",
+      "gender": "female",
+      "number": "plural",
+      "actions": [
+        "comer",
+        "masticar",
+        "oler",
+        "usar"
+      ],
+      "effects_over": [
+        "self",
+        "item"
+      ],
+      "triggers": [
         {
-            "name": "rociador con cerveza de raiz",
-            "quantity": 1
-        },
-        {
-            "name": "barreta",
-            "quantity": 2
-        },
-        {
-            "name": "hierbas medicinales rojas",
-            "quantity": 1
+          "type": "item",
+          "thing": "hierbas medicinales rojas",
+          "on_trigger": "Has creado un nuevo tipo de hierba medicinal.",
+          "after_trigger": "remove, create-hierbas medicinales azules"
         }
-    ],
-    "endgames": [
-        {
-            "condition": "location",
-            "action": "ir",
-            "thing": "taberna",
-            "description": "¡Enhorabuena! Llegaste a la taberna, donde te espera una noche de borrachera con Grog y otros colegas piratas."
-        },
-        {
-            "condition": "inventory-item",
-            "action": "mirar",
-            "thing": "espejo",
-            "description": "¡Oh, no! Acabas de descubrir que tú también eres un pirata fantasma... ¡el horror!"
-        }
-    ]
+      ]
+    },
+    {
+      "name": "hierbas medicinales azules",
+      "gender": "female",
+      "number": "plural",
+      "actions": [
+        "comer",
+        "masticar",
+        "oler",
+        "usar"
+      ],
+      "effects_over": [
+        "self",
+        "item"
+      ]
+    }
+  ],
+  "inventory": [
+    {
+      "name": "rociador con cerveza de raiz",
+      "quantity": 1
+    },
+    {
+      "name": "barreta",
+      "quantity": 2
+    },
+    {
+      "name": "hierbas medicinales rojas",
+      "quantity": 1
+    }
+  ],
+  "endgames": [
+    {
+      "condition": "location",
+      "action": "ir",
+      "thing": "taberna",
+      "description": "¡Enhorabuena! Llegaste a la taberna, donde te espera una noche de borrachera con Grog y otros colegas piratas."
+    },
+    {
+      "condition": "inventory-item",
+      "action": "mirar",
+      "thing": "espejo",
+      "description": "¡Oh, no! Acabas de descubrir que tú también eres un pirata fantasma... ¡el horror!"
+    }
+  ]
 }
