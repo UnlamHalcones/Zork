@@ -11,7 +11,6 @@ public class Place extends GameEntity implements INombrable {
 
 	public Place() {
 		super();
-		this.type=GameEntityTypes.PLACE;
 		// TODO Auto-generated constructor stub
 		this.items = new LinkedList<>();
 	}

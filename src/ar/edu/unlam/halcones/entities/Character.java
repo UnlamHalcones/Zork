@@ -1,5 +1,8 @@
 package ar.edu.unlam.halcones.entities;
 
+import ar.edu.unlam.halcones.interprete.aftertriggers.Command;
+import ar.edu.unlam.halcones.interprete.aftertriggers.HandlerAfterTrigger;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,11 +15,13 @@ public class Character implements ITriggereable, INombrable<Character> {
 	private Inventory inventory;
 	protected String status;
 	private List<Trigger> triggers;
+	private Long vida;
 
 	public Character(Location location, Inventory inventory) {
 		this.location = location;
 		this.inventory = inventory;
 		this.triggers = new LinkedList<>();
+		this.vida = 100L;
 	}
 
 	public Character(Location location, Inventory inventory, String characterName) {
@@ -24,12 +29,22 @@ public class Character implements ITriggereable, INombrable<Character> {
 		this.inventory = inventory;
 		this.triggers = new LinkedList<>();
 		this.name = characterName;
+		this.vida = 100L;
+	}
+
+	public Character(Location location, Inventory inventory, String characterName, List<Trigger> triggers) {
+		this.location = location;
+		this.inventory = inventory;
+		this.name = characterName;
+		this.triggers = triggers;
+		this.vida = 100L;
 	}
 
 	public Character(Location location) {
 		this.location = location;
 		this.inventory = new Inventory();
 		this.triggers = new LinkedList<>();
+		this.vida = 100L;
 	}
 
 	public Character(List<Trigger> triggers) {
@@ -164,7 +179,15 @@ public class Character implements ITriggereable, INombrable<Character> {
 			return "Eso no ha servido de nada";
 		}
 
-		status = triggerToExecute.getAfterTrigger();
+		String afterTrigger = triggerToExecute.getAfterTrigger();
+		if(afterTrigger != null) {
+			String[] split = afterTrigger.split(",");
+			for(String s : split) {
+				Command command = new Command(s, this.getName(), this.getType());
+				HandlerAfterTrigger.handleCommand(command);
+			}
+		}
+
 		return triggerToExecute.getOnTrigger();
 	}
 
@@ -178,6 +201,9 @@ public class Character implements ITriggereable, INombrable<Character> {
 		Map<String,Character> myMap = new HashMap<String,Character>();
 	    myMap.put("sobre mi", this);
 	    myMap.put("en mi", this);
+	    myMap.put("vida", this);
+	    myMap.put(this.name.toLowerCase(), this);
+	    myMap.put("estadisticas", this);
 	    
 	    return myMap;	
 	}
@@ -188,6 +214,8 @@ public class Character implements ITriggereable, INombrable<Character> {
 	    
 	    return myMap;	
 	}
+	
+
 	
 	@Override
 	public void triggerThis(String action) {
@@ -217,6 +245,27 @@ public class Character implements ITriggereable, INombrable<Character> {
 
 	@Override
 	public String ver() {
-		return location.getFullDescription();
+		return "Ves a " + this.name + " - Vida: " + this.vida;
+		//return location.getFullDescription();
+	}
+
+	public void removerItemDeInventario(Item item) {
+		this.inventory.removeItemQuantity(item);
+	}
+
+	public void agregarItemAlInventario(Item item) {
+		this.inventory.addItem(item);
+	}
+
+	public Long getVida() {
+		return this.vida;
+	}
+
+	public void modificarVida(Long cantidad) {
+		this.vida += cantidad;
+	}
+	
+	public Location getLocation() {
+		return this.location;
 	}
 }

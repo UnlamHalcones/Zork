@@ -3,6 +3,7 @@
     "welcome": "Te encuentras en un muelle. Es de noche pero la luna ilumina todo el lugar. En el suelo hay algunos objetos, y sientes muchas ganas de ir hacia una taberna.",
     "character": "Guybrush Threepwood"
   },
+  "character_triggers": [  ],
   "locations": [
     {
       "name": "muelle",
@@ -14,10 +15,16 @@
           "name": "suelo",
           "gender": "male",
           "number": "singular",
-          "items": ["barreta", "rociador con cerveza de raiz", "espejo"]
+          "items": [
+            "barreta",
+            "rociador con cerveza de raiz",
+            "espejo"
+          ]
         }
       ],
-      "npcs": ["pirata fantasma"],
+      "npcs": [
+        "pirata fantasma"
+      ],
       "connections": [
         {
           "direction": "sur",
@@ -51,7 +58,7 @@
           "type": "item",
           "thing": "rociador con cerveza de raiz",
           "on_trigger": "'¡Me encanta la cerveza de raiz!' El pirata fantasma se veía entusiasmado por tu ofrecimiento... sin embargo, cuando lo rociaste comenzó a desintegrarse. La mitad de arriba de su cuerpo se desvaneció, y las piernas inmediatamente echaron a correr.",
-          "after_trigger": "remove"
+          "after_trigger": "remove,vida-10"
         }
       ]
     }
@@ -61,25 +68,117 @@
       "name": "barreta",
       "gender": "female",
       "number": "singular",
-      "actions": ["usar"],
-      "effects_over": ["npc", "self", "item"]
+      "actions": [
+        "usar"
+      ],
+      "effects_over": [
+        "npc",
+        "self",
+        "item"
+      ]
     },
     {
       "name": "rociador con cerveza de raiz",
       "gender": "male",
       "number": "singular",
-      "actions": ["usar"],
-      "effects_over": ["npc", "self", "item"]
+      "actions": [
+        "usar"
+      ],
+      "effects_over": [
+        "npc",
+        "self",
+        "item"
+      ]
     },
     {
       "name": "espejo",
       "gender": "male",
       "number": "singular",
-      "actions": ["usar"],
-      "effects_over": ["npc", "self", "item"]
+      "actions": [
+        "usar"
+      ],
+      "effects_over": [
+        "npc",
+        "self",
+        "item"
+      ]
+    },
+    {
+      "name": "hierbas medicinales rojas",
+      "gender": "female",
+      "number": "plural",
+      "actions": [
+        "comer",
+        "masticar",
+        "oler",
+        "usar"
+      ],
+      "effects_over": [
+        "self",
+        "item"
+      ],
+      "triggers": [
+        {
+          "type": "item",
+          "thing": "hierbas medicinales verdes",
+          "on_trigger": "Has creado un nuevo tipo de hierba medicinal.",
+          "after_trigger": "remove, create-hierbas medicinales azules"
+        }
+      ]
+    },
+    {
+      "name": "hierbas medicinales verdes",
+      "gender": "female",
+      "number": "plural",
+      "actions": [
+        "comer",
+        "masticar",
+        "oler",
+        "usar"
+      ],
+      "effects_over": [
+        "self",
+        "item"
+      ],
+      "triggers": [
+        {
+          "type": "item",
+          "thing": "hierbas medicinales rojas",
+          "on_trigger": "Has creado un nuevo tipo de hierba medicinal.",
+          "after_trigger": "remove, create-hierbas medicinales azules"
+        }
+      ]
+    },
+    {
+      "name": "hierbas medicinales azules",
+      "gender": "female",
+      "number": "plural",
+      "actions": [
+        "comer",
+        "masticar",
+        "oler",
+        "usar"
+      ],
+      "effects_over": [
+        "self",
+        "item"
+      ]
     }
   ],
-  "inventory": [],
+  "inventory": [
+    {
+      "name": "rociador con cerveza de raiz",
+      "quantity": 1
+    },
+    {
+      "name": "barreta",
+      "quantity": 2
+    },
+    {
+      "name": "hierbas medicinales rojas",
+      "quantity": 1
+    }
+  ],
   "endgames": [
     {
       "condition": "location",

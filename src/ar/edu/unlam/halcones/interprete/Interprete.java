@@ -1,7 +1,10 @@
 package ar.edu.unlam.halcones.interprete;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,38 +34,55 @@ public class Interprete {
 
 	public static void main(String[] args) {
 
-		System.out.println("Bienvenido al Zork de Zorks!");
-
 		Scanner in = new Scanner(System.in);
 
-		Boolean gameSelecting = true;
+		Boolean isSelecting = true;
+		
+		String comandoIngresado = ""; 
 
 		List<String> availableGames = new ArrayList<String>();
 
 		Map<String, String> verbos = LectorDiccionarioCSV.leerDiccionario();
 
-		availableGames.add("piratasfantasmas");
-		//availableGames.add("pandemia");
+		imprimirSalida("Bienvenido al Zork de Zorks! ¿Cual es tu nombre?");
+		String input = "";
+		String playerName = "";
 		
-		imprimirSalida("Tengo los siguientes juegos disponibles:");
+		while (isSelecting) {
+
+			input = in.nextLine();
+
+			if (input.isEmpty()) {
+				imprimirSalida("Ingresa un nombre por favor.");
+			} else {
+				isSelecting = false;
+				playerName = input;
+			}
+		}
+		
+		isSelecting = true;
+		
+		availableGames.add("piratasfantasmas");
+		availableGames.add("pandemia");
+		availableGames.add("pandemiaV1");
+
+		imprimirSalida("Hola "+ playerName +"! Tengo los siguientes juegos disponibles:");
 		for (String game: availableGames) {
 			imprimirSalida(game);
 		}
-
-		imprimirSalida("\n");
 		
 		imprimirSalida("Que juego queres jugar?");
 		String selectedGame = "";
-		String input = "";
+		
 
-		while (gameSelecting) {
+		while (isSelecting) {
 
 			input = in.nextLine();
 
 			if (!availableGames.contains(input.toLowerCase())) {
-				imprimirSalida("No tengo ese juego por favor elegí otro.\n");
+				imprimirSalida("No tengo ese juego por favor elegí otro.");
 			} else {
-				gameSelecting = false;
+				isSelecting = false;
 			}
 		}
 
@@ -71,9 +91,14 @@ public class Interprete {
 		// Logica para cargar el game
 
 		GeneradorDeGame generador = new GeneradorDeGame();
+		
+		String currentDate = new SimpleDateFormat("dd-MM-yyyy hh mm").format(Calendar.getInstance().getTime());
+		String fileName = "Sesion de "+ playerName + " - " + selectedGame + " - " + currentDate;
+		
+		GuardadorHistoria guardador = new GuardadorHistoria();
 
 		try {
-			game = generador.generarEntornoDeJuego(selectedGame + ".json");
+			game = generador.generarEntornoDeJuego(selectedGame + ".json", playerName);
 			game.generarInteractuables();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -82,13 +107,16 @@ public class Interprete {
 
 		imprimirSalida(game.getWelcome());
 		
+		guardador.agregarSalida(game.getWelcome());
+		
 		String verbo = "";
 		String primerSustantivo = "";
+		
+		
 		String segundoSustantivo = "";
 
 		while (keepPlaying) {
-
-			System.out.print("¿Que queres hacer?:\n");
+			System.out.print("¿Que queres hacer?:");
 			input = in.nextLine();
 
 			if (input.equals("stop"))
@@ -103,7 +131,8 @@ public class Interprete {
 				imprimirSalida(INVALIDCOMMAND);
 				continue;
 			}
-
+			
+			comandoIngresado = input;
 			input = input.toLowerCase();
 
 			verbo = input.substring(0, input.indexOf(" "));
@@ -151,14 +180,24 @@ public class Interprete {
 			} else {
 				primerSustantivo = primerEncontrado;
 			}
+			
+			guardador.agregarEntrada(comandoIngresado);
 
 			String salida = commandRouter(verbo, primerSustantivo, segundoSustantivo);
-
+			
+			guardador.agregarSalida(salida);
+			
 			imprimirSalida(salida);
+			
+			game.actualizarInteractuables();
 
 		}
 
 		imprimirSalida("Finalizaste el juego!");
+		
+		
+		
+		in.close();
 	}
 
 	public static void imprimirSalida(String mensaje) {
@@ -169,6 +208,7 @@ public class Interprete {
 
 		INombrable entidadUno = null;
 		INombrable entidadDos = null;
+		Boolean isTriggerAcction = true;
 
 		String response = INVALIDCOMMANDONITEM;
 
@@ -179,6 +219,7 @@ public class Interprete {
 			entidadDos = game.interactuables.get(segundoSustantivo);
 
 		if (verbo.equals("ver")) {
+			isTriggerAcction = false;
 			if (entidadUno != null) {
 				if (entidadUno instanceof Item) {
 					Item item = (Item) entidadUno.getEntity();
@@ -196,6 +237,7 @@ public class Interprete {
 
 		
 		if (verbo.equals("agarrar")) {
+			isTriggerAcction = false;
 			if (entidadUno != null && entidadUno instanceof Item) {
 				Item item = (Item) entidadUno.getEntity();
 
@@ -204,6 +246,7 @@ public class Interprete {
 		}
 
 		if (verbo.equals("ir")) {
+			isTriggerAcction = false;
 			if (entidadUno != null && entidadUno instanceof Location) {
 				Location location = (Location) entidadUno.getEntity();
 
@@ -212,6 +255,7 @@ public class Interprete {
 		}
 		
 		if (verbo.equals("hablar")) {
+			isTriggerAcction = false;
 			if (entidadUno instanceof Npc) {
 				Npc npc = (Npc) entidadUno.getEntity();
 
@@ -219,7 +263,7 @@ public class Interprete {
 			}
 		}
 
-		if (verbo.equals("usar")) {
+		if (isTriggerAcction) {
 			if (!(entidadUno instanceof Item) && !(entidadDos instanceof Item))
 				return INVALIDCOMMAND;
 
@@ -229,6 +273,10 @@ public class Interprete {
 				item = (Item) entidadUno;
 
 				if (entidadDos != null) {
+					
+					if (!(entidadDos instanceof ITriggereable))
+						return INVALIDCOMMAND;
+					
 					triggerable = (ITriggereable) entidadDos;
 				} else {
 					triggerable = (ITriggereable) game.getCharacter();
@@ -237,14 +285,27 @@ public class Interprete {
 			} else {
 
 				item = (Item) entidadDos;
-				triggerable = (ITriggereable) entidadDos;
+				
+				if (!(entidadUno instanceof ITriggereable))
+					return INVALIDCOMMAND;
+				
+				
+				triggerable = (ITriggereable) entidadUno;
 
 			}
-
+			
 			if (!game.getCharacter().isItemInInventory(item))
 				return "No tienes este item en tu inventario";
 
-			response = item.use("usar", triggerable);
+			if (triggerable instanceof Npc)
+			{
+				if (!(game.getCharacter().getLocation().isNpcInLocation((Npc) triggerable)))
+				{
+					return INVALIDCOMMAND;
+				}
+			}
+			
+			response = item.use(verbo, triggerable);
 		}
 
 		Pair<Boolean, String> checkEndgame = game.checkEndgame(verbo, primerSustantivo);

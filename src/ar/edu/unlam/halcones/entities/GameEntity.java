@@ -20,7 +20,6 @@ public abstract class GameEntity {
 
 	@JsonProperty("state")
 	private String state;
-	public GameEntityTypes type;
 
 	public String getState() {
 		return state;

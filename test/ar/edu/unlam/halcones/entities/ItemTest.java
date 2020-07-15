@@ -58,7 +58,7 @@ public class ItemTest {
 
 		String result = usableItem.use("usar", dummyNpc);
 
-		assertEquals("removed", dummyNpc.status);
+		assertEquals("changeDone", result);
 	}
 
 	@Test

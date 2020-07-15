@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import ar.edu.unlam.halcones.interprete.aftertriggers.Command;
+import ar.edu.unlam.halcones.interprete.aftertriggers.HandlerAfterTrigger;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Item extends GameEntity implements Comparable<Item>, ITriggereable, INombrable<Item> {
@@ -18,7 +21,6 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 
 	public Item() {
 		super();
-		this.type = GameEntityTypes.ITEM;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -77,6 +79,10 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 
 		Trigger trigger = new Trigger("item", this.getName());
 
+		// Esto comando siempre se ejecuta para poder sacar un item del inventario
+		Command command = new Command("remove", this.getName(), this.getType());
+		HandlerAfterTrigger.handleCommand(command);
+
 		return over.execute(trigger);
 	}
 
@@ -94,7 +100,15 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 			return "Eso no ha servido de nada";
 		}
 
-		status = triggerToExecute.getAfterTrigger();
+		String afterTrigger = triggerToExecute.getAfterTrigger();
+		if(afterTrigger != null) {
+			String[] split = afterTrigger.split(",");
+			for(String s : split) {
+				Command command = new Command(s, this.getName(), this.getType());
+				HandlerAfterTrigger.handleCommand(command);
+			}
+		}
+
 		return triggerToExecute.getOnTrigger();
 	}
 
