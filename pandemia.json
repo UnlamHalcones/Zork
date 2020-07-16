@@ -1,14 +1,40 @@
 {
 	"settings": {
-		"welcome": "Realizaste un viaje a un parque natural y te hospédas en una cabaña en el corazón del parque, allí solo cuentas con lo básico.\nDebido a una extraña patología que tienes, caes en un profundo sueño por días, ésto era algo que sucedía muy pocas veces al año.\nAl despertar, escuchas por la radio que se ha declarado el estado de sitio en consecuencia de una pandemia.\nAhora tienes que salir del parque natural, sin ayuda alguna aparente, ya que no hay guarda parques ni personal asistiendo al parque.\nSe sabe que hay tribus autoctonas distribuidas en el parque, y que los animales dentro del mismo están en estado salvaje.\nMientras dormías hubo una fuerte tormenta que arrasó con carteles, arboles y pequeños puestos de resguardo.\nSalir no será tan fácil.",
+		"welcome": "Realizaste un viaje a un parque natural y te hospédas en una cabaña en el corazón del parque, allí solo cuentas con lo básico.Debido a una extraña patología que tienes, caes en un profundo sueño por días, ésto era algo que sucedía muy pocas veces al año.Al despertar, escuchas por la radio que se ha declarado el estado de sitio en consecuencia de una pandemia.Ahora tienes que salir del parque natural, sin ayuda alguna aparente, ya que no hay guarda parques ni personal asistiendo al parque.Se sabe que hay tribus autoctonas distribuidas en el parque, y que los animales dentro del mismo están en estado salvaje.Mientras dormías hubo una fuerte tormenta que arrasó con carteles, arboles y pequeños puestos de resguardo.Salir no será tan fácil.",
 		"character": "Jayden"
 	},
 	"character_triggers": [{
 		"type": "item",
 		"thing": "hierbas verdes",
 		"on_trigger": "Te ha regenerado salud",
-		"after_trigger": "vida-100"
-	}],
+		"after_trigger": "vida+50"
+	},
+		{
+			"type": "item",
+			"thing": "billetera",
+			"on_trigger": "- Está vacía, que suerte la mía.",
+			"after_trigger": ""
+		},
+		{
+			"type": "item",
+			"thing": "frutas",
+			"on_trigger": "Las exóticas frutas que consumiste te brindan una poderosa fuerza corporal y tus emociones suben por las nubes. Estás listo para todo",
+			"after_trigger": "vida+10"
+		},
+		{
+			"type": "item",
+			"thing": "alcohol en gel",
+			"on_trigger": "Te ha regenerado 10 de vida.",
+			"after_trigger": "vida+10"
+		},
+		{
+			"type": "item",
+			"thing": "pescado",
+			"on_trigger": "Que rico Pescado, siempre suman las proteinas !",
+			"after_trigger": "vida+10"
+		}
+
+	],
 	"locations": [{
 		"name": "cabaña",
 		"gender": "female",
@@ -72,6 +98,14 @@
 						"soga",
 						"motosierra"
 					]
+				},
+				{
+					"name": "cartel con indicaciones de salida",
+					"gender": "male",
+					"number": "singular",
+					"items": [
+						"hierbas verdes"
+					]
 				}
 			],
 			"npcs": ["arbol"],
@@ -104,7 +138,8 @@
 					"gender": "male",
 					"number": "singular",
 					"items": [
-						"frutas"
+						"frutas",
+						"pescado"
 					]
 				}
 			],
@@ -144,7 +179,7 @@
 					"name": "tranquera",
 					"gender": "female",
 					"number": "singular",
-					"items": ["colmillo de jabali"]
+					"items": ["colmillo de elefante"]
 				}
 			],
 			"npcs": ["serpiente"],
@@ -179,7 +214,7 @@
 				"name": "arbustos",
 				"gender": "male",
 				"number": "plural",
-				"items": []
+				"items": ["frutas"]
 			},
 				{
 					"name": "arboles",
@@ -194,7 +229,7 @@
 					"items": []
 				}
 			],
-			"npcs": ["jabali"],
+			"npcs": ["oso", "jabali"],
 			"connections": [{
 				"direction": "sur",
 				"location": "cabaña"
@@ -202,7 +237,36 @@
 				{
 					"direction": "este",
 					"location": "entrada a tribu"
+				},
+				{
+					"direction": "oeste",
+					"location": "cueva",
+					"obstacles": "oso"
 				}
+			]
+		},
+		{
+			"name": "cueva",
+			"gender": "male",
+			"number": "singular",
+			"description": "La cueva de un animal, encontraste los resto de un miembro de la tribu",
+			"places": [{
+				"name": "huesos de un cadaver",
+				"gender": "male",
+				"number": "plural",
+				"items": ["amuleto"]
+			},
+				{
+					"name": "rocas",
+					"gender": "female",
+					"number": "plural",
+					"items": ["hierbas verdes"]
+				}
+			],
+			"connections": [{
+				"direction": "este",
+				"location": "bosque"
+			}
 			]
 		},
 		{
@@ -273,11 +337,62 @@
 		"talk": "¡Fuera de aquí extranjero, no queremos a gente como tu!",
 		"triggers": [{
 			"type": "item",
-			"thing": "colmillo de jabali",
+			"thing": "colmillo de elefante",
 			"on_trigger": "- Por tu valentía por recuperar esta reliquia ansestral, puedes ser uno mas de los nuestros.",
 			"after_trigger": "remove"
-		}]
+		},
+			{
+				"type": "item",
+				"thing": "motosierra",
+				"on_trigger": "No funciona, está averiada.",
+				"after_trigger": ""
+			},
+			{
+				"type": "item",
+				"thing": "frutas",
+				"on_trigger": "- Gracias!",
+				"after_trigger": ""
+			},
+			{
+				"type": "item",
+				"thing": "amuleto",
+				"on_trigger": "- Por tu valentía por recuperar esta reliquia ansestral, puedes ser uno más de los nuestros.",
+				"after_trigger": "remove"
+			}
+		]
 	},
+		{
+			"name": "oso",
+			"gender": "male",
+			"number": "singular",
+			"description": " Un feroz oso está vigilando la cueva.",
+			"talk": " Cuidado, si te acercas con poca vida.",
+			"triggers":[{
+				"type": "item",
+				"thing": "lanza",
+				"on_trigger": " El ataque a distancia ahuyento al oso.",
+				"after_trigger": "remove"
+			},
+				{
+					"type": "item",
+					"thing": "machete",
+					"on_trigger": " El ataque cuerpo a cuerpo logro ahuyentar al oso, pero no sin antes herirte gravemente!!",
+					"after_trigger": "remove,vida-70"
+				},
+				{
+					"type": "item",
+					"thing": "pescado",
+					"on_trigger": " El oso cayo en la trampa, se fue distraido por la carnada.",
+					"after_trigger": "remove"
+				},
+				{
+					"type": "item",
+					"thing": "motosierra",
+					"on_trigger": " Con la poca gasolina que tenías pudiste matar al oso, pero no sin antes, ser dañado gravemente.",
+					"after_trigger": "remove,vida-50"
+				}
+			]
+		},
 		{
 			"name": "jabali",
 			"gender": "male",
@@ -287,7 +402,7 @@
 			"triggers": [{
 				"type": "item",
 				"thing": "lanza",
-				"on_trigger": "Sin darle posibilidad al jabalí de escapar, al encontrarlo por detrás, clavaste la lanza en lo profundo de su ser.\nEl gruñido se escuchó en todo el parque. ¿Que era esta criatura? te preguntas.",
+				"on_trigger": "Sin darle posibilidad al jabalí de escapar, al encontrarlo por detrás, clavaste la lanza en lo profundo de su ser.El gruñido se escuchó en todo el parque. ¿Que era esta criatura? te preguntas.",
 				"after_trigger": "remove"
 			},
 				{
@@ -295,6 +410,12 @@
 					"thing": "machete",
 					"on_trigger": "El machete penetró por completo el lomo del desesperado animal. Muy tarde para él, está en sus últimos momentos.",
 					"after_trigger": "remove"
+				},
+				{
+					"type": "item",
+					"thing": "motosierra",
+					"on_trigger": "El ruido ha alterado al jabali y te ha dañado. Con la poca gasolina que tenías pudiste matar el jabali.",
+					"after_trigger": "remove,vida-20"
 				}
 			]
 		},
@@ -302,14 +423,33 @@
 			"name": "pescador",
 			"gender": "male",
 			"number": "singular",
-			"description": "- '¡Espera!' Hay un indio pescando a la orilla del río. Está frustrado por haber perdido el remo del bote.\nCon el bote hubiese podido recolectar muchos peces para llevar a su tribu.",
+			"description": "- '¡Espera!' Hay un indio pescando a la orilla del río. Está frustrado por haber perdido el remo del bote.Con el bote hubiese podido recolectar muchos peces para llevar a su tribu.",
 			"talk": "Si me ayudas a buscar el remo, podré cruzarte al otro lado del rio.",
 			"triggers": [{
 				"type": "item",
 				"thing": "remo",
-				"on_trigger": "- '¡Gracias Señor!' Ahora con el remo podre utilizar el bote para cruzarlo al otro lado del rio y después continuar con mi pesca.\nTienes mi bote a tu disposición cuando lo desees.",
+				"on_trigger": "- '¡Gracias Señor!' Ahora con el remo podre utilizar el bote para cruzarlo al otro lado del rio y después continuar con mi pesca.Tienes mi bote a tu disposición cuando lo desees.",
 				"after_trigger": "remove"
-			}]
+			},
+				{
+					"type": "item",
+					"thing": "motosierra",
+					"on_trigger": "No funciona, está averiada.",
+					"after_trigger": ""
+				},
+				{
+					"type": "item",
+					"thing": "frutas",
+					"on_trigger": "- Gracias!",
+					"after_trigger": ""
+				},
+				{
+					"type": "item",
+					"thing": "alcohol en gel",
+					"on_trigger": "- '¡Gracias Señor!'",
+					"after_trigger": ""
+				}
+			]
 		},
 		{
 			"name": "arbol",
@@ -320,9 +460,17 @@
 			"triggers": [{
 				"type": "item",
 				"thing": "motosierra",
-				"on_trigger": "Es inútil, no tiene gasolina y está demasiada oxidada.",
+				"on_trigger": "Es inútil, se has gastado la gasolina y está demasiada oxidada para ese gran árbol.",
 				"after_trigger": ""
-			}]
+			},
+				{
+					"type": "item",
+					"thing": "soga",
+					"on_trigger": "La soga estaba muy gastada y se ha roto!! Ya no sirve.",
+					"after_trigger": ""
+				}
+
+			]
 		},
 		{
 			"name": "serpiente",
@@ -334,19 +482,37 @@
 				"type": "item",
 				"thing": "machete",
 				"on_trigger": "¡Has cortado en dos a la serpiente!. Puedes usar alguna hierba para mejorar tu salud o empeorarla.",
-				"after_trigger": "remove,vida-10"
+				"after_trigger": "remove,vida-60"
 			},
 				{
 					"type": "item",
 					"thing": "lanza",
 					"on_trigger": "¡Has matado a la serpiente!. Puedes usar alguna hierba para mejorar tu salud o empeorarla.",
-					"after_trigger": "remove,vida-5"
+					"after_trigger": "remove,vida-20"
 				},
 				{
 					"type": "item",
 					"thing": "raton de juguete",
 					"on_trigger": "La serpiente fue engañada con el juguete y te has librado de ella.",
 					"after_trigger": "remove"
+				},
+				{
+					"type": "item",
+					"thing": "motosierra",
+					"on_trigger": " Te has quedado sin gasolina, pero derrotaste a la serpiente",
+					"after_trigger": "remove"
+				},
+				{
+					"type": "item",
+					"thing": "alcohol en gel",
+					"on_trigger": "No sirvio de nada.",
+					"after_trigger": ""
+				},
+				{
+					"type": "item",
+					"thing": "soga",
+					"on_trigger": "No sirvio de nada.",
+					"after_trigger": ""
 				}
 			]
 		}
@@ -357,10 +523,15 @@
 			"gender": "male",
 			"number": "singular",
 			"actions": [
-				"usar"
+				"usar",
+				"curarse",
+				"tirarse",
+				"echarse",
+				"higienizarse"
 			],
 			"effects_over": [
-				"self"
+				"self",
+				"npc"
 			]
 		},
 		{
@@ -368,7 +539,8 @@
 			"gender": "male",
 			"number": "singular",
 			"actions": [
-				"usar"
+				"usar",
+				"dar"
 			],
 			"effects_over": [
 				"npc"
@@ -379,14 +551,18 @@
 			"gender": "male",
 			"number": "singular",
 			"actions": [
-				"usar"
+				"usar",
+				"atacar",
+				"aniquilar",
+				"dañar",
+				"lastimar"
 			],
 			"effects_over": [
 				"npc"
 			]
 		},
 		{
-			"name": "colmillo de jabali",
+			"name": "colmillo de elefante",
 			"gender": "male",
 			"number": "singular",
 			"actions": [
@@ -411,7 +587,9 @@
 				"revolear",
 				"utilizar",
 				"atacar",
-				"matar"
+				"aniquilar",
+				"dañar",
+				"lastimar"
 			],
 			"effects_over": [
 				"npc"
@@ -422,34 +600,16 @@
 			"gender": "female",
 			"number": "plural",
 			"actions": [
+				"usar",
 				"comer",
-				"regalar",
-				"dar",
-				"tirar",
-				"agarrar"
+				"ingerir",
+				"devorar",
+				"saborear",
+				"curarse"
 			],
 			"effects_over": [
 				"npc",
 				"self"
-			],
-			"triggers": [{
-				"type": "self",
-				"thing": "character",
-				"on_trigger": "Las exóticas frutas que consumiste te brindan una poderosa fuerza corporal y tus emociones suben por las nubes. Estás listo para todo",
-				"after_trigger": "remove"
-			},
-				{
-					"type": "npc",
-					"thing": "cacique",
-					"on_trigger": "- Gracias!",
-					"after_trigger": "remove"
-				},
-				{
-					"type": "npc",
-					"thing": "pescador",
-					"on_trigger": "- Gracias!",
-					"after_trigger": "remove"
-				}
 			]
 		},
 		{
@@ -457,8 +617,12 @@
 			"gender": "female",
 			"number": "plural",
 			"actions": [
+				"usar",
 				"comer",
-				"oler"
+				"ingerir",
+				"devorar",
+				"saborear",
+				"probar"
 			],
 			"effects_over": [
 				"self"
@@ -469,19 +633,17 @@
 			"gender": "female",
 			"number": "plural",
 			"actions": [
+				"usar",
 				"comer",
-				"oler"
+				"ingerir",
+				"devorar",
+				"saborear",
+				"curarse"
 			],
 			"effects_over": [
 				"item",
 				"self"
-			],
-			"triggers": [{
-				"type": "self",
-				"thing": "character",
-				"on_trigger": "Te ha regenerado salud",
-				"after_trigger": "remove,vida+10"
-			}]
+			]
 		},
 		{
 			"name": "billetera",
@@ -495,14 +657,9 @@
 				"tomar"
 			],
 			"effects_over": [
-				"item"
-			],
-			"triggers": [{
-				"type": "item",
-				"thing": "billetera",
-				"on_trigger": "- Está vacía, que suerte la mía.",
-				"after_trigger": "remove"
-			}]
+				"item",
+				"self"
+			]
 		},
 		{
 			"name": "raton de juguete",
@@ -510,6 +667,37 @@
 			"number": "singular",
 			"actions": [
 				"usar"
+			],
+			"effects_over": [
+				"npc"
+			]
+		},
+		{
+			"name": "pescado",
+			"gender": "male",
+			"number": "singular",
+			"actions": [
+				"usar",
+				"lanzar",
+				"arrojar",
+				"tirar",
+				"echar"
+			],
+			"effects_over": [
+				"npc",
+				"self"
+			]
+		},
+		{
+			"name": "amuleto",
+			"gender": "male",
+			"number": "singular",
+			"actions": [
+				"usar",
+				"entregar",
+				"regalar",
+				"dar",
+				"devolver"
 			],
 			"effects_over": [
 				"npc"
@@ -526,55 +714,27 @@
 			],
 			"effects_over": [
 				"npc"
-			],
-			"triggers": [{
-				"type": "npc",
-				"thing": "arbol",
-				"on_trigger": "La soga estaba muy gastada y se ha roto!! Ya no sirve.",
-				"after_trigger": "remove"
-			}]
+			]
 		},
 		{
 			"name": "motosierra",
 			"gender": "female",
 			"number": "singular",
 			"actions": [
-				"encender",
+				"usar",
 				"cortar",
-				"arrancar"
+				"atacar",
+				"aniquilar",
+				"dañar",
+				"lastimar",
+				"rebanar"
 			],
 			"effects_over": [
 				"npc"
-			],
-			"triggers": [
-				{
-					"type": "npc",
-					"thing": "serpiente",
-					"on_trigger": "Es inútil, no tiene gasolina y está demasiada oxidada.",
-					"after_trigger": "remove"
-				},
-				{
-					"type": "npc",
-					"thing": "pescador",
-					"on_trigger": "No funciona, está averiada.",
-					"after_trigger": "remove"
-				},
-				{
-					"type": "npc",
-					"thing": "jabali",
-					"on_trigger": "Es inútil, no tiene gasolina y está demasiada oxidada.",
-					"after_trigger": "remove"
-				},
-				{
-					"type": "npc",
-					"thing": "cacique",
-					"on_trigger": "No funciona, está averiada.",
-					"after_trigger": "remove"
-				}
 			]
 		}
 	],
-	"inventory": [{ "name":  "hierbas verdes", "quantity":  1}, { "name":  "billetera", "quantity":  1}, {"name": "motosierra", "quantity": 1}],
+	"inventory": [],
 	"endgames": [{
 		"condition": "location",
 		"action": "ir",
@@ -597,7 +757,7 @@
 			"condition": "vida",
 			"action": "",
 			"thing": "",
-			"description": "Game Over!"
+			"description": "Has muerto. ¡Game Over!"
 		}
 	]
 }
