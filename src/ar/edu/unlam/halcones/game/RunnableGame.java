@@ -60,14 +60,14 @@ public class RunnableGame extends JFrame {
 	private String landscapeImageUrl;
 	
 	public RunnableGame() {
-		//setResizable(false);
+		setResizable(false);
 		initialize();
 	}
 
 	private void initialize() {
 		this.setTitle("Bienvenido a Zork!!!");
 		this.setBounds(100, 100, 1200, 800);
-		this.getContentPane().setLayout(new MigLayout("", "[grow]", "[66.00,grow][][][][][][][][][][grow][][][]"));
+		this.getContentPane().setLayout(new MigLayout("", "[grow]", "[91,grow,center][][][][][][][][][][grow][][][]"));
 		this.setLocationRelativeTo(null);
 		
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -83,10 +83,9 @@ public class RunnableGame extends JFrame {
 		imagenes = new HashSet<String>();
 
 		splitPane = new JSplitPane();
-		//splitPane.setEnabled(false);
-		splitPane.setContinuousLayout(true);
+		splitPane.setEnabled(false);
 		splitPane.setBackground(Color.BLACK);
-		splitPane.setDividerLocation(800);
+		splitPane.setDividerLocation(788);
 		getContentPane().add(splitPane, "cell 0 0,grow");
 		
 		landscapePanel = new LandscapePanel();
@@ -408,7 +407,10 @@ public class RunnableGame extends JFrame {
 			g2.setColor(Color.black);
 			g2.fillRect(0, 0, 300, 200);
 
-			int x = 1, y = 1, cantFila = 0, cantTotal = 0;
+			int x = 1, 
+				y = 1,
+				cantFila = 0,
+				cantTotal = 0;
 
 			for (String img : imagenes) {
 				ImageIcon imagen = new ImageIcon(directorioImagenes + img + ".jpg");
@@ -416,11 +418,11 @@ public class RunnableGame extends JFrame {
 				cantTotal++;
 				if (cantTotal >= 30) {
 					break;
-				} else if (cantFila < 10) {
+				} else if (cantFila < 2) {
 					x += 31;
 					cantFila++;
 				} else {
-					x = 0;
+					x = 1;
 					y += 31;
 					cantFila = 0;
 				}
