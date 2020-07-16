@@ -1,321 +1,305 @@
 package ar.edu.unlam.halcones.interprete;
 
-import java.io.IOException;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-
 import ar.edu.unlam.halcones.archivo.GeneradorDeGame;
 import ar.edu.unlam.halcones.archivo.LectorDiccionarioCSV;
-import ar.edu.unlam.halcones.entities.Connection;
-import ar.edu.unlam.halcones.entities.Game;
-import ar.edu.unlam.halcones.entities.GameEntity;
-import ar.edu.unlam.halcones.entities.INombrable;
-import ar.edu.unlam.halcones.entities.ITriggereable;
-import ar.edu.unlam.halcones.entities.Inventory;
-import ar.edu.unlam.halcones.entities.Item;
-import ar.edu.unlam.halcones.entities.Location;
-import ar.edu.unlam.halcones.entities.Npc;
+import ar.edu.unlam.halcones.entities.*;
 import javafx.util.Pair;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Interprete {
 
-	private static Game game;
+    private static Game game;
 
-	private final static String INVALIDCOMMAND = "No entendi lo que ingresaste. Intenta de nuevo por favor.";
-	private final static String INVALIDCOMMANDONITEM = "No entendi lo que ingresaste. Intenta de nuevo por favor.";
+    private final static String INVALIDCOMMAND = "No entendi lo que ingresaste. Intenta de nuevo por favor.";
+    private final static String INVALIDCOMMANDONITEM = "No entendi lo que ingresaste. Intenta de nuevo por favor.";
 
-	private static boolean keepPlaying = true;
+    private static boolean keepPlaying = true;
 
-	public static void main(String[] args) {
+     /*public static void main(String[] args) {
 
-		Scanner in = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
 
-		Boolean isSelecting = true;
-		
-		String comandoIngresado = ""; 
+        Boolean isSelecting = true;
 
-		List<String> availableGames = new ArrayList<String>();
+        String comandoIngresado = "";
 
-		Map<String, String> verbos = LectorDiccionarioCSV.leerDiccionario();
+        List<String> availableGames = new ArrayList<String>();
 
-		imprimirSalida("Bienvenido al Zork de Zorks! ¿Cual es tu nombre?");
-		String input = "";
-		String playerName = "";
-		
-		while (isSelecting) {
+        Map<String, String> verbos = LectorDiccionarioCSV.leerDiccionario();
 
-			input = in.nextLine();
+        imprimirSalida("Bienvenido al Zork de Zorks! ¿Cual es tu nombre?");
+        String input = "";
+        String playerName = "";
 
-			if (input.isEmpty()) {
-				imprimirSalida("Ingresa un nombre por favor.");
-			} else {
-				isSelecting = false;
-				playerName = input;
-			}
-		}
-		
-		isSelecting = true;
-		
-		availableGames.add("piratasfantasmas");
-		availableGames.add("pandemia");
-		availableGames.add("pandemiaV1");
+        while (isSelecting) {
 
-		imprimirSalida("Hola "+ playerName +"! Tengo los siguientes juegos disponibles:");
-		for (String game: availableGames) {
-			imprimirSalida(game);
-		}
-		
-		imprimirSalida("Que juego queres jugar?");
-		String selectedGame = "";
-		
+            input = in.nextLine();
 
-		while (isSelecting) {
+            if (input.isEmpty()) {
+                imprimirSalida("Ingresa un nombre por favor.");
+            } else {
+                isSelecting = false;
+                playerName = input;
+            }
+        }
 
-			input = in.nextLine();
+        isSelecting = true;
 
-			if (!availableGames.contains(input.toLowerCase())) {
-				imprimirSalida("No tengo ese juego por favor elegí otro.");
-			} else {
-				isSelecting = false;
-			}
-		}
+        availableGames.add("piratasfantasmas");
+        availableGames.add("pandemia");
+        availableGames.add("pandemiaV1");
 
-		selectedGame = input;
+        imprimirSalida("Hola " + playerName + "! Tengo los siguientes juegos disponibles:");
+        for (String game : availableGames) {
+            imprimirSalida(game);
+        }
 
-		// Logica para cargar el game
+        imprimirSalida("Que juego queres jugar?");
+        String selectedGame = "";
 
-		GeneradorDeGame generador = new GeneradorDeGame();
-		
-		String currentDate = new SimpleDateFormat("dd-MM-yyyy hh mm").format(Calendar.getInstance().getTime());
-		String fileName = "Sesion de "+ playerName + " - " + selectedGame + " - " + currentDate;
-		
-		GuardadorHistoria guardador = new GuardadorHistoria();
 
-		try {
-			game = generador.generarEntornoDeJuego(selectedGame + ".json", playerName);
-			game.generarInteractuables();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        while (isSelecting) {
 
-		imprimirSalida(game.getWelcome());
-		
-		guardador.agregarSalida(game.getWelcome());
-		
-		String verbo = "";
-		String primerSustantivo = "";
-		
-		
-		String segundoSustantivo = "";
+            input = in.nextLine();
 
-		while (keepPlaying) {
-			System.out.print("¿Que queres hacer?:");
-			input = in.nextLine();
+            if (!availableGames.contains(input.toLowerCase())) {
+                imprimirSalida("No tengo ese juego por favor elegí otro.");
+            } else {
+                isSelecting = false;
+            }
+        }
 
-			if (input.equals("stop"))
-				keepPlaying = false;
-			/// abrir puerta
+        selectedGame = input;
 
-			// Investigando, encontré que no hay verbos con mas de una palabra en español (
-			// o si lo hay, no son los comunes).
-			// Entonces vamos a asumir que la primera palabra va a ser el verbo
-			
-			if (!input.contains(" ")) {
-				imprimirSalida(INVALIDCOMMAND);
-				continue;
-			}
-			
-			comandoIngresado = input;
-			input = input.toLowerCase();
+        // Logica para cargar el game
 
-			verbo = input.substring(0, input.indexOf(" "));
-			input = input.replace(verbo, "");
+        GeneradorDeGame generador = new GeneradorDeGame();
 
-			if (!verbos.containsKey(verbo)) {
-				imprimirSalida(INVALIDCOMMAND);
-				continue;
-			}
-			verbo = verbos.get(verbo);
+        String currentDate = new SimpleDateFormat("dd-MM-yyyy hh mm").format(Calendar.getInstance().getTime());
+        String fileName = "Sesion de " + playerName + " - " + selectedGame + " - " + currentDate;
 
-			int indexPrimerEncontrado = 0;
-			int indexSegundoEncontrado = 0;
+        GuardadorHistoria guardador = new GuardadorHistoria();
 
-			String primerEncontrado = "";
-			String segundoEncontrado = "";
-			primerSustantivo = "";
-			segundoSustantivo = "";
+        try {
+            game = generador.generarEntornoDeJuego(selectedGame + ".json", playerName);
+            game.generarInteractuables();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-			for (Map.Entry<String, INombrable> entry : game.interactuables.entrySet()) {
-				if (input.contains(entry.getKey())) {
-					if (indexPrimerEncontrado == 0) {
-						indexPrimerEncontrado = input.indexOf(entry.getKey());
-						primerEncontrado = entry.getKey();
-					} else if (indexSegundoEncontrado == 0) {
-						indexSegundoEncontrado = input.indexOf(entry.getKey());
-						segundoEncontrado = entry.getKey();
-					}
-				}
-			}
+        imprimirSalida(game.getWelcome());
 
-			if (indexPrimerEncontrado == 0) {
-				imprimirSalida(INVALIDCOMMAND);
-				continue;
-			}
+        guardador.agregarSalida(game.getWelcome());
 
-			if (indexPrimerEncontrado > 0 && indexSegundoEncontrado > 0) {
-				if (indexSegundoEncontrado > indexPrimerEncontrado) {
-					primerSustantivo = primerEncontrado;
-					segundoSustantivo = segundoEncontrado;
-				} else {
-					primerSustantivo = segundoEncontrado;
-					segundoSustantivo = primerEncontrado;
-				}
-			} else {
-				primerSustantivo = primerEncontrado;
-			}
-			
-			guardador.agregarEntrada(comandoIngresado);
+        String verbo = "";
+        String primerSustantivo = "";
 
-			String salida = commandRouter(verbo, primerSustantivo, segundoSustantivo);
-			
-			guardador.agregarSalida(salida);
-			
-			imprimirSalida(salida);
-			
-			game.actualizarInteractuables();
 
-		}
+        String segundoSustantivo = "";
 
-		imprimirSalida("Finalizaste el juego!");
-		
-		
-		
-		in.close();
-	}
+        while (keepPlaying) {
+            System.out.print("¿Que queres hacer?:");
+            input = in.nextLine();
 
-	public static void imprimirSalida(String mensaje) {
-		System.out.println(mensaje);
-	}
+            if (input.equals("stop"))
+                keepPlaying = false;
+            /// abrir puerta
 
-	private static String commandRouter(String verbo, String primerSustantivo, String segundoSustantivo) {
+            // Investigando, encontré que no hay verbos con mas de una palabra en español (
+            // o si lo hay, no son los comunes).
+            // Entonces vamos a asumir que la primera palabra va a ser el verbo
 
-		INombrable entidadUno = null;
-		INombrable entidadDos = null;
-		Boolean isTriggerAcction = true;
+            if (!input.contains(" ")) {
+                imprimirSalida(INVALIDCOMMAND);
+                continue;
+            }
 
-		String response = INVALIDCOMMANDONITEM;
+            comandoIngresado = input;
+            input = input.toLowerCase();
 
-		if (!primerSustantivo.isEmpty())
-			entidadUno = game.interactuables.get(primerSustantivo);
+            verbo = input.substring(0, input.indexOf(" "));
+            input = input.replace(verbo, "");
 
-		if (!segundoSustantivo.isEmpty())
-			entidadDos = game.interactuables.get(segundoSustantivo);
+            if (!verbos.containsKey(verbo)) {
+                imprimirSalida(INVALIDCOMMAND);
+                continue;
+            }
+            verbo = verbos.get(verbo);
 
-		if (verbo.equals("ver")) {
-			isTriggerAcction = false;
-			if (entidadUno != null) {
-				if (entidadUno instanceof Item) {
-					Item item = (Item) entidadUno.getEntity();
+            int indexPrimerEncontrado = 0;
+            int indexSegundoEncontrado = 0;
 
-					// Si no tiene el item en el inventario digo que es un comando invalido para no
-					// dar información de que ese item existe
+            String primerEncontrado = "";
+            String segundoEncontrado = "";
+            primerSustantivo = "";
+            segundoSustantivo = "";
 
-					if (!game.getCharacter().isItemInInventory(item))
-						return INVALIDCOMMAND;
-				}
+            for (Map.Entry<String, INombrable> entry : game.interactuables.entrySet()) {
+                if (input.contains(entry.getKey())) {
+                    if (indexPrimerEncontrado == 0) {
+                        indexPrimerEncontrado = input.indexOf(entry.getKey());
+                        primerEncontrado = entry.getKey();
+                    } else if (indexSegundoEncontrado == 0) {
+                        indexSegundoEncontrado = input.indexOf(entry.getKey());
+                        segundoEncontrado = entry.getKey();
+                    }
+                }
+            }
 
-				response = entidadUno.ver();
-			}
-		}
+            if (indexPrimerEncontrado == 0) {
+                imprimirSalida(INVALIDCOMMAND);
+                continue;
+            }
 
-		
-		if (verbo.equals("agarrar")) {
-			isTriggerAcction = false;
-			if (entidadUno != null && entidadUno instanceof Item) {
-				Item item = (Item) entidadUno.getEntity();
+            if (indexPrimerEncontrado > 0 && indexSegundoEncontrado > 0) {
+                if (indexSegundoEncontrado > indexPrimerEncontrado) {
+                    primerSustantivo = primerEncontrado;
+                    segundoSustantivo = segundoEncontrado;
+                } else {
+                    primerSustantivo = segundoEncontrado;
+                    segundoSustantivo = primerEncontrado;
+                }
+            } else {
+                primerSustantivo = primerEncontrado;
+            }
 
-				response = game.getCharacter().agarrarItem(item);
-			}
-		}
+            guardador.agregarEntrada(comandoIngresado);
 
-		if (verbo.equals("ir")) {
-			isTriggerAcction = false;
-			if (entidadUno != null && entidadUno instanceof Location) {
-				Location location = (Location) entidadUno.getEntity();
+            String salida = commandRouter(verbo, primerSustantivo, segundoSustantivo);
 
-				response = game.getCharacter().moveTo(location);
-			}
-		}
-		
-		if (verbo.equals("hablar")) {
-			isTriggerAcction = false;
-			if (entidadUno instanceof Npc) {
-				Npc npc = (Npc) entidadUno.getEntity();
+            guardador.agregarSalida(salida);
 
-				response = npc.getTalk();
-			}
-		}
+            imprimirSalida(salida);
 
-		if (isTriggerAcction) {
-			if (!(entidadUno instanceof Item) && !(entidadDos instanceof Item))
-				return INVALIDCOMMAND;
+            game.actualizarInteractuables();
 
-			Item item = null;
-			ITriggereable triggerable = null;
-			if (entidadUno instanceof Item) {
-				item = (Item) entidadUno;
+        }
 
-				if (entidadDos != null) {
-					
-					if (!(entidadDos instanceof ITriggereable))
-						return INVALIDCOMMAND;
-					
-					triggerable = (ITriggereable) entidadDos;
-				} else {
-					triggerable = (ITriggereable) game.getCharacter();
-				}
+        imprimirSalida("Finalizaste el juego!");
 
-			} else {
 
-				item = (Item) entidadDos;
-				
-				if (!(entidadUno instanceof ITriggereable))
-					return INVALIDCOMMAND;
-				
-				
-				triggerable = (ITriggereable) entidadUno;
+        in.close();
+    }
 
-			}
-			
-			if (!game.getCharacter().isItemInInventory(item))
-				return "No tienes este item en tu inventario";
+    public static void imprimirSalida(String mensaje) {
+        System.out.println(mensaje);
+    }
 
-			if (triggerable instanceof Npc)
-			{
-				if (!(game.getCharacter().getLocation().isNpcInLocation((Npc) triggerable)))
-				{
-					return INVALIDCOMMAND;
-				}
-			}
-			
-			response = item.use(verbo, triggerable);
-		}
+    private static String commandRouter(String verbo, String primerSustantivo, String segundoSustantivo) {
 
-		Pair<Boolean, String> checkEndgame = game.checkEndgame(verbo, primerSustantivo);
+        INombrable entidadUno = null;
+        INombrable entidadDos = null;
+        Boolean isTriggerAcction = true;
 
-		if (checkEndgame.getKey().booleanValue()) {
-			keepPlaying = false;
-			return checkEndgame.getValue();
-		}
+        String response = INVALIDCOMMANDONITEM;
 
-		return response;
-	}
+        if (!primerSustantivo.isEmpty())
+            entidadUno = game.interactuables.get(primerSustantivo);
+
+        if (!segundoSustantivo.isEmpty())
+            entidadDos = game.interactuables.get(segundoSustantivo);
+
+        if (verbo.equals("ver")) {
+            isTriggerAcction = false;
+            if (entidadUno != null) {
+                if (entidadUno instanceof Item) {
+                    Item item = (Item) entidadUno.getEntity();
+
+                    // Si no tiene el item en el inventario digo que es un comando invalido para no
+                    // dar información de que ese item existe
+
+                    if (!game.getCharacter().isItemInInventory(item))
+                        return INVALIDCOMMAND;
+                }
+
+                response = entidadUno.ver();
+            }
+        }
+
+
+        if (verbo.equals("agarrar")) {
+            isTriggerAcction = false;
+            if (entidadUno != null && entidadUno instanceof Item) {
+                Item item = (Item) entidadUno.getEntity();
+
+                response = game.getCharacter().agarrarItem(item);
+            }
+        }
+
+        if (verbo.equals("ir")) {
+            isTriggerAcction = false;
+            if (entidadUno != null && entidadUno instanceof Location) {
+                Location location = (Location) entidadUno.getEntity();
+
+                response = game.getCharacter().moveTo(location);
+            }
+        }
+
+        if (verbo.equals("hablar")) {
+            isTriggerAcction = false;
+            if (entidadUno instanceof Npc) {
+                Npc npc = (Npc) entidadUno.getEntity();
+
+                response = npc.getTalk();
+            }
+        }
+
+        if (isTriggerAcction) {
+            if (!(entidadUno instanceof Item) && !(entidadDos instanceof Item))
+                return INVALIDCOMMAND;
+
+            Item item = null;
+            ITriggereable triggerable = null;
+            if (entidadUno instanceof Item) {
+                item = (Item) entidadUno;
+
+                if (entidadDos != null) {
+
+                    if (!(entidadDos instanceof ITriggereable))
+                        return INVALIDCOMMAND;
+
+                    triggerable = (ITriggereable) entidadDos;
+                } else {
+                    triggerable = (ITriggereable) game.getCharacter();
+                }
+
+            } else {
+
+                item = (Item) entidadDos;
+
+                if (!(entidadUno instanceof ITriggereable))
+                    return INVALIDCOMMAND;
+
+
+                triggerable = (ITriggereable) entidadUno;
+
+            }
+
+            if (!game.getCharacter().isItemInInventory(item))
+                return "No tienes este item en tu inventario";
+
+            if (triggerable instanceof Npc) {
+                game.getCharacter().getLocation().isNpcInLocation((Npc) triggerable);
+                if (!(game.getCharacter().getLocation().isNpcInLocation((Npc) triggerable))) {
+                    return INVALIDCOMMAND;
+                }
+            }
+
+            response = item.use(verbo, triggerable);
+        }
+
+        Pair<Boolean, String> checkEndgame = game.checkEndgame(verbo, primerSustantivo);
+
+        if (checkEndgame.getKey().booleanValue()) {
+            keepPlaying = false;
+            return checkEndgame.getValue();
+        }
+
+        return response;
+    }*/
 
 }

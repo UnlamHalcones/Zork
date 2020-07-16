@@ -17,6 +17,8 @@ public class Character implements ITriggereable, INombrable<Character> {
 	private List<Trigger> triggers;
 	private Long vida;
 
+
+
 	public Character(Location location, Inventory inventory) {
 		this.location = location;
 		this.inventory = inventory;
@@ -50,7 +52,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 	public Character(List<Trigger> triggers) {
 		this.triggers = triggers;
 	}
-	
+
 	public String moveTo(Location otherLocation) {
 		
 		//VALIDO CARDINALIDAD

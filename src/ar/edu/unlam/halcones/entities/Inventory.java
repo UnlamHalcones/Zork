@@ -1,5 +1,6 @@
 package ar.edu.unlam.halcones.entities;
 
+import ar.edu.unlam.halcones.game.VentanaInventario;
 import com.sun.xml.internal.ws.util.StringUtils;
 
 import java.util.*;
@@ -14,12 +15,27 @@ public class Inventory implements INombrable<Inventory> {
 
     public Inventory() {
         super();
-        /*this.items = new ArrayList<>();*/
         this.itemsMap = new HashMap<>();
     }
 
     public Map<Item, Integer> getItems() {
         return this.itemsMap;
+    }
+
+    public Object[][] getItemsTable(){
+
+        Object[][] itemTable = new Object[itemsMap.size()][2];
+        Item itemIterado;
+        Set<Map.Entry<Item, Integer>> entries = this.itemsMap.entrySet();
+        int i = 0;
+        for (Map.Entry itemEntry : entries) {
+            itemIterado = (Item)itemEntry.getKey();
+            itemTable[i][0]=itemIterado.getImage();
+            itemTable[i][1]=itemIterado.getName() + "(x" + itemEntry.getValue() +").";
+            i++;
+        }
+
+        return itemTable;
     }
 
     public String add(Item item) {
@@ -75,10 +91,15 @@ public class Inventory implements INombrable<Inventory> {
                 Integer value = (Integer) itemEntry.getValue();
                 dataInventario = dataInventario.concat("- " + key.getName() + "(x" + value +").\n");
             }
+            mostrarVentanaInventario();
             return dataInventario;
         } else {
             return "No tienes items en tu inventario.";
         }
+    }
+
+    public void mostrarVentanaInventario() {
+        new VentanaInventario(getItemsTable());
     }
 
     public boolean hasItem(Item item) {
@@ -133,47 +154,4 @@ public class Inventory implements INombrable<Inventory> {
         this.add(item, 1);
     }
 
-    /*private List<Item> items;
-
-    public Inventory(List<Item> items) {
-        super();
-        this.items = items;
-    }
-    public List<Item> getItems() {
-        return items;
-    }
-    public String add(Item item) {
-        if (!this.items.contains(item)) {
-            this.items.add(item);
-            return "Agregaste " + item.getFullDescription() + " al inventario.";
-        }
-        return "Ya tienes ese item en el inventario";
-    }
-    public boolean add(List<Item> itemsForInventory) {
-        return this.items.addAll(itemsForInventory);
-    }
-    public String remove(Item item) {
-        if (this.items.contains(item)) {
-            this.items.remove(item);
-            return StringUtils.capitalize(item.getFullDescription()) + " ya no esta en tu inventario.";
-        }
-        return StringUtils.capitalize(item.getFullDescription()) + " no esta en tu inventario.";
-    }
-    public String showItems() {
-        if (!this.items.isEmpty()) {
-            String dataInventario = "Tienes los siguientes items en el inventario:\n";
-            for (Item item : getItems()) {
-                dataInventario = dataInventario.concat("- " + item.getName() + ".\n");
-            }
-            return dataInventario;
-        } else {
-            return "No tienes items en tu inventario.";
-        }
-    }
-    public boolean hasItem(Item item) {
-        return items.contains(item);
-    }
-    public boolean hasItem(String itemName) {
-        return items.stream().anyMatch(item -> item.getName().equals(itemName));
-    }*/
 }

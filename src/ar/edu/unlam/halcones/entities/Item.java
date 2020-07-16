@@ -1,5 +1,7 @@
 package ar.edu.unlam.halcones.entities;
 
+import java.awt.Image;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,8 @@ import java.util.Optional;
 import ar.edu.unlam.halcones.interprete.aftertriggers.Command;
 import ar.edu.unlam.halcones.interprete.aftertriggers.HandlerAfterTrigger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.swing.*;
 
 public class Item extends GameEntity implements Comparable<Item>, ITriggereable, INombrable<Item> {
 	@JsonProperty("actions")
@@ -21,7 +25,6 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 
 	public Item() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Item(String name, String state) {
@@ -53,6 +56,11 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 
 	public List<String> getEffectsOver() {
 		return effectsOver;
+	}
+	
+	public Icon getImage() {
+		
+		return new ImageIcon(getName()+".png");
 	}
 
 	public void setEffectsOver(List<String> effectsOver) {
