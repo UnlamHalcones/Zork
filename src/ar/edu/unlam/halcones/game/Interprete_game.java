@@ -48,8 +48,17 @@ public class Interprete_game {
 					if (!game.getCharacter().isItemInInventory(item))
 						return INVALIDCOMMAND;
 				}
-
-				response = entidadUno.ver();
+				if (entidadUno instanceof Location) {
+					Location location = (Location) entidadUno;
+					if(location.getName().equals("SUR") || location.getName().equals("NORTE") || location.getName().equals("ESTE") || location.getName().equals("OESTE")) {
+						response = game.getCharacter().infoConexion(location);
+					} else if (!game.getCharacter().isInLocation(location)) {
+						return INVALIDCOMMAND;
+					}
+				}
+				if(response.equals(INVALIDCOMMANDONITEM)) {
+					response = entidadUno.ver();
+				}
 			}
 		}
 
@@ -75,6 +84,9 @@ public class Interprete_game {
 		if (verbo.equals("hablar")) {
 			isTriggerAcction = false;
 			if (entidadUno instanceof Npc) {
+				if (!(game.getCharacter().getLocation().isNpcInLocation((Npc)entidadUno))) {
+					return INVALIDCOMMAND;
+				}
 				Npc npc = (Npc) entidadUno.getEntity();
 
 				response = npc.getTalk();
@@ -116,7 +128,6 @@ public class Interprete_game {
 				return "No tienes este item en tu inventario";
 
 			if (triggerable instanceof Npc) {
-				game.getCharacter().getLocation().isNpcInLocation((Npc) triggerable);
 				if (!(game.getCharacter().getLocation().isNpcInLocation((Npc) triggerable))) {
 					return INVALIDCOMMAND;
 				}

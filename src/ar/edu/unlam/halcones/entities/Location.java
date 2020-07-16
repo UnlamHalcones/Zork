@@ -203,4 +203,13 @@ public class Location extends GameEntity implements INombrable<Location> {
 		return this.getInformation();
 	}
 
+	public String getInformationPuntoCardinal(Location location) {
+		Connection connection1 = this.connections.stream().filter(connection -> connection.getDirection().equalsIgnoreCase(location.getName()))
+				.findAny()
+				.orElse(null);
+		if(connection1 == null) {
+			return "No hay nada en esa direccion";
+		}
+		return "Al " + location.getName().toLowerCase() + " hay " + connection1.getLocation().getFullDescriptionQty();
+	}
 }

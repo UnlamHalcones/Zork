@@ -1,23 +1,16 @@
 package ar.edu.unlam.halcones.game;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import net.miginfocom.swing.MigLayout;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.Dimension;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
 
 import ar.edu.unlam.halcones.archivo.GeneradorDeGame;
 import ar.edu.unlam.halcones.archivo.LectorDiccionarioCSV;
@@ -35,9 +28,6 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 
 public class RunnableGame extends JFrame {
 
@@ -275,16 +265,72 @@ public class RunnableGame extends JFrame {
 						primerSustantivo = primerEncontrado;
 					}
 
-					
-					String salida = interprete.commandRouter(game, verbo, primerSustantivo, segundoSustantivo);
-					mostrarSalida(salida);
-					buscarImagenes(salida);
-					display();
-					limpiarComando();
 
-					if (interprete.isKeepPlaying()) {
-						mostrarSalida("Finalizaste el juego!");
-						finalizarGame();
+					String salida = interprete.commandRouter(game, verbo, primerSustantivo, segundoSustantivo);
+
+					if (salida.toLowerCase().equals("ver_inventario")) {
+
+						Object[][] items = game.getCharacter().getInventory().getItemsTable();
+						String[] columnNames = {"Item", "Nombre (Cantidad)"};
+
+						TableModel model = new DefaultTableModel(items, columnNames) {
+							@Override
+							public Class<?> getColumnClass(int column) {
+								switch (column) {
+									case 1:
+										return String.class;
+									case 0:
+										return ImageIcon.class;
+									default:
+										return String.class;
+								}
+							}
+						};
+
+						JTable table = new JTable(model) {
+							@Override
+							public int getRowHeight() {
+								return super.getRowHeight() * 3;
+
+							}
+
+							@Override
+							public Dimension getPreferredScrollableViewportSize() {
+								return new Dimension(
+										(10 * super.getPreferredSize().width) / 4,
+										6 * this.getRowHeight());
+							}
+
+						};
+
+
+						table.setAutoCreateRowSorter(true);
+
+
+						splitPane.setRightComponent(new JScrollPane(table));
+						display();
+						limpiarComando();
+
+						splitPane.setDividerLocation(800);
+						getContentPane().add(splitPane, "cell 0 0,grow");
+
+					} else {
+
+						splitPane.setRightComponent(interactuablePanel);
+
+						splitPane.setDividerLocation(800);
+						getContentPane().add(splitPane, "cell 0 0,grow");
+
+						mostrarSalida(salida);
+						buscarImagenes(salida);
+						display();
+						limpiarComando();
+
+						if (interprete.isKeepPlaying()) {
+							mostrarSalida("Finalizaste el juego!");
+							finalizarGame();
+						}
+
 					}
 				}
 			}

@@ -3,12 +3,13 @@
 		"welcome": "Realizaste un viaje a un parque natural y te hospédas en una cabaña en el corazón del parque, allí solo cuentas con lo básico.Debido a una extraña patología que tienes, caes en un profundo sueño por días, ésto era algo que sucedía muy pocas veces al año.Al despertar, escuchas por la radio que se ha declarado el estado de sitio en consecuencia de una pandemia.Ahora tienes que salir del parque natural, sin ayuda alguna aparente, ya que no hay guarda parques ni personal asistiendo al parque.Se sabe que hay tribus autoctonas distribuidas en el parque, y que los animales dentro del mismo están en estado salvaje.Mientras dormías hubo una fuerte tormenta que arrasó con carteles, arboles y pequeños puestos de resguardo.Salir no será tan fácil.",
 		"character": "Jayden"
 	},
-	"character_triggers": [{
-		"type": "item",
-		"thing": "hierbas verdes",
-		"on_trigger": "Te ha regenerado salud",
-		"after_trigger": "vida+50"
-	},
+	"character_triggers": [
+		{
+			"type": "item",
+			"thing": "hierbas verdes",
+			"on_trigger": "Te ha regenerado salud",
+			"after_trigger": "vida+20"
+		},
 		{
 			"type": "item",
 			"thing": "billetera",
@@ -32,6 +33,12 @@
 			"thing": "pescado",
 			"on_trigger": "Que rico Pescado, siempre suman las proteinas !",
 			"after_trigger": "vida+10"
+		},
+		{
+			"type": "item",
+			"thing": "hierbas rojas",
+			"on_trigger": "Estas hierbas te envenenaron",
+			"after_trigger": "vida-100"
 		}
 
 	],
@@ -455,8 +462,8 @@
 			"name": "arbol",
 			"gender": "male",
 			"number": "singular",
-			"description": "- ¡Un gran árbol te está bloqueando el camino a la salida!",
-			"talk": "Será imposible avanzar por este camino.",
+			"description": "- ¡Un gran arbol te está bloqueando el paso a la salida!",
+			"talk": "No podes hablar con el arbol.",
 			"triggers": [{
 				"type": "item",
 				"thing": "motosierra",
@@ -734,7 +741,7 @@
 			]
 		}
 	],
-	"inventory": [],
+	"inventory": [{"name": "hierbas rojas", "quantity": 1}],
 	"endgames": [{
 		"condition": "location",
 		"action": "ir",

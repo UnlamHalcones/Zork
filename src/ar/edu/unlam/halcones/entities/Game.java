@@ -57,16 +57,9 @@ public class Game {
 		// Se iteran todos los Endgame verificando si se cumplen sus condiciones
 
 		for (EndGame endGame_IT : endGames) {
-
-			// Como caso especial, si se trata de verificar un estado de un GameEntity, lo
-			// tratamos en este if
-
 			if (endGame_IT.getAction().contains("state")) {
 
 				if (endGame_IT.getCondition().toLowerCase().contentEquals("npc")) { // si es un npc iteramos los npc
-																					// disponibles
-
-					// for (Npc npc_IT : npcs) {
 					Optional<Npc> npcOptional = npcs.stream()
 							.filter(n -> n.getName().contentEquals(endGame_IT.getThing())).findAny();
 
@@ -78,21 +71,14 @@ public class Game {
 
 						}
 					}
-
-					// }
-
-				} else if (endGame_IT.getCondition().toLowerCase().contentEquals("item")) { // si es un item iteramos
-																							// los item disponibles
-
+				} else if (endGame_IT.getCondition().toLowerCase().contentEquals("item")) { // si es un item iteramos los item disponibles
 					Optional<Item> itemOptional = items.stream()
 							.filter(i -> i.getName().contentEquals(endGame_IT.getThing())).findAny();
 
 					if (itemOptional.isPresent()) {
 						Item item_IT = itemOptional.get();
 						if (item_IT.getState().contentEquals(endGame_IT.getAction().substring(5))) {
-
 							return new Pair<Boolean, String>(true, endGame_IT.getDescription());
-
 						}
 					}
 				}
@@ -104,7 +90,7 @@ public class Game {
 
 			} else if (endGame_IT.getCondition().equals("inventory-item")) {
 
-				if (character.isItemInInventory(endGame_IT.getThing()) && endGame_IT.getAction().equals(action))
+				if (endGame_IT.getThing().equals(thing)  && endGame_IT.getAction().equals(action))
 					return new Pair<Boolean, String>(true, endGame_IT.getDescription());
 			} else if (endGame_IT.getCondition().equals("vida")) {
 				if(character.getVida() <= 0L) {

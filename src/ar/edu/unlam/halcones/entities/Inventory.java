@@ -84,22 +84,10 @@ public class Inventory implements INombrable<Inventory> {
 
     public String showItems() {
         if (!this.itemsMap.isEmpty()) {
-            String dataInventario = "Tienes los siguientes items en el inventario:\n";
-            Set<Map.Entry<Item, Integer>> entries = this.itemsMap.entrySet();
-            for (Map.Entry itemEntry : entries) {
-                Item key = (Item) itemEntry.getKey();
-                Integer value = (Integer) itemEntry.getValue();
-                dataInventario = dataInventario.concat("- " + key.getName() + "(x" + value +").\n");
-            }
-            mostrarVentanaInventario();
-            return dataInventario;
+            return "ver_inventario";
         } else {
             return "No tienes items en tu inventario.";
         }
-    }
-
-    public void mostrarVentanaInventario() {
-        new VentanaInventario(getItemsTable());
     }
 
     public boolean hasItem(Item item) {

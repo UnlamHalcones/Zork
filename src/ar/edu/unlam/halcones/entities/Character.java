@@ -270,4 +270,8 @@ public class Character implements ITriggereable, INombrable<Character> {
 	public Location getLocation() {
 		return this.location;
 	}
+
+	public String infoConexion(Location location) {
+		return this.location.getInformationPuntoCardinal(location);
+	}
 }

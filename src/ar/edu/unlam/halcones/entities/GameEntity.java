@@ -144,31 +144,12 @@ public abstract class GameEntity {
 		while(iterator.hasNext()) {
             GameEntity l = iterator.next();
             info.append(l.getFullDescriptionQty() + ", ");
-            if(!iterator.hasNext() && list.size() > 1) {
-                info.setCharAt(info.lastIndexOf(","), ' ');
-                info.append("y " + l.getFullDescriptionQty() + '.');
-            } else if(!iterator.hasNext()) {
-                info.setCharAt(info.lastIndexOf(","), '.');
-            }
         }
-		
-//		for(GameEntity l : list) {
-//			
-//			//INFO. LA LISTA TIENE +1 ELEMENTO Y ES LA ULTIMA ITERACION.
-//			if(list.size() > 1 && l.equals(list.get(list.size() - 1))) {
-//				info.setCharAt(info.lastIndexOf(","), ' ');
-//				info.append("y " + l.getFullDescriptionQty() + '.');
-//			}
-//			else if(list.size() > 1){
-//				
-//				info.append(l.getFullDescriptionQty() + ", ");
-//			}
-//			else{
-//				info.append(l.getFullDescriptionQty() + '.');
-//			}
-//			
-//		}
-		
+		info.setCharAt(info.lastIndexOf(", "), '.');
+		if(list.size() > 1) {
+			info.replace(info.lastIndexOf(","), info.lastIndexOf(",")+1, " y");
+		}
+
 		return info.toString();
 	}
 	
