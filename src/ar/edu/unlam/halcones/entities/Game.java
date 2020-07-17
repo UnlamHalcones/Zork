@@ -18,6 +18,8 @@ public class Game {
 	private Character character;
 	private List<GameEntity> gameEntities;
 	public Map<String, INombrable> interactuables = new HashMap<String, INombrable>();
+	
+	
 
 
 	public Game(String welcome, String characterName, List<Location> locations, List<Npc> npcs, List<Item> items,
@@ -57,33 +59,7 @@ public class Game {
 		// Se iteran todos los Endgame verificando si se cumplen sus condiciones
 
 		for (EndGame endGame_IT : endGames) {
-			if (endGame_IT.getAction().contains("state")) {
-
-				if (endGame_IT.getCondition().toLowerCase().contentEquals("npc")) { // si es un npc iteramos los npc
-					Optional<Npc> npcOptional = npcs.stream()
-							.filter(n -> n.getName().contentEquals(endGame_IT.getThing())).findAny();
-
-					if (npcOptional.isPresent()) {
-						Npc npc_IT = npcOptional.get();
-						if (npc_IT.getState().contentEquals(endGame_IT.getAction().substring(6))) {
-
-							return new Pair<Boolean, String>(true, endGame_IT.getDescription());
-
-						}
-					}
-				} else if (endGame_IT.getCondition().toLowerCase().contentEquals("item")) { // si es un item iteramos los item disponibles
-					Optional<Item> itemOptional = items.stream()
-							.filter(i -> i.getName().contentEquals(endGame_IT.getThing())).findAny();
-
-					if (itemOptional.isPresent()) {
-						Item item_IT = itemOptional.get();
-						if (item_IT.getState().contentEquals(endGame_IT.getAction().substring(5))) {
-							return new Pair<Boolean, String>(true, endGame_IT.getDescription());
-						}
-					}
-				}
-
-			} else if (endGame_IT.getCondition().equals("location")) {
+			if (endGame_IT.getCondition().equals("location")) {
 
 				if (character.isInLocation(endGame_IT.getThing()))
 					return new Pair<Boolean, String>(true, endGame_IT.getDescription());

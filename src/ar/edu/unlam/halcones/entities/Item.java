@@ -1,12 +1,8 @@
 package ar.edu.unlam.halcones.entities;
 
-import java.awt.Image;
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
 import ar.edu.unlam.halcones.interprete.aftertriggers.Command;
 import ar.edu.unlam.halcones.interprete.aftertriggers.HandlerAfterTrigger;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -78,11 +74,11 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 	public String use(String action, ITriggereable over) {
 
 		if (!canDoAction(action)) {
-			return "El item no puede realizar la accion";
+			return "No puedes hacer eso con este item.";
 		}
 
 		if (!effectsOver.contains(over.getType())) {
-			return "Accion no valida sobre un " + over.getType() + ".";
+			return "No puedes hacer eso con este item.";
 		}
 
 		Trigger trigger = new Trigger("item", this.getName());
