@@ -17,7 +17,6 @@ import ar.edu.unlam.halcones.archivo.GeneradorDeGame;
 import ar.edu.unlam.halcones.archivo.LectorDiccionarioCSV;
 import ar.edu.unlam.halcones.entities.Game;
 import ar.edu.unlam.halcones.entities.INombrable;
-import ar.edu.unlam.halcones.interprete.GuardadorHistoria;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,4 +1,4 @@
-package ar.edu.unlam.halcones.interprete;
+package ar.edu.unlam.halcones.game;
 
 public class GuardadorHistoria {
 
