@@ -52,8 +52,8 @@ public class Connection implements INombrable<Location> {
 	}
 
 	@Override
-	public String ver() {
-		return this.getInformation();
+	public ActionDTO ver() {
+		return new ActionDTO(this.getInformation(), true);
 	}
 	
 	public String getDirection() {

@@ -23,6 +23,9 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 	@JsonProperty("triggers")
 	private List<Trigger> triggers;
 
+	@JsonProperty("descripcion")
+	private String descripcion;
+
 	public Item() {
 		super();
 	}
@@ -75,23 +78,24 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 		return myName.compareTo(otherName);
 	}
 
-	public String use(String action, ITriggereable over) {
+	public ActionDTO use(String action, ITriggereable over) {
 
 		if (!canDoAction(action)) {
-			return "El item no puede realizar la accion";
+			return new ActionDTO(this.getName(), false, "El item no puede realizar la accion");
 		}
 
 		if (!effectsOver.contains(over.getType())) {
-			return "Accion no valida sobre un " + over.getType() + ".";
+			return new ActionDTO(this.getName(), false, "Accion no valida sobre un " + over.getType() + ".");
 		}
 
 		Trigger trigger = new Trigger("item", this.getName());
 
-		// Esto comando siempre se ejecuta para poder sacar un item del inventario
-		Command command = new Command("remove", this.getName(), this.getType());
-		HandlerAfterTrigger.handleCommand(command);
-
-		return over.execute(trigger);
+		ActionDTO executeResult = over.execute(trigger);
+		if(executeResult.isPerformed()) {
+			Command command = new Command("remove", this.getName(), this.getType());
+			HandlerAfterTrigger.handleCommand(command);
+		}
+		return new ActionDTO(this.getName(), true, executeResult.getResponse());
 	}
 
 	private boolean canDoAction(String action) {
@@ -99,13 +103,13 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 	}
 
 	@Override
-	public String execute(Trigger trigger) {
+	public ActionDTO execute(Trigger trigger) {
 		Trigger triggerToExecute = triggers.stream()
 				.filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing())).findAny()
 				.orElse(null);
 
 		if (triggerToExecute == null) {
-			return "Eso no ha servido de nada";
+			return new ActionDTO(this.getName(), false,"Eso no ha servido de nada");
 		}
 
 		String afterTrigger = triggerToExecute.getAfterTrigger();
@@ -117,7 +121,7 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 			}
 		}
 
-		return triggerToExecute.getOnTrigger();
+		return new ActionDTO(this.getName(), true, triggerToExecute.getOnTrigger());
 	}
 
 	@Override
@@ -186,7 +190,7 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 	}
 
 	@Override
-	public String ver() {
-		return this.getFullDescription();
+	public ActionDTO ver() {
+		return new ActionDTO(this.getName(), true, this.descripcion);
 	}
 }

@@ -3,7 +3,13 @@
     "welcome": "Te encuentras en un muelle. Es de noche pero la luna ilumina todo el lugar. En el suelo hay algunos objetos, y sientes muchas ganas de ir hacia una taberna.",
     "character": "Guybrush Threepwood"
   },
-  "character_triggers": [],
+  "character_triggers": [
+    {
+      "type": "item",
+      "thing": "espejo",
+      "on_trigger": "Me veo muy parecido a un fantasma.",
+      "after_trigger": ""
+    }],
   "locations": [
     {
       "name": "muelle",
@@ -81,7 +87,8 @@
       "gender": "male",
       "number": "singular",
       "actions": [
-        "usar"
+        "usar",
+        "dar"
       ],
       "effects_over": [
         "npc",
@@ -94,7 +101,7 @@
       "gender": "male",
       "number": "singular",
       "actions": [
-        "usar"
+        "mirar"
       ],
       "effects_over": [
         "npc",
@@ -113,7 +120,7 @@
     },
     {
       "condition": "action",
-      "action": "look",
+      "action": "mirar",
       "thing": "espejo",
       "description": "¡Oh, no! Acabas de descubrir que tú también eres un pirata fantasma... ¡el horror!"
     }

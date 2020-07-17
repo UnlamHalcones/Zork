@@ -83,12 +83,12 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 	}
 
 	@Override
-	public String execute(Trigger trigger) {
+	public ActionDTO execute(Trigger trigger) {
 		Optional<Trigger> aux = triggers.stream()
 				.filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing()))
 				.findAny();
 		if (!aux.isPresent()) {
-			return "No puede hacer eso con " + this.getFullDescription();
+			return new ActionDTO(this.getName(), false, "No puede hacer eso con " + this.getFullDescription());
 		}
 
 		String afterTrigger = aux.get().getAfterTrigger();
@@ -99,8 +99,7 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 				HandlerAfterTrigger.handleCommand(command);
 			}
 		}
-
-		return aux.get().getOnTrigger();
+		return new ActionDTO(this.getName(), true, aux.get().getOnTrigger());
 	}
 
 	@Override
@@ -138,7 +137,7 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 	}
 
 	@Override
-	public String ver() {
-		return StringUtils.capitalize(this.getFullDescription() +  this.getDescription());
+	public ActionDTO ver() {
+		return new ActionDTO(this.getName(), true, StringUtils.capitalize(this.getDescription()));
 	}
 }

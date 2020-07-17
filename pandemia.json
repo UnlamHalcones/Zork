@@ -30,8 +30,8 @@
 		},
 		{
 			"type": "item",
-			"thing": "pescado",
-			"on_trigger": "Que rico Pescado, siempre suman las proteinas !",
+			"thing": "salmon",
+			"on_trigger": "Que rico salmon, siempre suman las proteinas!",
 			"after_trigger": "vida+10"
 		},
 		{
@@ -146,7 +146,7 @@
 					"number": "singular",
 					"items": [
 						"frutas",
-						"pescado"
+						"salmon"
 					]
 				}
 			],
@@ -342,12 +342,13 @@
 		"number": "singular",
 		"description": "Oh! te has topado con el inestable cacique de la tribu",
 		"talk": "¡Fuera de aquí extranjero, no queremos a gente como tu!",
-		"triggers": [{
-			"type": "item",
-			"thing": "colmillo de elefante",
-			"on_trigger": "- Por tu valentía por recuperar esta reliquia ansestral, puedes ser uno mas de los nuestros.",
-			"after_trigger": "remove"
-		},
+		"triggers": [
+			{
+				"type": "item",
+				"thing": "colmillo de elefante",
+				"on_trigger": "- Por tu valentía por recuperar esta reliquia ansestral, puedes ser uno mas de los nuestros.",
+				"after_trigger": "remove"
+			},
 			{
 				"type": "item",
 				"thing": "motosierra",
@@ -388,7 +389,7 @@
 				},
 				{
 					"type": "item",
-					"thing": "pescado",
+					"thing": "salmon",
 					"on_trigger": " El oso cayo en la trampa, se fue distraido por la carnada.",
 					"after_trigger": "remove"
 				},
@@ -528,6 +529,7 @@
 		{
 			"name": "alcohol en gel",
 			"gender": "male",
+			"description" : "Podria usarse para curarse.",
 			"number": "singular",
 			"actions": [
 				"usar",
@@ -544,6 +546,7 @@
 		{
 			"name": "remo",
 			"gender": "male",
+			"description" : "Seguro a alguien puede serle util.",
 			"number": "singular",
 			"actions": [
 				"usar",
@@ -556,6 +559,7 @@
 		{
 			"name": "machete",
 			"gender": "male",
+			"description": "Puede ser util para atacar a corta distancia.",
 			"number": "singular",
 			"actions": [
 				"usar",
@@ -571,6 +575,7 @@
 		{
 			"name": "colmillo de elefante",
 			"gender": "male",
+			"description": "Seguro a alguien puede serle util.",
 			"number": "singular",
 			"actions": [
 				"usar",
@@ -586,6 +591,7 @@
 		{
 			"name": "lanza",
 			"gender": "female",
+			"description": "Puede ser util para atacar a larga distancia.",
 			"number": "singular",
 			"actions": [
 				"usar",
@@ -605,6 +611,7 @@
 		{
 			"name": "frutas",
 			"gender": "female",
+			"description": "Podria probar comerlas.",
 			"number": "plural",
 			"actions": [
 				"usar",
@@ -621,6 +628,7 @@
 		},
 		{
 			"name": "hierbas rojas",
+			"description": "Son medios raras, me pregunto que pasara si las como.",
 			"gender": "female",
 			"number": "plural",
 			"actions": [
@@ -637,6 +645,7 @@
 		},
 		{
 			"name": "hierbas verdes",
+			"description": "Son medios raras, me preguntó que pasara si las como.",
 			"gender": "female",
 			"number": "plural",
 			"actions": [
@@ -655,6 +664,7 @@
 		{
 			"name": "billetera",
 			"gender": "female",
+			"description": "Esta vacia. Que suerte la mia.",
 			"number": "singular",
 			"actions": [
 				"agarrar",
@@ -671,6 +681,7 @@
 		{
 			"name": "raton de juguete",
 			"gender": "male",
+			"description": "Me pregunto para que podre usarlo.",
 			"number": "singular",
 			"actions": [
 				"usar"
@@ -680,8 +691,9 @@
 			]
 		},
 		{
-			"name": "pescado",
+			"name": "salmon",
 			"gender": "male",
+			"description": "Sera asqueroso, pero podria comerlo.",
 			"number": "singular",
 			"actions": [
 				"usar",
@@ -698,6 +710,7 @@
 		{
 			"name": "amuleto",
 			"gender": "male",
+			"description" :  "Seguro a alguien puede serle util.",
 			"number": "singular",
 			"actions": [
 				"usar",
@@ -713,6 +726,7 @@
 		{
 			"name": "soga",
 			"gender": "female",
+			"description": "Es bastante larga.",
 			"number": "singular",
 			"actions": [
 				"amarrar",
@@ -726,6 +740,7 @@
 		{
 			"name": "motosierra",
 			"gender": "female",
+			"description": "Esta bastante oxidada.",
 			"number": "singular",
 			"actions": [
 				"usar",
