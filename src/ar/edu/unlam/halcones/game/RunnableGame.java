@@ -61,8 +61,6 @@ public class RunnableGame extends JFrame {
 	private String landscapeImageUrl;
 	
 	private GuardadorHistoria guardadorHistoria;
-	private JMenu mnAyuda;
-	private JMenuItem mntmComandos;
 	
 	public RunnableGame() {
 		setResizable(false);
@@ -173,24 +171,8 @@ public class RunnableGame extends JFrame {
 			}
 		});
 		mnPartida.add(mntmSalir);
-		
-		mnAyuda = new JMenu("Ayuda");
-		menuBar.add(mnAyuda);
-		
-		mntmComandos = new JMenuItem("Comandos...");
-		mntmComandos.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ev) {
-				abrirAyuda();
-			}
-		});
-		mnAyuda.add(mntmComandos);
 	}
 
-	private void abrirAyuda() {
-		new CommandWindowHelp(this);
-	}	
-	
 	private void salirDelJuego() {
 		if (JOptionPane.showConfirmDialog(this, "Realmente quieres irte del juego", "Atención...",
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {

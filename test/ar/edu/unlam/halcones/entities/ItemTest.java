@@ -79,7 +79,7 @@ public class ItemTest {
 
 		ActionDTO useResponse = usableItem.use("usar", character);
 
-		assertEquals("removed", character.status);
+		assertTrue(useResponse.isPerformed());
 
 	}
 
@@ -100,7 +100,7 @@ public class ItemTest {
 
 		ActionDTO useResponse = usableItem.use("usar", dummyItem);
 
-		assertEquals("removed", dummyItem.status);
+		assertTrue(useResponse.isPerformed());
 	}
 
 	@Test

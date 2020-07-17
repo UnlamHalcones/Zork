@@ -13,13 +13,16 @@ public class RemoveCommandHandler implements CommandHandler {
 
     @Override
     public void handleCommand(Command command, Game game) {
-        if(command.getCommandType().equals("remove")) {
-            if(command.getType().equals("npc"))
-                game.removeNpc(command.getThingName());
-            if(command.getType().equals("item"))
-                game.removeItemFromCharacter(command.getThingName());
-        } else {
-            this.next.handleCommand(command, game);
-        }
+ 
+    	if (game != null) {
+	        if(command.getCommandType().equals("remove")) {
+	            if(command.getType().equals("npc"))
+	                game.removeNpc(command.getThingName());
+	            if(command.getType().equals("item"))
+	                game.removeItemFromCharacter(command.getThingName());
+	        } else {
+	            this.next.handleCommand(command, game);
+	        }
+    	}
     }
 }

@@ -53,7 +53,6 @@ public class GeneradorDeGame {
 
         // Proceso inventario
         Inventory inventory = new Inventory();
-        List<Item> itemsForInventory = new LinkedList<>();
         JsonNode inventoryNode = gameTree.get(INVENTORY_KEY);
         JsonNode[] inventoryArrayNode = objectMapper.readValue(inventoryNode.toString(), JsonNode[].class);
         for(JsonNode itemInInventory : inventoryArrayNode) {
@@ -65,16 +64,6 @@ public class GeneradorDeGame {
             inventory.add(item, itemQuantity);
         }
 
-        /*String[] itemsNameInInvetory = objectMapper.readValue(inventoryNode.toString(), String[].class);
-        for (String itemName : itemsNameInInvetory) {
-            gameItems.stream().filter(item -> item.getName().equals(itemName))
-                    .findAny()
-                    .ifPresent(itemsForInventory::add);
-        }
-
-        findAndAddElements(objectMapper, gameItems, itemsForInventory, inventoryNode);
-
-        inventory.add(itemsForInventory);*/
 
         // Proceso Location por primera vez para generar places
         List<Location> gameLocations = new LinkedList<>();
