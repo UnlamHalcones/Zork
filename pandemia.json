@@ -756,7 +756,7 @@
 			]
 		}
 	],
-	"inventory": [{"name": "hierbas rojas", "quantity": 1}],
+	"inventory": [],
 	"endgames": [{
 		"condition": "location",
 		"action": "ir",

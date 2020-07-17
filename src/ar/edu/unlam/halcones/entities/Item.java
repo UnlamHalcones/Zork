@@ -23,7 +23,7 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 	@JsonProperty("triggers")
 	private List<Trigger> triggers;
 
-	@JsonProperty("descripcion")
+	@JsonProperty("description")
 	private String descripcion;
 
 	public Item() {
@@ -62,8 +62,7 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 	}
 	
 	public Icon getImage() {
-		
-		return new ImageIcon(getName()+".png");
+		return new ImageIcon("icons/" + getName() + ".png");
 	}
 
 	public void setEffectsOver(List<String> effectsOver) {
