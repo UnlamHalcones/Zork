@@ -1,6 +1,7 @@
 package ar.edu.unlam.halcones.game;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -16,6 +17,7 @@ import ar.edu.unlam.halcones.archivo.GeneradorDeGame;
 import ar.edu.unlam.halcones.archivo.LectorDiccionarioCSV;
 import ar.edu.unlam.halcones.entities.Game;
 import ar.edu.unlam.halcones.entities.INombrable;
+import ar.edu.unlam.halcones.interprete.GuardadorHistoria;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +26,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
@@ -58,6 +61,8 @@ public class RunnableGame extends JFrame {
 	private JPanel interactuablePanel;
 
 	private String landscapeImageUrl;
+	
+	private GuardadorHistoria guardadorHistoria;
 	
 	public RunnableGame() {
 		setResizable(false);
@@ -148,6 +153,16 @@ public class RunnableGame extends JFrame {
 
 		mntmGuardar = new JMenuItem("Guardar...");
 		mntmGuardar.setEnabled(false);
+		
+		mntmGuardar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ev) {
+				guardarPartida();
+			}
+
+		
+		});
+		
 		mnPartida.add(mntmGuardar);
 
 		mntmSalir = new JMenuItem("Salir");
@@ -175,6 +190,10 @@ public class RunnableGame extends JFrame {
 				nombreCharacter = nuevaPartida.getNombreCharacter().trim();
 				game = generador.generarEntornoDeJuego(nuevaPartida.getArchivo(), nombreCharacter);
 				game.generarInteractuables();
+				this.guardadorHistoria = new GuardadorHistoria();
+				
+				this.guardadorHistoria.agregarSalida(game.getWelcome());
+				
 				mntmNueva.setEnabled(false);
 				mntmGuardar.setEnabled(true);
 				interprete = new Interprete_game();
@@ -195,7 +214,31 @@ public class RunnableGame extends JFrame {
 	}
 
 
-
+	private void guardarPartida() {
+		
+	    JFileChooser chooser = new JFileChooser();
+	    
+	    chooser.setCurrentDirectory(new File("/home/me/Documents"));
+	    
+	    int retrival = chooser.showSaveDialog(null);
+	    
+	    if (retrival == JFileChooser.APPROVE_OPTION) {
+	    	String fileName = chooser.getSelectedFile().toString();
+	    	
+	    	if(!fileName.contains(".txt"))
+	    		fileName = fileName + ".txt";
+	    	
+	    	try(FileWriter fw = new FileWriter(fileName)) {
+	    	    fw.write(this.guardadorHistoria.getSalida());
+	    	}
+	    	
+	    	catch (Exception ex) {
+	            ex.printStackTrace();
+	        }
+	    }
+	}
+	
+	
 	private void enviarComando() {
 		String comando = txtComando.getText().toLowerCase().trim();
 		String input = "";
@@ -264,8 +307,10 @@ public class RunnableGame extends JFrame {
 						primerSustantivo = primerEncontrado;
 					}
 
-
+					this.guardadorHistoria.agregarEntrada(comando);
 					String salida = interprete.commandRouter(game, verbo, primerSustantivo, segundoSustantivo);
+					this.guardadorHistoria.agregarSalida(salida);
+					
 					game.actualizarInteractuables();
 
 					if (salida.toLowerCase().equals("ver_inventario")) {

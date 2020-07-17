@@ -1,12 +1,8 @@
 package ar.edu.unlam.halcones.entities;
 
-import java.awt.Image;
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
 import ar.edu.unlam.halcones.interprete.aftertriggers.Command;
 import ar.edu.unlam.halcones.interprete.aftertriggers.HandlerAfterTrigger;
 import com.fasterxml.jackson.annotation.JsonProperty;

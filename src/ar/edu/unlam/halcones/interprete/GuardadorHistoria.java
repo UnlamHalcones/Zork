@@ -1,13 +1,7 @@
 package ar.edu.unlam.halcones.interprete;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 public class GuardadorHistoria {
 
-	
 	private String salida = "";
 	
 	public void agregarEntrada (String input) {
@@ -18,9 +12,8 @@ public class GuardadorHistoria {
 		agregarRegistro ("-" + input + "'");
 	}
 
-	public void agregarRegistro(String linea) {
-		
-		salida.concat(linea + System.lineSeparator());
+	private void agregarRegistro(String linea) {
+		salida = salida.concat(linea + System.lineSeparator());
 	}
 
 	public String getSalida(){
