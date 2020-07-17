@@ -121,20 +121,23 @@ public class Location extends GameEntity implements INombrable<Location> {
 	public String getInformation() {
 		String landscape = description + '.';
 
-		if (!places.isEmpty())
+		if (!places.isEmpty()) {
+		
 			for (Place p : places) {
 				landscape += p.getInformation();
 			}
-
+		}
+		
 		if (!npcs.isEmpty()) {
 			landscape += " Hay " + getFullInformationQty(npcs);
 		}
 
-		if (!connections.isEmpty())
+		if (!connections.isEmpty()) {
 			for (Connection c : connections) {
-				landscape += c.getInformation();
+				landscape += c.getInformation() + ". ";
 			}
-
+		}
+		
 		return landscape;
 	}
 
@@ -190,7 +193,6 @@ public class Location extends GameEntity implements INombrable<Location> {
 		myMap.put(this.getName().trim(), this);
 
 		return myMap;
-
 	}
 
 	@Override

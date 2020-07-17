@@ -17,8 +17,6 @@ public class Character implements ITriggereable, INombrable<Character> {
 	private List<Trigger> triggers;
 	private Long vida;
 
-
-
 	public Character(Location location, Inventory inventory) {
 		this.location = location;
 		this.inventory = inventory;
@@ -63,7 +61,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 				if(northConnection != null)
 					otherLocation = northConnection.getLocation();
 				else
-					return "No puedo ir en esa direcci�n";
+					return "No puedo ir en esa dirección";
 				
 				break;
 			case "SUR":
@@ -72,7 +70,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 				if(southConnection != null)
 					otherLocation = southConnection.getLocation();
 				else
-					return "No puedo ir en esa direcci�n";
+					return "No puedo ir en esa dirección";
 				
 				break;
 			case "ESTE":
@@ -81,7 +79,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 				if(eastConnection != null)
 					otherLocation = eastConnection.getLocation();
 				else
-					return "No puedo ir en esa direcci�n";
+					return "No puedo ir en esa dirección";
 				
 				break;
 			case "OESTE":
@@ -90,7 +88,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 				if(westConnection != null)
 					otherLocation = westConnection.getLocation();
 				else
-					return "No puedo ir en esa direcci�n";
+					return "No puedo ir en esa dirección";
 				
 				break;
 			default:

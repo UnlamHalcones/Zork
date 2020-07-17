@@ -7,7 +7,11 @@ import java.awt.*;
 
 public class VentanaInventario extends JFrame {
 
-    private JPanel contentPane;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3719990284810020688L;
+	private JPanel contentPane;
     private JTable table;
     private static Object[][] items;
 
@@ -38,7 +42,12 @@ public class VentanaInventario extends JFrame {
     public VentanaInventario(Object[][] items) {
 
         TableModel model = new DefaultTableModel(items, columnNames) {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = -5113261984204818661L;
+
+			@Override
             public Class<?> getColumnClass(int column) {
                 switch (column) {
                     case 1:
@@ -51,7 +60,12 @@ public class VentanaInventario extends JFrame {
             }
         };
         JTable table = new JTable(model) {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 3358256221897447221L;
+
+			@Override
             public int getRowHeight() {
                 return super.getRowHeight() * 3;
             }

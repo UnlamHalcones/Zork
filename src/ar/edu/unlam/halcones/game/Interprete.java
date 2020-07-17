@@ -3,7 +3,7 @@ package ar.edu.unlam.halcones.game;
 import ar.edu.unlam.halcones.entities.*;
 import javafx.util.Pair;
 
-public class Interprete_game {
+public class Interprete {
 
 	private final static String INVALIDCOMMAND = "No entendi lo que ingresaste. Intenta de nuevo por favor.";
 	private final static String INVALIDCOMMANDONITEM = "No entendi lo que ingresaste. Intenta de nuevo por favor.";
@@ -13,7 +13,7 @@ public class Interprete_game {
 		this.keepPlaying = keepPlaying;
 	}
 
-	public Interprete_game() {
+	public Interprete() {
 		this.keepPlaying = true;
 	}
 	

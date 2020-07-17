@@ -9,7 +9,8 @@
       "thing": "espejo",
       "on_trigger": "Me veo muy parecido a un fantasma.",
       "after_trigger": ""
-    }],
+    }
+  ],
   "locations": [
     {
       "name": "muelle",
@@ -21,11 +22,7 @@
           "name": "suelo",
           "gender": "male",
           "number": "singular",
-          "items": [
-            "barreta",
-            "rociador con cerveza de raiz",
-            "espejo"
-          ]
+          "items": ["barreta", "rociador con cerveza de raiz", "espejo"]
         }
       ],
       "npcs": ["pirata fantasma"],
@@ -49,7 +46,6 @@
         }
       ]
     }
-
   ],
   "npcs": [
     {
@@ -72,42 +68,26 @@
     {
       "name": "barreta",
       "gender": "female",
+      "description": "Me pregunto para que podre usarla",
       "number": "singular",
-      "actions": [
-        "usar"
-      ],
-      "effects_over": [
-        "npc",
-        "self",
-        "item"
-      ]
+      "actions": ["usar"],
+      "effects_over": ["npc", "self", "item"]
     },
     {
       "name": "rociador con cerveza de raiz",
       "gender": "male",
+      "description": "Seguro puedo usarlo en alguien",
       "number": "singular",
-      "actions": [
-        "usar",
-        "dar"
-      ],
-      "effects_over": [
-        "npc",
-        "self",
-        "item"
-      ]
+      "actions": ["usar", "dar"],
+      "effects_over": ["npc", "self", "item"]
     },
     {
       "name": "espejo",
       "gender": "male",
+      "description": "Me pregunto para que pasara si lo miro",
       "number": "singular",
-      "actions": [
-        "mirar"
-      ],
-      "effects_over": [
-        "npc",
-        "self",
-        "item"
-      ]
+      "actions": ["mirar"],
+      "effects_over": ["npc", "self", "item"]
     }
   ],
   "inventory": [],

@@ -1,7 +1,6 @@
 package ar.edu.unlam.halcones.game;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -48,7 +47,7 @@ public class RunnableGame extends JFrame {
 	private JLabel lblComando;
 	private NuevaPartida nuevaPartida;
 	private Game game = null;
-	private Interprete_game interprete;
+	private Interprete interprete;
 	private Map<String, String> verbos;
 	private GeneradorDeGame generador;
 	private Set<String> imagenes;
@@ -175,7 +174,7 @@ public class RunnableGame extends JFrame {
 	}
 
 	private void salirDelJuego() {
-		if (JOptionPane.showConfirmDialog(this, "Realmente quieres irte del juego", "Atenci�n...",
+		if (JOptionPane.showConfirmDialog(this, "Realmente quieres irte del juego", "Atención...",
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
 			System.exit(0);
 		}
@@ -195,7 +194,7 @@ public class RunnableGame extends JFrame {
 				
 				mntmNueva.setEnabled(false);
 				mntmGuardar.setEnabled(true);
-				interprete = new Interprete_game();
+				interprete = new Interprete();
 				verbos = LectorDiccionarioCSV.leerDiccionario();
 				directorioImagenes = "imagenes/" + nuevaPartida.getCarpetaImagenes().trim() + "/";
 				txtHistoria.setText("");
@@ -245,12 +244,13 @@ public class RunnableGame extends JFrame {
 		String primerSustantivo = "";
 		String segundoSustantivo = "";
 
+		String comandoIngresado = ">>" + this.nombreCharacter + ": " + comando;
 
 		if (comando.isEmpty()) {
 		} else if (comando.equals("salir")) {
 			limpiarComando();
 			if (JOptionPane.showConfirmDialog(this, "Realmente quieres abandonar el juego sin antes guardar la partida",
-					"Atenci�n...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
+					"Atención...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
 				mostrarSalida("Acabas de abandonar el juego!");
 				finalizarGame();
 			}
@@ -306,7 +306,10 @@ public class RunnableGame extends JFrame {
 						primerSustantivo = primerEncontrado;
 					}
 
-					this.guardadorHistoria.agregarEntrada(comando);
+					
+					this.guardadorHistoria.agregarEntrada(comandoIngresado);
+					
+					mostrarSalida(comandoIngresado);
 					String salida = interprete.commandRouter(game, verbo, primerSustantivo, segundoSustantivo);
 					this.guardadorHistoria.agregarSalida(salida);
 					
@@ -318,6 +321,11 @@ public class RunnableGame extends JFrame {
 						String[] columnNames = {"Item", "Nombre (Cantidad)"};
 
 						TableModel model = new DefaultTableModel(items, columnNames) {
+							/**
+							 * 
+							 */
+							private static final long serialVersionUID = -3575900618754822545L;
+
 							@Override
 							public Class<?> getColumnClass(int column) {
 								switch (column) {
@@ -332,6 +340,11 @@ public class RunnableGame extends JFrame {
 						};
 
 						JTable table = new JTable(model) {
+							/**
+							 * 
+							 */
+							private static final long serialVersionUID = 3553454529151078694L;
+
 							@Override
 							public int getRowHeight() {
 								return super.getRowHeight() * 3;
@@ -414,7 +427,6 @@ public class RunnableGame extends JFrame {
 		txtComando.setEditable(false);
 		txtComando.setFocusable(false);
 		mntmNueva.setEnabled(true);
-		mntmGuardar.setEnabled(false);
 	}
 
 	private void mostrarSalida(String mensaje) {

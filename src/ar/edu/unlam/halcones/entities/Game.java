@@ -3,7 +3,6 @@ package ar.edu.unlam.halcones.entities;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javafx.util.Pair;
 
@@ -14,24 +13,11 @@ public class Game {
 	private List<Item> items;
 	private List<EndGame> endGames;
 	private String welcome;
-	private String characterName;
 	private Character character;
 	private List<GameEntity> gameEntities;
 	public Map<String, INombrable> interactuables = new HashMap<String, INombrable>();
 	
 	
-
-
-	public Game(String welcome, String characterName, List<Location> locations, List<Npc> npcs, List<Item> items,
-			List<EndGame> endGames) {
-		this.locations = locations;
-		this.npcs = npcs;
-		this.items = items;
-		this.endGames = endGames;
-		this.welcome = welcome;
-		this.characterName = characterName;
-	}
-
 	public Game(String welcome, Character character, List<Location> locations, List<Npc> npcs, List<Item> items,
 			List<EndGame> endGames) {
 		this.locations = locations;
@@ -54,31 +40,6 @@ public class Game {
 		return this.character;
 	}
 
-	/*public Pair<Boolean, String> checkEndgame(String action, String thing) {
-
-		// Se iteran todos los Endgame verificando si se cumplen sus condiciones
-
-		for (EndGame endGame_IT : endGames) {
-			if (endGame_IT.getCondition().equals("location")) {
-
-				if (character.isInLocation(endGame_IT.getThing()))
-					return new Pair<Boolean, String>(true, endGame_IT.getDescription());
-
-			} else if (endGame_IT.getCondition().equals("inventory-item")) {
-
-				if (endGame_IT.getThing().equals(thing)  && endGame_IT.getAction().equals(action))
-					return new Pair<Boolean, String>(true, endGame_IT.getDescription());
-			} else if (endGame_IT.getCondition().equals("vida")) {
-				if(character.getVida() <= 0L) {
-					return new Pair<Boolean, String>(true, endGame_IT.getDescription());
-				}
-			}
-
-		}
-
-		return new Pair<Boolean, String>(false, "");
-
-	}*/
 
 	public Pair<Boolean, String> checkEndgame(ActionDTO actionPerformed) {
 

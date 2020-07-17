@@ -5,7 +5,7 @@ public class GuardadorHistoria {
 	private String salida = "";
 	
 	public void agregarEntrada (String input) {
-		agregarRegistro ("Comando: '" + input + "'");
+		agregarRegistro (input);
 	}
 	
 	public void agregarSalida (String input) {
@@ -13,7 +13,7 @@ public class GuardadorHistoria {
 	}
 
 	private void agregarRegistro(String linea) {
-		salida = salida.concat(linea + System.lineSeparator());
+		salida = salida.concat(linea + System.lineSeparator() + System.lineSeparator());
 	}
 
 	public String getSalida(){
