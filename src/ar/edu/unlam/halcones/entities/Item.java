@@ -23,6 +23,9 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 	@JsonProperty("triggers")
 	private List<Trigger> triggers;
 
+	@JsonProperty("descripcion")
+	private String descripcion;
+
 	public Item() {
 		super();
 	}
@@ -188,6 +191,6 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 
 	@Override
 	public ActionDTO ver() {
-		return new ActionDTO(this.getName(), true, this.getFullDescription());
+		return new ActionDTO(this.getName(), true, this.descripcion);
 	}
 }

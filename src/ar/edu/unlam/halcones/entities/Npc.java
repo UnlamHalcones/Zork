@@ -138,6 +138,6 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 
 	@Override
 	public ActionDTO ver() {
-		return new ActionDTO(this.getName(), true, StringUtils.capitalize(this.getFullDescription() +  this.getDescription()));
+		return new ActionDTO(this.getName(), true, StringUtils.capitalize(this.getDescription()));
 	}
 }

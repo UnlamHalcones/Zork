@@ -52,6 +52,13 @@ public class Interprete_game {
 						return INVALIDCOMMAND;
 					}
 				}
+				if (entidadUno instanceof Npc) {
+					if (!(game.getCharacter().getLocation().isNpcInLocation((Npc)entidadUno))) {
+						return INVALIDCOMMAND;
+					}
+					response = entidadUno.ver().getResponse();
+
+				}
 				if(response.equals(INVALIDCOMMANDONITEM)) {
 					responseAction = entidadUno.ver();
 					response = responseAction.getResponse();

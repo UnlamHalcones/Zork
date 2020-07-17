@@ -267,6 +267,7 @@ public class RunnableGame extends JFrame {
 
 
 					String salida = interprete.commandRouter(game, verbo, primerSustantivo, segundoSustantivo);
+					game.actualizarInteractuables();
 
 					if (salida.toLowerCase().equals("ver_inventario")) {
 
@@ -387,7 +388,7 @@ public class RunnableGame extends JFrame {
 		
 		interactuablePanel.repaint();
 		
-		locationImageUrl = directorioImagenes + game.getCharacter().getLocation().getName() + "_location.jpg";
+		locationImageUrl = directorioImagenes.concat("/landscapes/") + game.getCharacter().getLocation().getName() + ".jpg";
 		if(!locationImageUrl.equals(landscapeImageUrl)){
 			landscapeImageUrl = locationImageUrl;
 			landscapePanel.repaint();
