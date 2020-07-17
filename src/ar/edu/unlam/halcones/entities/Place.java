@@ -94,7 +94,7 @@ public class Place extends GameEntity implements INombrable {
 	}
 
 	@Override
-	public String ver() {
-		return getInformation();
+	public ActionDTO ver() {
+		return new ActionDTO(this.getName(), true, getInformation());
 	}
 }

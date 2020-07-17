@@ -2,10 +2,10 @@ package ar.edu.unlam.halcones.entities;
 
 import java.util.Map;
 
-public interface INombrable<TEntity> {
-	public Map<String, TEntity> getNombres ();
+public interface INombrable<T> {
+	Map<String, T> getNombres ();
 	
-	public TEntity getEntity();
+	T getEntity();
 	
-	public String ver();
+	ActionDTO ver();
 }

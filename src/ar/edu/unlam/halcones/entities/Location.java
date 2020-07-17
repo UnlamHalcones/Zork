@@ -199,8 +199,8 @@ public class Location extends GameEntity implements INombrable<Location> {
 	}
 
 	@Override
-	public String ver() {
-		return this.getInformation();
+	public ActionDTO ver() {
+		return new ActionDTO(this.getName(), true,this.getInformation());
 	}
 
 	public String getInformationPuntoCardinal(Location location) {

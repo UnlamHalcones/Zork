@@ -154,9 +154,9 @@ public class Character implements ITriggereable, INombrable<Character> {
 
 	public String usarItem(Item item, String action, ITriggereable over) {
 		if(inventory.hasItem(item)) {
-			String use = item.use(action, over);
+			ActionDTO useResponse = item.use(action, over);
 			inventory.remove(item);
-			return use;
+			return useResponse.getResponse();
 		} else {
 			return "No tienes este item en tu inventario";
 		}
@@ -171,14 +171,14 @@ public class Character implements ITriggereable, INombrable<Character> {
 	}
 
 	@Override
-	public String execute(Trigger trigger) {
+	public ActionDTO execute(Trigger trigger) {
 		Trigger triggerToExecute = triggers.stream()
 				.filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing()))
 				.findAny()
 				.orElse(null);
 
 		if (triggerToExecute == null) {
-			return "Eso no ha servido de nada";
+			return new ActionDTO(this.getName(), false, "Eso no ha servido de nada");
 		}
 
 		String afterTrigger = triggerToExecute.getAfterTrigger();
@@ -189,8 +189,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 				HandlerAfterTrigger.handleCommand(command);
 			}
 		}
-
-		return triggerToExecute.getOnTrigger();
+		return new ActionDTO(this.getName(), true, triggerToExecute.getOnTrigger());
 	}
 
 	@Override
@@ -246,9 +245,8 @@ public class Character implements ITriggereable, INombrable<Character> {
 	}
 
 	@Override
-	public String ver() {
-		return "Ves a " + this.name + " - Vida: " + this.vida;
-		//return location.getFullDescription();
+	public ActionDTO ver() {
+		return new ActionDTO(this.getName(), true, "Ves a " + this.name + " - Vida: " + this.vida);
 	}
 
 	public void removerItemDeInventario(Item item) {

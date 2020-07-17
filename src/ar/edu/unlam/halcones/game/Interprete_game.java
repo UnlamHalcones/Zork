@@ -1,11 +1,6 @@
 package ar.edu.unlam.halcones.game;
 
-import ar.edu.unlam.halcones.entities.Game;
-import ar.edu.unlam.halcones.entities.INombrable;
-import ar.edu.unlam.halcones.entities.ITriggereable;
-import ar.edu.unlam.halcones.entities.Item;
-import ar.edu.unlam.halcones.entities.Location;
-import ar.edu.unlam.halcones.entities.Npc;
+import ar.edu.unlam.halcones.entities.*;
 import javafx.util.Pair;
 
 public class Interprete_game {
@@ -19,7 +14,7 @@ public class Interprete_game {
 	}
 
 	public Interprete_game() {
-		keepPlaying = false;
+		this.keepPlaying = true;
 	}
 	
 	public String commandRouter(Game game, String verbo, String primerSustantivo, String segundoSustantivo) {
@@ -27,6 +22,7 @@ public class Interprete_game {
 		INombrable entidadUno = null;
 		INombrable entidadDos = null;
 		Boolean isTriggerAcction = true;
+		ActionDTO responseAction = new ActionDTO(verbo, primerSustantivo);
 
 		String response = INVALIDCOMMANDONITEM;
 
@@ -57,7 +53,8 @@ public class Interprete_game {
 					}
 				}
 				if(response.equals(INVALIDCOMMANDONITEM)) {
-					response = entidadUno.ver();
+					responseAction = entidadUno.ver();
+					response = responseAction.getResponse();
 				}
 			}
 		}
@@ -133,13 +130,16 @@ public class Interprete_game {
 				}
 			}
 
-			response = item.use(verbo, triggerable);
+			responseAction = item.use(verbo, triggerable);
+			responseAction.setCommand(verbo);
+			response = responseAction.getResponse();
 		}
 
-		Pair<Boolean, String> checkEndgame = game.checkEndgame(verbo, primerSustantivo);
+//		Pair<Boolean, String> checkEndgame = game.checkEndgame(verbo, primerSustantivo);
+		Pair<Boolean, String> checkEndgame = game.checkEndgame(responseAction);
 
 		if (checkEndgame.getKey().booleanValue()) {
-			keepPlaying = false;
+			this.keepPlaying = false;
 			return checkEndgame.getValue();
 		}
 
@@ -147,6 +147,6 @@ public class Interprete_game {
 	}
 
 	public boolean isKeepPlaying() {
-		return keepPlaying;
+		return this.keepPlaying;
 	}
 }

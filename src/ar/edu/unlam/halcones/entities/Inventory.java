@@ -115,8 +115,8 @@ public class Inventory implements INombrable<Inventory> {
 	}
 
 	@Override
-	public String ver() {
-		return showItems();
+	public ActionDTO ver() {
+		return new ActionDTO(showItems(), true);
 	}
 
     public void removeItemQuantity(Item item) {

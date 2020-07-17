@@ -326,7 +326,7 @@ public class RunnableGame extends JFrame {
 						display();
 						limpiarComando();
 
-						if (interprete.isKeepPlaying()) {
+						if (!interprete.isKeepPlaying()) {
 							mostrarSalida("Finalizaste el juego!");
 							finalizarGame();
 						}
