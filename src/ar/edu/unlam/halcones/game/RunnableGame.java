@@ -111,7 +111,7 @@ public class RunnableGame extends JFrame {
 		txtHistoria.setEditable(false);
 		txtHistoria.setLineWrap(true);
 		txtHistoria.setWrapStyleWord(true);
-		txtHistoria.setFont(new Font("Dialog", Font.PLAIN, 12));
+		txtHistoria.setFont(new Font("Dialog", Font.PLAIN, 18));
 		txtHistoria.setForeground(Color.GREEN);
 		txtHistoria.setBackground(Color.BLACK);
 		scrollPane.setViewportView(txtHistoria);
@@ -124,7 +124,7 @@ public class RunnableGame extends JFrame {
 		txtComando.setCaretColor(Color.GREEN);
 		txtComando.setEditable(false);
 		txtComando.setBackground(Color.BLACK);
-		txtComando.setFont(new Font("Dialog", Font.PLAIN, 14));
+		txtComando.setFont(new Font("Dialog", Font.PLAIN, 18));
 		txtComando.setForeground(Color.GREEN);
 		txtComando.addKeyListener(new KeyAdapter() {
 			@Override
@@ -382,7 +382,6 @@ public class RunnableGame extends JFrame {
 
 						table.setAutoCreateRowSorter(true);
 
-
 						splitPane.setRightComponent(new JScrollPane(table));
 						display();
 						limpiarComando();
@@ -403,6 +402,11 @@ public class RunnableGame extends JFrame {
 						limpiarComando();
 
 						if (!interprete.isKeepPlaying()) {
+							
+							if (salida.contains("Game Over")) {
+								displayGameOver();
+							}
+							
 							mostrarSalida("Finalizaste el juego!");
 							finalizarGame();
 						}
@@ -430,8 +434,8 @@ public class RunnableGame extends JFrame {
 			}
 		}
 
+		imagenes.clear();
 		if (actualizarListaDeImagenes) {
-			imagenes.clear();
 			for (String string : imagenesABuscar) {
 				imagenes.add(string);
 			}
@@ -470,6 +474,18 @@ public class RunnableGame extends JFrame {
 		}
 	}
 
+	
+	public void displayGameOver() {
+		String locationImageUrl = "";
+		
+		interactuablePanel.repaint();
+		
+		locationImageUrl = directorioImagenes.concat("/landscapes/Game Over.jpg");
+		if(!locationImageUrl.equals(landscapeImageUrl)){
+			landscapeImageUrl = locationImageUrl;
+			landscapePanel.repaint();
+		}
+	}
 	private class DrawPanel extends JPanel {
 
 		private static final long serialVersionUID = 1L;

@@ -674,7 +674,7 @@
       "condition": "action",
       "action": "comer",
       "thing": "hierbas rojas",
-      "description": "Has comido la hierba 'Aldefa' sumamente toxica, has muerto intoxicado."
+      "description": "Has comido la hierba 'Aldefa' sumamente toxica, has muerto intoxicado. ¡Game Over!"
     },
     {
       "condition": "location",
@@ -686,7 +686,7 @@
       "condition": "vida",
       "action": "",
       "thing": "",
-      "description": "Has muerto. ¡Game Over!"
+      "description": "Te has quedado sin puntos de vida. ¡Game Over!"
     }
   ]
 }

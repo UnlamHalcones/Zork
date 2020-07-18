@@ -102,7 +102,7 @@
       "condition": "action",
       "action": "mirar",
       "thing": "espejo",
-      "description": "¡Oh, no! Acabas de descubrir que tú también eres un pirata fantasma... ¡el horror!"
+      "description": "¡Oh, no! Acabas de descubrir que tú también eres un pirata fantasma... ¡el horror! Game Over!"
     }
   ]
 }

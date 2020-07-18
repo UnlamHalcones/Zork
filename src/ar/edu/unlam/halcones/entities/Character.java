@@ -103,7 +103,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 
 		if(response.equals("OK")) {
 			this.location = otherLocation;
-			return location.getInformation();
+			return  location.getDescription();
 		}
 		return response;
 	}
