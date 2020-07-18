@@ -72,7 +72,7 @@ public class RunnableGame extends JFrame {
 		this.setBounds(100, 100, 1200, 800);
 		this.getContentPane().setLayout(new MigLayout("", "[grow]", "[91,grow,center][][][][][][][][][][grow][][][]"));
 		this.setLocationRelativeTo(null);
-		
+		this.setIconImage(new ImageIcon("imagenes/zork_icon.png").getImage());
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.addWindowListener( new WindowAdapter() {
             @Override
