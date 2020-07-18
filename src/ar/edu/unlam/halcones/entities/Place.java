@@ -39,7 +39,7 @@ public class Place extends GameEntity implements INombrable {
 		if (!items.isEmpty()) {
 			info += " En " + getFullDescription() + " hay " + getFullInformationQty(items);
 		} else {
-			info += " No hay nada en " + getFullDescription();
+			info += " No hay nada en " + getFullDescription() + ". ";
 		}
 
 		return info;

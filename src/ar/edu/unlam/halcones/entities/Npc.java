@@ -111,9 +111,7 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 				this.execute(triggers_IT);
 				return;
 			}
-
 		}
-
 	}
 
 	public Map<String, Npc> getNombres() {

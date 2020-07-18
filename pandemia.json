@@ -38,7 +38,7 @@
       "type": "item",
       "thing": "hierbas rojas",
       "on_trigger": "Estas hierbas te envenenaron",
-      "after_trigger": "vida-100"
+      "after_trigger": "vida-1000"
     }
   ],
   "locations": [
@@ -143,7 +143,7 @@
       "connections": [
         {
           "direction": "este",
-          "location": "camino de la serpiente",
+          "location": "camino de la cobra",
           "obstacles": "pescador"
         },
         {
@@ -153,10 +153,10 @@
       ]
     },
     {
-      "name": "camino de la serpiente",
+      "name": "camino de la cobra",
       "gender": "male",
       "number": "singular",
-      "description": "Has cruzado el rio, estas en el famoso camino de la serpiente",
+      "description": "Has cruzado el rio, estas en el famoso camino de la cobra",
       "places": [
         {
           "name": "pastizal",
@@ -285,7 +285,7 @@
         },
         {
           "name": "empalizada",
-          "gender": "male",
+          "gender": "female",
           "number": "singular",
           "items": ["lanza"]
         }
@@ -473,7 +473,7 @@
         {
           "type": "item",
           "thing": "motosierra",
-          "on_trigger": "Es inútil, se has gastado la gasolina y está demasiada oxidada para ese gran árbol.",
+          "on_trigger": "Es inútil, se ha gastado la gasolina y está demasiada oxidada para ese gran árbol.",
           "after_trigger": ""
         },
         {
@@ -603,7 +603,7 @@
       "gender": "female",
       "number": "plural",
       "actions": ["usar", "comer", "ingerir", "devorar", "saborear", "curarse"],
-      "effects_over": ["item", "self"]
+      "effects_over": ["self"]
     },
     {
       "name": "billetera",
@@ -668,10 +668,10 @@
       "condition": "location",
       "action": "ir",
       "thing": "salida",
-      "description": "¡Felicidades, lograste salir del parque!."
+      "description": "¡Felicidades, lograste salir del parque!. Has ganado el juego."
     },
     {
-      "condition": "inventory-item",
+      "condition": "action",
       "action": "comer",
       "thing": "hierbas rojas",
       "description": "Has comido la hierba 'Aldefa' sumamente toxica, has muerto intoxicado."
@@ -680,7 +680,7 @@
       "condition": "location",
       "action": "ir",
       "thing": "tribu",
-      "description": "¡Enhorabuena!  Por tu hazaña, te has convertido en el jefe de la tribu comechingones portador del halcon, siempre fue tu destino."
+      "description": "¡Enhorabuena! Por tu hazaña, te has convertido en el jefe de la tribu comechingones portador del halcon, siempre fue tu destino. Has ganado el juego."
     },
     {
       "condition": "vida",

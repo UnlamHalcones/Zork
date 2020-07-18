@@ -113,7 +113,8 @@ public class RunnableGame extends JFrame {
 		txtHistoria.setForeground(Color.GREEN);
 		txtHistoria.setBackground(Color.BLACK);
 		scrollPane.setViewportView(txtHistoria);
-
+		scrollPane.setAutoscrolls(true);
+		
 		lblComando = new JLabel("\u00BFQu\u00E9 quieres hacer? Escribe algo:");
 		getContentPane().add(lblComando, "cell 0 12");
 
@@ -261,7 +262,7 @@ public class RunnableGame extends JFrame {
 
 			input = comando;
 			verbo = input.substring(0, input.indexOf(" "));
-			input = input.replace(verbo, "");
+			input = input.substring(input.indexOf(verbo), input.length());
 
 			if (!verbos.containsKey(verbo)) {
 				mostrarSalida(INVALIDCOMMAND);
@@ -431,6 +432,7 @@ public class RunnableGame extends JFrame {
 
 	private void mostrarSalida(String mensaje) {
 		txtHistoria.append("\n" + mensaje + "\n");
+		
 	}
 
 	private void limpiarComando() {
