@@ -1,5 +1,8 @@
 package ar.edu.unlam.halcones.entities;
 
+import ar.edu.unlam.halcones.interprete.aftertriggers.Command;
+import ar.edu.unlam.halcones.interprete.aftertriggers.HandlerAfterTrigger;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,11 +15,13 @@ public class Character implements ITriggereable, INombrable<Character> {
 	private Inventory inventory;
 	protected String status;
 	private List<Trigger> triggers;
+	private Long vida;
 
 	public Character(Location location, Inventory inventory) {
 		this.location = location;
 		this.inventory = inventory;
 		this.triggers = new LinkedList<>();
+		this.vida = 100L;
 	}
 
 	public Character(Location location, Inventory inventory, String characterName) {
@@ -24,18 +29,28 @@ public class Character implements ITriggereable, INombrable<Character> {
 		this.inventory = inventory;
 		this.triggers = new LinkedList<>();
 		this.name = characterName;
+		this.vida = 100L;
+	}
+
+	public Character(Location location, Inventory inventory, String characterName, List<Trigger> triggers) {
+		this.location = location;
+		this.inventory = inventory;
+		this.name = characterName;
+		this.triggers = triggers;
+		this.vida = 100L;
 	}
 
 	public Character(Location location) {
 		this.location = location;
 		this.inventory = new Inventory();
 		this.triggers = new LinkedList<>();
+		this.vida = 100L;
 	}
 
 	public Character(List<Trigger> triggers) {
 		this.triggers = triggers;
 	}
-	
+
 	public String moveTo(Location otherLocation) {
 		
 		//VALIDO CARDINALIDAD
@@ -46,7 +61,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 				if(northConnection != null)
 					otherLocation = northConnection.getLocation();
 				else
-					return "No puedo ir en esa direcci�n";
+					return "No puedo ir en esa dirección";
 				
 				break;
 			case "SUR":
@@ -55,7 +70,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 				if(southConnection != null)
 					otherLocation = southConnection.getLocation();
 				else
-					return "No puedo ir en esa direcci�n";
+					return "No puedo ir en esa dirección";
 				
 				break;
 			case "ESTE":
@@ -64,7 +79,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 				if(eastConnection != null)
 					otherLocation = eastConnection.getLocation();
 				else
-					return "No puedo ir en esa direcci�n";
+					return "No puedo ir en esa dirección";
 				
 				break;
 			case "OESTE":
@@ -73,7 +88,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 				if(westConnection != null)
 					otherLocation = westConnection.getLocation();
 				else
-					return "No puedo ir en esa direcci�n";
+					return "No puedo ir en esa dirección";
 				
 				break;
 			default:
@@ -88,7 +103,7 @@ public class Character implements ITriggereable, INombrable<Character> {
 
 		if(response.equals("OK")) {
 			this.location = otherLocation;
-			return location.getInformation();
+			return  location.getDescription();
 		}
 		return response;
 	}
@@ -137,9 +152,9 @@ public class Character implements ITriggereable, INombrable<Character> {
 
 	public String usarItem(Item item, String action, ITriggereable over) {
 		if(inventory.hasItem(item)) {
-			String use = item.use(action, over);
+			ActionDTO useResponse = item.use(action, over);
 			inventory.remove(item);
-			return use;
+			return useResponse.getResponse();
 		} else {
 			return "No tienes este item en tu inventario";
 		}
@@ -154,18 +169,25 @@ public class Character implements ITriggereable, INombrable<Character> {
 	}
 
 	@Override
-	public String execute(Trigger trigger) {
+	public ActionDTO execute(Trigger trigger) {
 		Trigger triggerToExecute = triggers.stream()
 				.filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing()))
 				.findAny()
 				.orElse(null);
 
 		if (triggerToExecute == null) {
-			return "Eso no ha servido de nada";
+			return new ActionDTO(this.getName(), false, "Eso no ha servido de nada");
 		}
 
-		status = triggerToExecute.getAfterTrigger();
-		return triggerToExecute.getOnTrigger();
+		String afterTrigger = triggerToExecute.getAfterTrigger();
+		if(afterTrigger != null) {
+			String[] split = afterTrigger.split(",");
+			for(String s : split) {
+				Command command = new Command(s, this.getName(), this.getType());
+				HandlerAfterTrigger.handleCommand(command);
+			}
+		}
+		return new ActionDTO(this.getName(), true, triggerToExecute.getOnTrigger());
 	}
 
 	@Override
@@ -178,6 +200,9 @@ public class Character implements ITriggereable, INombrable<Character> {
 		Map<String,Character> myMap = new HashMap<String,Character>();
 	    myMap.put("sobre mi", this);
 	    myMap.put("en mi", this);
+	    myMap.put("vida", this);
+	    myMap.put(this.name.toLowerCase(), this);
+	    myMap.put("estadisticas", this);
 	    
 	    return myMap;	
 	}
@@ -188,6 +213,8 @@ public class Character implements ITriggereable, INombrable<Character> {
 	    
 	    return myMap;	
 	}
+	
+
 	
 	@Override
 	public void triggerThis(String action) {
@@ -216,7 +243,31 @@ public class Character implements ITriggereable, INombrable<Character> {
 	}
 
 	@Override
-	public String ver() {
-		return location.getFullDescription();
+	public ActionDTO ver() {
+		return new ActionDTO(this.getName(), true, "Ves a " + this.name + " - Vida: " + this.vida);
+	}
+
+	public void removerItemDeInventario(Item item) {
+		this.inventory.removeItemQuantity(item);
+	}
+
+	public void agregarItemAlInventario(Item item) {
+		this.inventory.addItem(item);
+	}
+
+	public Long getVida() {
+		return this.vida;
+	}
+
+	public void modificarVida(Long cantidad) {
+		this.vida += cantidad;
+	}
+	
+	public Location getLocation() {
+		return this.location;
+	}
+
+	public String infoConexion(Location location) {
+		return this.location.getInformationPuntoCardinal(location);
 	}
 }

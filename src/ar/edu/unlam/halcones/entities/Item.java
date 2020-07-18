@@ -3,8 +3,11 @@ package ar.edu.unlam.halcones.entities;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import ar.edu.unlam.halcones.interprete.aftertriggers.Command;
+import ar.edu.unlam.halcones.interprete.aftertriggers.HandlerAfterTrigger;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.swing.*;
 
 public class Item extends GameEntity implements Comparable<Item>, ITriggereable, INombrable<Item> {
 	@JsonProperty("actions")
@@ -16,10 +19,11 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 	@JsonProperty("triggers")
 	private List<Trigger> triggers;
 
+	@JsonProperty("description")
+	private String descripcion;
+
 	public Item() {
 		super();
-		this.type = GameEntityTypes.ITEM;
-		// TODO Auto-generated constructor stub
 	}
 
 	public Item(String name, String state) {
@@ -52,6 +56,10 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 	public List<String> getEffectsOver() {
 		return effectsOver;
 	}
+	
+	public Icon getImage() {
+		return new ImageIcon("icons/" + getName() + ".png");
+	}
 
 	public void setEffectsOver(List<String> effectsOver) {
 		this.effectsOver = effectsOver;
@@ -65,19 +73,24 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 		return myName.compareTo(otherName);
 	}
 
-	public String use(String action, ITriggereable over) {
+	public ActionDTO use(String action, ITriggereable over) {
 
 		if (!canDoAction(action)) {
-			return "El item no puede realizar la accion";
+			return new ActionDTO(this.getName(), false, "El item no puede realizar la accion");
 		}
 
 		if (!effectsOver.contains(over.getType())) {
-			return "Accion no valida sobre un " + over.getType() + ".";
+			return new ActionDTO(this.getName(), false, "Accion no valida sobre un " + over.getType() + ".");
 		}
 
 		Trigger trigger = new Trigger("item", this.getName());
 
-		return over.execute(trigger);
+		ActionDTO executeResult = over.execute(trigger);
+		if(executeResult.isPerformed()) {
+			Command command = new Command("remove", this.getName(), this.getType());
+			HandlerAfterTrigger.handleCommand(command);
+		}
+		return new ActionDTO(this.getName(), true, executeResult.getResponse());
 	}
 
 	private boolean canDoAction(String action) {
@@ -85,17 +98,25 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 	}
 
 	@Override
-	public String execute(Trigger trigger) {
+	public ActionDTO execute(Trigger trigger) {
 		Trigger triggerToExecute = triggers.stream()
 				.filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing())).findAny()
 				.orElse(null);
 
 		if (triggerToExecute == null) {
-			return "Eso no ha servido de nada";
+			return new ActionDTO(this.getName(), false,"Eso no ha servido de nada");
 		}
 
-		status = triggerToExecute.getAfterTrigger();
-		return triggerToExecute.getOnTrigger();
+		String afterTrigger = triggerToExecute.getAfterTrigger();
+		if(afterTrigger != null) {
+			String[] split = afterTrigger.split(",");
+			for(String s : split) {
+				Command command = new Command(s, this.getName(), this.getType());
+				HandlerAfterTrigger.handleCommand(command);
+			}
+		}
+
+		return new ActionDTO(this.getName(), true, triggerToExecute.getOnTrigger());
 	}
 
 	@Override
@@ -164,7 +185,7 @@ public class Item extends GameEntity implements Comparable<Item>, ITriggereable,
 	}
 
 	@Override
-	public String ver() {
-		return this.getFullDescription();
+	public ActionDTO ver() {
+		return new ActionDTO(this.getName(), true, this.descripcion);
 	}
 }

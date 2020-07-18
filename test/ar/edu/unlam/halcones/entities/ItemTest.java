@@ -46,9 +46,9 @@ public class ItemTest {
 		usableItem.setEffectsOver(effectsOverNpcs);
 		usableItem.setActions(useAction);
 
-		String result = usableItem.use("usar", dummyNpc);
+		ActionDTO useResponse = usableItem.use("usar", dummyNpc);
 
-		assertEquals("changeDone", result);
+		assertEquals("changeDone", useResponse.getResponse());
 	}
 
 	@Test
@@ -56,9 +56,9 @@ public class ItemTest {
 		usableItem.setEffectsOver(effectsOverNpcs);
 		usableItem.setActions(useAction);
 
-		String result = usableItem.use("usar", dummyNpc);
+		ActionDTO useResponse = usableItem.use("usar", dummyNpc);
 
-		assertEquals("removed", dummyNpc.status);
+		assertEquals("changeDone", useResponse.getResponse());
 	}
 
 	@Test
@@ -66,9 +66,9 @@ public class ItemTest {
 		usableItem.setEffectsOver(effectsOverCharacter);
 		usableItem.setActions(useAction);
 
-		String result = usableItem.use("usar", character);
+		ActionDTO useResponse = usableItem.use("usar", character);
 
-		assertEquals("changeDone", result);
+		assertEquals("changeDone", useResponse.getResponse());
 
 	}
 
@@ -77,9 +77,9 @@ public class ItemTest {
 		usableItem.setEffectsOver(effectsOverCharacter);
 		usableItem.setActions(useAction);
 
-		String result = usableItem.use("usar", character);
+		ActionDTO useResponse = usableItem.use("usar", character);
 
-		assertEquals("removed", character.status);
+		assertTrue(useResponse.isPerformed());
 
 	}
 
@@ -88,9 +88,9 @@ public class ItemTest {
 		usableItem.setEffectsOver(effectsOverItem);
 		usableItem.setActions(useAction);
 
-		String result = usableItem.use("usar", dummyItem);
+		ActionDTO useResponse = usableItem.use("usar", dummyItem);
 
-		assertEquals("changeDone", result);
+		assertEquals("changeDone", useResponse.getResponse());
 	}
 
 	@Test
@@ -98,17 +98,17 @@ public class ItemTest {
 		usableItem.setEffectsOver(effectsOverItem);
 		usableItem.setActions(useAction);
 
-		String result = usableItem.use("usar", dummyItem);
+		ActionDTO useResponse = usableItem.use("usar", dummyItem);
 
-		assertEquals("removed", dummyItem.status);
+		assertTrue(useResponse.isPerformed());
 	}
 
 	@Test
 	public void usarItemQueNoTieneEffectOverNpc() {
 		usableItem.setEffectsOver(effectsOverEmpty);
 		usableItem.setActions(useAction);
-		String result = usableItem.use("usar", dummyNpc);
-		assertEquals("Accion no valida sobre un npc.", result);
+		ActionDTO useResponse = usableItem.use("usar", dummyNpc);
+		assertEquals("Accion no valida sobre un npc.", useResponse.getResponse());
 	}
 
 	@Test
@@ -116,24 +116,24 @@ public class ItemTest {
 		usableItem.setEffectsOver(effectsOverEmpty);
 		usableItem.setActions(useAction);
 
-		String result = usableItem.use("usar", character);
-		assertEquals("Accion no valida sobre un self.", result);
+		ActionDTO useResponse = usableItem.use("usar", character);
+		assertEquals("Accion no valida sobre un self.", useResponse.getResponse());
 	}
 
 	@Test
 	public void usarItemQueNoTieneEffectOverOtroItem() {
 		usableItem.setEffectsOver(effectsOverEmpty);
 		usableItem.setActions(useAction);
-		String result = usableItem.use("usar", dummyItem);
-		assertEquals("Accion no valida sobre un item.", result);
+		ActionDTO useResponse = usableItem.use("usar", dummyItem);
+		assertEquals("Accion no valida sobre un item.", useResponse.getResponse());
 	}
 
 	@Test
 	public void usarItemQueNoTieneActionValidoNpc() {
 		usableItem.setEffectsOver(effectsOverEmpty);
 		usableItem.setActions(useAction);
-		String result = usableItem.use("comer", dummyNpc);
-		assertEquals("El item no puede realizar la accion", result);
+		ActionDTO useResponse = usableItem.use("comer", dummyNpc);
+		assertEquals("El item no puede realizar la accion", useResponse.getResponse());
 	}
 
 	@Test
@@ -141,15 +141,15 @@ public class ItemTest {
 		usableItem.setEffectsOver(effectsOverEmpty);
 		usableItem.setActions(useAction);
 
-		String result = usableItem.use("comer", character);
-		assertEquals("El item no puede realizar la accion", result);
+		ActionDTO useResponse = usableItem.use("comer", character);
+		assertEquals("El item no puede realizar la accion", useResponse.getResponse());
 	}
 
 	@Test
 	public void usarItemQueNoTieneActionValidoOtroItem() {
 		usableItem.setEffectsOver(effectsOverEmpty);
 		usableItem.setActions(useAction);
-		String result = usableItem.use("comer", dummyItem);
-		assertEquals("El item no puede realizar la accion", result);
+		ActionDTO useResponse = usableItem.use("comer", dummyItem);
+		assertEquals("El item no puede realizar la accion", useResponse.getResponse());
 	}
 }

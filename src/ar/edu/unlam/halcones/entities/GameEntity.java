@@ -2,6 +2,7 @@ package ar.edu.unlam.halcones.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class GameEntity {
@@ -20,7 +21,6 @@ public abstract class GameEntity {
 
 	@JsonProperty("state")
 	private String state;
-	public GameEntityTypes type;
 
 	public String getState() {
 		return state;
@@ -140,23 +140,16 @@ public abstract class GameEntity {
 	public String getFullInformationQty(List<? extends GameEntity> list){ 
 		StringBuilder info = new StringBuilder("");
 		
-		for(GameEntity l : list) {
-			
-			//INFO. LA LISTA TIENE +1 ELEMENTO Y ES LA ULTIMA ITERACION.
-			if(list.size() > 1 && l == list.get(list.size() - 1)) {
-				info.setCharAt(info.lastIndexOf(","), ' ');
-				info.append("y " + l.getFullDescriptionQty() + '.');
-			}
-			else if(list.size() > 1){
-				
-				info.append(l.getFullDescriptionQty() + ", ");
-			}
-			else{
-				info.append(l.getFullDescriptionQty() + '.');
-			}
-			
+		Iterator<? extends GameEntity> iterator = list.iterator();
+		while(iterator.hasNext()) {
+            GameEntity l = iterator.next();
+            info.append(l.getFullDescriptionQty() + ", ");
+        }
+		info.setCharAt(info.lastIndexOf(", "), '.');
+		if(list.size() > 1) {
+			info.replace(info.lastIndexOf(","), info.lastIndexOf(",")+1, " y");
 		}
-		
+
 		return info.toString();
 	}
 	

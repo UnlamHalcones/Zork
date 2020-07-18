@@ -11,7 +11,6 @@ public class Place extends GameEntity implements INombrable {
 
 	public Place() {
 		super();
-		this.type=GameEntityTypes.PLACE;
 		// TODO Auto-generated constructor stub
 		this.items = new LinkedList<>();
 	}
@@ -38,9 +37,9 @@ public class Place extends GameEntity implements INombrable {
 		String info = "";
 
 		if (!items.isEmpty()) {
-			info += "En " + getFullDescription() + " hay " + getFullInformationQty(items);
+			info += " En " + getFullDescription() + " hay " + getFullInformationQty(items);
 		} else {
-			info += "No hay nada en " + getFullDescription();
+			info += " No hay nada en " + getFullDescription() + ". ";
 		}
 
 		return info;
@@ -95,7 +94,7 @@ public class Place extends GameEntity implements INombrable {
 	}
 
 	@Override
-	public String ver() {
-		return getInformation();
+	public ActionDTO ver() {
+		return new ActionDTO(this.getName(), true, getInformation());
 	}
 }

@@ -35,13 +35,13 @@ public class GameTests {
 		
 		endGames = new ArrayList<EndGame>();
 		endGames.add(new EndGame("location","move","taberna",
-				"¡Enhorabuena! Llegaste a la taberna, donde te espera una noche de borrachera con Grog y "
+				"ï¿½Enhorabuena! Llegaste a la taberna, donde te espera una noche de borrachera con Grog y "
 						+ "otros colegas piratas."));
 		
-		endGames.add(new EndGame("inventory-item","mirar","espejo","¡Oh, no! Acabas de descubrir que tú también "
-							+ "eres un pirata fantasma... ¡el horror!"));
+		endGames.add(new EndGame("action","mirar","espejo","ï¿½Oh, no! Acabas de descubrir que tï¿½ tambiï¿½n "
+							+ "eres un pirata fantasma... ï¿½el horror!"));
 		
-		endGames.add(new EndGame("npc","state-death","dragon","¡Mataste al Dragonn!"));
+		endGames.add(new EndGame("npc","state-death","dragon","ï¿½Mataste al Dragonn!"));
 
 		inventory = new Inventory();
 		inventory.add(items);
@@ -52,9 +52,9 @@ public class GameTests {
 		character = new Character(locations.get(0), inventory, "TestGuy");
 		game = new Game("Welcome", character ,locations,npcs,items,endGames);
 
-		Pair<Boolean, String> result = game.checkEndgame("move", "taberna");
+		Pair<Boolean, String> result = game.checkEndgame(new ActionDTO("move", "taberna"));
 		
-		String text = "¡Enhorabuena! Llegaste a la taberna, donde te espera una noche de borrachera con Grog y otros colegas piratas.";
+		String text = "ï¿½Enhorabuena! Llegaste a la taberna, donde te espera una noche de borrachera con Grog y otros colegas piratas.";
 		
 		Assert.assertTrue(result.getKey());
         Assert.assertEquals(text,result.getValue());
@@ -67,10 +67,10 @@ public class GameTests {
 
 		Pair<Boolean, String> result;
 		
-		result = game.checkEndgame("mirar", "espejo");
+		result = game.checkEndgame(new ActionDTO("mirar", "espejo", "response", true));
 		
-		String text = "¡Oh, no! Acabas de descubrir que tú también "
-				+ "eres un pirata fantasma... ¡el horror!";
+		String text = "ï¿½Oh, no! Acabas de descubrir que tï¿½ tambiï¿½n "
+				+ "eres un pirata fantasma... ï¿½el horror!";
 		
 		Assert.assertTrue(result.getKey());
 		Assert.assertEquals(text,result.getValue());

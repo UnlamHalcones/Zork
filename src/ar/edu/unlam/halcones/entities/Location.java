@@ -14,7 +14,10 @@ public class Location extends GameEntity implements INombrable<Location> {
 
 	public Location() {
 		super();
-		this.type = GameEntityTypes.LOCATION;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 	public Location(String name) {
@@ -122,20 +125,23 @@ public class Location extends GameEntity implements INombrable<Location> {
 	public String getInformation() {
 		String landscape = description + '.';
 
-		if (!places.isEmpty())
+		if (!places.isEmpty()) {
+		
 			for (Place p : places) {
 				landscape += p.getInformation();
 			}
-
+		}
+		
 		if (!npcs.isEmpty()) {
 			landscape += " Hay " + getFullInformationQty(npcs);
 		}
 
-		if (!connections.isEmpty())
+		if (!connections.isEmpty()) {
 			for (Connection c : connections) {
-				landscape += c.getInformation();
+				landscape += c.getInformation() + ". ";
 			}
-
+		}
+		
 		return landscape;
 	}
 
@@ -177,6 +183,13 @@ public class Location extends GameEntity implements INombrable<Location> {
 				.ifPresent(p -> p.removeItem(itemToRemove));
 	}
 
+	public void removerNpc(Npc npc) {
+		this.npcs.remove(npc);
+		for(Connection connection : this.connections) {
+			connection.removeNpc(npc);
+		}
+	}
+
 	@Override
 	public Map<String, Location> getNombres() {
 
@@ -184,7 +197,6 @@ public class Location extends GameEntity implements INombrable<Location> {
 		myMap.put(this.getName().trim(), this);
 
 		return myMap;
-
 	}
 
 	@Override
@@ -193,8 +205,17 @@ public class Location extends GameEntity implements INombrable<Location> {
 	}
 
 	@Override
-	public String ver() {
-		return this.getInformation();
+	public ActionDTO ver() {
+		return new ActionDTO(this.getName(), true,this.getInformation());
 	}
 
+	public String getInformationPuntoCardinal(Location location) {
+		Connection connection1 = this.connections.stream().filter(connection -> connection.getDirection().equalsIgnoreCase(location.getName()))
+				.findAny()
+				.orElse(null);
+		if(connection1 == null) {
+			return "No hay nada en esa direccion";
+		}
+		return "Al " + location.getName().toLowerCase() + " hay " + connection1.getLocation().getFullDescriptionQty();
+	}
 }

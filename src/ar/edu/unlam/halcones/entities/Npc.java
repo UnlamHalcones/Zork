@@ -1,6 +1,9 @@
 package ar.edu.unlam.halcones.entities;
 
 import java.util.HashMap;
+
+import ar.edu.unlam.halcones.interprete.aftertriggers.HandlerAfterTrigger;
+import ar.edu.unlam.halcones.interprete.aftertriggers.Command;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.xml.internal.ws.util.StringUtils;
 
@@ -21,7 +24,6 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 
 	public Npc() {
 		super();
-		this.type = GameEntityTypes.NPC;
 	}
 
 	public Npc(String description, String state) {
@@ -81,17 +83,23 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 	}
 
 	@Override
-	public String execute(Trigger trigger) {
+	public ActionDTO execute(Trigger trigger) {
 		Optional<Trigger> aux = triggers.stream()
 				.filter(t -> t.getType().equals(trigger.getType()) && t.getThing().equals(trigger.getThing()))
 				.findAny();
 		if (!aux.isPresent()) {
-			return "No puede hacer eso con " + this.getFullDescription();
+			return new ActionDTO(this.getName(), false, "No puede hacer eso con " + this.getFullDescription());
 		}
 
-		super.status = aux.get().getAfterTrigger();
-
-		return aux.get().getOnTrigger();
+		String afterTrigger = aux.get().getAfterTrigger();
+		if(afterTrigger != null) {
+			String[] split = afterTrigger.split(",");
+			for(String s : split) {
+				Command command = new Command(s, this.getName(), this.getType());
+				HandlerAfterTrigger.handleCommand(command);
+			}
+		}
+		return new ActionDTO(this.getName(), true, aux.get().getOnTrigger());
 	}
 
 	@Override
@@ -103,9 +111,7 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 				this.execute(triggers_IT);
 				return;
 			}
-
 		}
-
 	}
 
 	public Map<String, Npc> getNombres() {
@@ -129,7 +135,7 @@ public class Npc extends GameEntity implements ITriggereable, INombrable<Npc> {
 	}
 
 	@Override
-	public String ver() {
-		return StringUtils.capitalize(this.getFullDescription() +  this.getDescription());
+	public ActionDTO ver() {
+		return new ActionDTO(this.getName(), true, StringUtils.capitalize(this.getDescription()));
 	}
 }
