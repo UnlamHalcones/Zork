@@ -18,7 +18,7 @@ public class NuevaPartida extends JDialog {
 	private JTextField txtNombre;
 	private boolean iniciarJuego;
 	private String archivo;
-	private String carpetaImagenes;
+	private String carpeta;
 	private String nombreCharacter;
 	private JComboBox<String> comboHistoria;
 
@@ -81,10 +81,10 @@ public class NuevaPartida extends JDialog {
 			this.nombreCharacter = this.txtNombre.getText();
 			if (this.comboHistoria.getSelectedIndex() == 1) {
 				this.archivo = "piratasfantasmas.json";
-				this.carpetaImagenes = "piratafantasma";
+				this.carpeta = "piratafantasma";
 			} else {
 				this.archivo = "pandemia.json";
-				this.carpetaImagenes = "pandemia";
+				this.carpeta = "pandemia";
 			}
 			this.setVisible(false);
 		}
@@ -106,8 +106,8 @@ public class NuevaPartida extends JDialog {
 		return nombreCharacter;
 	}
 
-	public String getCarpetaImagenes() {
-		return carpetaImagenes;
+	public String getCarpeta() {
+		return carpeta;
 	}
 
 }

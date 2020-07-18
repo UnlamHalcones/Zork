@@ -1,5 +1,9 @@
 package ar.edu.unlam.halcones.game;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -53,6 +57,7 @@ public class RunnableGame extends JFrame {
 	private Set<String> imagenes;
 	private String directorioImagenes;
 	private String nombreCharacter = "Guybrush Threepwood";
+	private Clip clip;
 	
 	private JSplitPane splitPane;
 	private JPanel landscapePanel;
@@ -215,7 +220,8 @@ public class RunnableGame extends JFrame {
 				mntmGuardar.setEnabled(true);
 				interprete = new Interprete();
 				verbos = LectorDiccionarioCSV.leerDiccionario();
-				directorioImagenes = "imagenes/" + nuevaPartida.getCarpetaImagenes().trim() + "/";
+				directorioImagenes = "imagenes/" + nuevaPartida.getCarpeta().trim() + "/";
+				reproducirSonido();
 				txtHistoria.setText("");
 				txtComando.setEditable(true);
 				txtComando.setFocusable(true);
@@ -255,6 +261,24 @@ public class RunnableGame extends JFrame {
 	    }
 	}
 	
+	private void reproducirSonido() {
+		String filename = "sonidos/" + nuevaPartida.getCarpeta().trim() + ".wav";
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filename).getAbsoluteFile());
+			clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
+	
+	private void pararSonido() {
+		clip.stop();
+	}
 	
 	private void enviarComando() {
 		String comando = txtComando.getText().toLowerCase().trim();
@@ -273,7 +297,17 @@ public class RunnableGame extends JFrame {
 				mostrarSalida("Acabas de abandonar el juego!");
 				finalizarGame();
 			}
-		} else if (!comando.contains(" ")) {
+		} else if (comando.contentEquals("mute")) {
+			pararSonido();
+			limpiarComando();
+			return;
+		} else if (comando.contentEquals("unmute")) {
+			reproducirSonido();
+			limpiarComando();
+			return;
+		}
+		
+		else if (!comando.contains(" ")) {
 			mostrarSalida(INVALIDCOMMAND);
 			limpiarComando();
 		} else {
@@ -450,6 +484,7 @@ public class RunnableGame extends JFrame {
 		txtComando.setEditable(false);
 		txtComando.setFocusable(false);
 		mntmNueva.setEnabled(true);
+		pararSonido();
 	}
 
 	private void mostrarSalida(String mensaje) {
